@@ -6,7 +6,7 @@
     "dev:site": "npm run dev --prefix NeuraBot",
     "dev:dashboard": "npm run dev --prefix DashBoard-NeuraBot",
     "build": "npm run build --prefix NeuraBot && npm run build --prefix DashBoard-NeuraBot",
-    "deploy": "npm run build && gh-pages -d . -t true"
+    "deploy": "npm run build && gh-pages -d NeuraBot/dist --dest NeuraBot && gh-pages -d DashBoard-NeuraBot/dist --dest DashBoard-NeuraBot"
   },
   "devDependencies": {
     "concurrently": "^8.0.0",

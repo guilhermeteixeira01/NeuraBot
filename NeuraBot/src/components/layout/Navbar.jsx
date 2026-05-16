@@ -89,7 +89,7 @@ export default function Navbar() {
             onClick={() => {
               const url = import.meta.env.DEV
                 ? "http://localhost:5174"
-                : "https://neurabot.com.br/NeuraBot/DashBoard-NeuraBot/"
+                : "https://neurabot.com.br/dashboard/"
               window.open(url, "_blank")
             }}
           >
@@ -148,7 +148,7 @@ export default function Navbar() {
           onClick={() => {
             const url = import.meta.env.DEV
               ? "http://localhost:5174"
-              : "https://neurabot.com.br/NeuraBot/DashBoard-NeuraBot/"
+              : "https://neurabot.com.br/dashboard/"
             window.open(url, "_blank")
           }}
         >
