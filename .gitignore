@@ -1,22 +1,2 @@
-# Dependências
-node_modules/
-
-# Build
-dist/
-
-# Ambiente
+node_modules
 .env
-.env.local
-.env.production
-
-# Editor
-.vscode/
-.idea/
-
-# Sistema
-.DS_Store
-Thumbs.db
-
-# Logs
-*.log
-npm-debug.log*

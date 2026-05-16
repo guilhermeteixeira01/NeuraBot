@@ -86,7 +86,12 @@ export default function Navbar() {
           <button
             className="btn-primary"
             style={{ padding: "10px 22px", fontSize: 13 }}
-            onClick={() => window.open("https://guilhermeteixeira01.github.io/Dashboard-NeuraBots/", "_blank")}
+            onClick={() => {
+              const url = import.meta.env.DEV
+                ? "http://localhost:5174"
+                : "https://neurabot.com.br/NeuraBot/DashBoard-NeuraBot/"
+              window.open(url, "_blank")
+            }}
           >
             Ir para o DashBoard
           </button>
@@ -140,7 +145,12 @@ export default function Navbar() {
         <button
           className="btn-primary"
           style={{ marginTop: 12, padding: "12px", fontSize: 14, width: "100%" }}
-          onClick={() => window.open("https://guilhermeteixeira01.github.io/Dashboard-NeuraBots/", "_blank")}
+          onClick={() => {
+            const url = import.meta.env.DEV
+              ? "http://localhost:5174"
+              : "https://neurabot.com.br/NeuraBot/DashBoard-NeuraBot/"
+            window.open(url, "_blank")
+          }}
         >
           Ir para o DashBoard
         </button>
