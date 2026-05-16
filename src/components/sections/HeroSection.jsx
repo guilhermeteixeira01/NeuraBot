@@ -246,7 +246,7 @@ export default function HeroSection() {
               >
                 <img
                   className="hero-mascot-img"
-                  src="src/imgs/bot sem efeito.png"
+                  src="/imgs/bot sem efeito.png"
                   alt="Mascote Neura Bot"
                   style={{
                     width: 220,

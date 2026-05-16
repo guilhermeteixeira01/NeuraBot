@@ -39,7 +39,7 @@ export default function CTASection() {
       <div style={{ position: "relative", zIndex: 1 }}>
         <div style={{ display: "inline-block", animation: "float 4s ease-in-out infinite", marginBottom: 32 }}>
           <img
-            src="src/imgs/bot sem efeito.png"
+            src="/imgs/bot sem efeito.png"
             alt="Mascote Neura Bot"
             style={{ width: 120, filter: "drop-shadow(0 0 30px #00d4ff66)" }}
           />
