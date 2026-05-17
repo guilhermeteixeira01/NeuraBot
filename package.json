@@ -6,14 +6,11 @@
     "dev:site": "npm run dev --prefix NeuraBot",
     "dev:dashboard": "npm run dev --prefix DashBoard",
     "build": "npm run build --prefix NeuraBot && npm run build --prefix DashBoard",
-    "predeploy": "npm run build && rimraf dist && mkdirp dist && cpy \"NeuraBot/dist/**\" dist --dot && mkdirp dist/dashboard && cpy \"DashBoard/dist/**\" dist/dashboard --dot && echo neurabot.com.br > dist/CNAME",
+    "predeploy": "npm run build && node deploy-prep.mjs",
     "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
     "concurrently": "^8.0.0",
-    "gh-pages": "^6.0.0",
-    "rimraf": "^5.0.0",
-    "mkdirp": "^3.0.0",
-    "cpy-cli": "^5.0.0"
+    "gh-pages": "^6.0.0"
   }
 }
