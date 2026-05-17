@@ -2,11 +2,11 @@
   "name": "neurabot-root",
   "version": "1.0.0",
   "scripts": {
-    "dev": "concurrently \"npm run dev --prefix NeuraBot\" \"npm run dev --prefix DashBoard-NeuraBot\"",
+    "dev": "concurrently \"npm run dev --prefix NeuraBot\" \"npm run dev --prefix DashBoard\"",
     "dev:site": "npm run dev --prefix NeuraBot",
-    "dev:dashboard": "npm run dev --prefix DashBoard-NeuraBot",
-    "build": "npm run build --prefix NeuraBot && npm run build --prefix DashBoard-NeuraBot",
-    "deploy": "npm run build && gh-pages -d NeuraBot/dist --dest NeuraBot && gh-pages -d DashBoard-NeuraBot/dist --dest DashBoard-NeuraBot"
+    "dev:dashboard": "npm run dev --prefix DashBoard",
+    "build": "npm run build --prefix NeuraBot && npm run build --prefix DashBoard",
+    "deploy": "npm run build && gh-pages -d NeuraBot/dist --dest NeuraBot && gh-pages -d DashBoard/dist --dest DashBoard"
   },
   "devDependencies": {
     "concurrently": "^8.0.0",

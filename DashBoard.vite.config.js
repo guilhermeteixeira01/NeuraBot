@@ -3,8 +3,8 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/NeuraBot/NeuraBot/',
+  base: '/NeuraBot/DashBoard/',
   server: {
-    open: true, // abre o browser
+    open: false, // não abre automaticamente
   },
 })
