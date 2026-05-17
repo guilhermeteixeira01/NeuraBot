@@ -20,7 +20,7 @@ export default function LoginScreen() {
     <div className="login-screen">
       <div className="login-bg" />
       <div className="login-card">
-        <div className="login-logo"><img src="../public/imgs/bot.png" alt="Bot Logo" /></div>
+        <div className="login-logo"><img src="/imgs/bot.png" alt="Bot Logo" /></div>
         <div className="login-title">NeuraBOT Panel</div>
         <div className="login-sub">
           Gerencie seus bots Discord.

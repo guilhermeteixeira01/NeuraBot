@@ -33,7 +33,7 @@ export default function Sidebar({ activePage, onNavigate, isOpen, onClose, isAdm
       <button className="sidebar-close" onClick={onClose} aria-label="Fechar menu">✕</button>
 
       <div className="sidebar-logo">
-        <div className="s-icon"><img src="../public/imgs/bot.png" alt="Logo" /></div>
+        <div className="s-icon"><img src="/imgs/bot.png" alt="Logo" /></div>
         <div>
           <div className="s-name">NeuraBOT</div>
           <div className="s-version">v2.0.0</div>
