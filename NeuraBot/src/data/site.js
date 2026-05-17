@@ -52,7 +52,7 @@ export const NAV_LINKS = [
 ];
 
 export const FOOTER_COLS = [
-  { title: "Bots", links: ["Guard", "Music", "Level", "AI"] },
+  /* { title: "Bots", links: ["Guard", "Music", "Level", "AI"] }, */
   { title: "Empresa", links: ["Sobre", "Blog", "Carreiras", "Contato"] },
   { title: "Legal", links: ["Termos", "Privacidade", "Cookies"] },
 ];

@@ -24,6 +24,19 @@ export default function BotsSection() {
           grid-template-columns: 1fr 1fr;
           gap: 14px;
         }
+        .bot-feature-item {
+          display: flex;
+          gap: 14px;
+          align-items: flex-start;
+          padding: 14px 16px;
+          background: #0d0d18;
+          border: 1px solid #1e1e2e;
+          border-radius: 10px;
+          transition: border-color 0.2s;
+        }
+        .bot-feature-item:hover {
+          border-color: var(--bot-color, #00d4ff44);
+        }
         @media (max-width: 900px) {
           .bots-layout {
             grid-template-columns: 1fr !important;
@@ -59,19 +72,47 @@ export default function BotsSection() {
       </div>
 
       <div className="bots-layout">
-        {/* Bot cards */}
-        <div className="bots-cards-grid">
-          {BOTS.map((b, i) => (
-            <BotCard
-              key={b.id}
-              bot={b}
-              active={activeBot === i}
-              onClick={() => setActiveBot(i)}
-            />
-          ))}
+        {/* Left: Bot cards + Features */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+          <div className="bots-cards-grid">
+            {BOTS.map((b, i) => (
+              <BotCard
+                key={b.id}
+                bot={b}
+                active={activeBot === i}
+                onClick={() => setActiveBot(i)}
+              />
+            ))}
+          </div>
+
+          {/* Features do bot ativo */}
+          <div>
+            <div style={{ color: "#555", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", marginBottom: 12 }}>
+              Funcionalidades
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {bot.features.map((feature) => (
+                <div
+                  key={feature.label}
+                  className="bot-feature-item"
+                  style={{ "--bot-color": bot.color }}
+                >
+                  <span style={{ fontSize: 22, lineHeight: 1 }}>{feature.icon}</span>
+                  <div>
+                    <div style={{ color: "#fff", fontSize: 13, fontWeight: 600, marginBottom: 4 }}>
+                      {feature.label}
+                    </div>
+                    <div style={{ color: "#8888aa", fontSize: 12, lineHeight: 1.5 }}>
+                      {feature.desc}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
-        {/* Right panel */}
+        {/* Right panel: Console + Tags */}
         <div>
           <div style={{ marginBottom: 16 }}>
             <div style={{ color: "#555", fontSize: 12, letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>

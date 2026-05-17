@@ -165,6 +165,7 @@ function PlanCard({ plan }) {
 
       <button
         disabled={plan.comingSoon}
+        onClick={() => window.open("https://discord.com/channels/1396934712102097127/1396934712609476620", "_blank")}
         style={{
           width: "100%",
           padding: "14px",

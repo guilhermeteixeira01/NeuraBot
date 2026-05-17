@@ -190,10 +190,11 @@ export default function HeroSection() {
             </p>
 
             <div className="hero-buttons">
-              <button className="btn-primary" style={{ fontSize: 15 }}>
+              {/* <button className="btn-primary" style={{ fontSize: 15 }}>
                 🚀 Começar Grátis
-              </button>
-              <button className="btn-outline">Ver Documentação →</button>
+              </button> */}
+              <button className="btn-outline" onClick={() => window.open("/DOCS/documentacao_neura_bot.html", "_blank")}>
+                Ver Documentação →</button>
             </div>
 
             <div className="hero-stats">
@@ -239,8 +240,8 @@ export default function HeroSection() {
                   background: "radial-gradient(circle at 40% 35%, #00d4ff15, #0a0a1f)",
                   border: "1px solid #00d4ff25",
                   display: "flex",
-                  alignItems: "center",
                   justifyContent: "center",
+                  alignItems: "center",
                   animation: "float 4s ease-in-out infinite",
                 }}
               >
@@ -249,6 +250,9 @@ export default function HeroSection() {
                   src="/imgs/bot sem efeito.png"
                   alt="Mascote Neura Bot"
                   style={{
+                    position: "relative",
+                    left: -5,
+                    top: 8,
                     width: 220,
                     height: 220,
                     objectFit: "contain",

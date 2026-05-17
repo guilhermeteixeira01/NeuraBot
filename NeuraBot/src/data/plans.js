@@ -1,10 +1,10 @@
 export const PLANS = [
   {
     name: "Starter",
-    price: "Grátis",
-    color: "#00d4ff",
+    price: "$ 5,00",
+    period: "/mês",
+    color: "#7700ff",
     features: [
-      "1 Bot ativo",
       "Comandos básicos",
       "Suporte comunidade",
       "100 comandos/dia",
@@ -15,15 +15,15 @@ export const PLANS = [
   },
   {
     name: "Pro",
-    price: "R$ 19,99",
+    price: "R$ 20,00",
     period: "/mês",
-    color: "#a855f7",
+    color: "#55f7f7",
     features: [
-      "Neura Bot completo",
+      "Bot Personalizavel",
       "Sistema de Tickets configurável",
       "Anúncios com Embed personalizados",
       "Mensagens de Boas-Vindas automáticas",
-      "Painel de controle",
+      "Painel Dashboard",
       "Suporte prioritário 24/7",
       "Comandos ilimitados",
     ],
@@ -33,7 +33,7 @@ export const PLANS = [
   },
   {
     name: "Enterprise",
-    price: "R$ 49,90",
+    price: "R$ 50,00",
     period: "/mês",
     color: "#22c55e",
     features: [

@@ -32,4 +32,27 @@ export const BOTS = [
     configurable: true,
     commands: ["/painel-config", "/anuncio", "/editaranuncio"],
   },
+  {
+    id: 2,
+    name: "Neura Bot Music",
+    tag: "DESENVLOLVIMENTO",
+    color: "#ffee00",
+    glow: "#ffd90044",
+    icon: "🤖",
+    desc: "O bot completo com sistema de comando para escutar aquela música boa com seus amigos !!.",
+    stats: [
+      { label: "Servidores", value: "..." },
+      { label: "Usuários Atendidos", value: "..." },
+      { label: "Uptime", value: "..." },
+    ],
+    features: [
+      {
+        icon: "🔊",
+        label: "Sistema de Música",
+        desc: "Ouça música com seus amigos em canais de voz.",
+      },
+    ],
+    configurable: true,
+    commands: ["m!p", "m!s", "m!stop"],
+  },
 ];
