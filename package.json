@@ -6,7 +6,8 @@
     "dev:site": "npm run dev --prefix NeuraBot",
     "dev:dashboard": "npm run dev --prefix DashBoard",
     "build": "npm run build --prefix NeuraBot && npm run build --prefix DashBoard",
-    "deploy": "npm run build && gh-pages -d NeuraBot/dist --dest NeuraBot && gh-pages -d DashBoard/dist --dest DashBoard"
+    "predeploy": "npm run build && rm -rf dist && mkdir dist && cp -r NeuraBot/dist/. dist/ && mkdir dist/dashboard && cp -r DashBoard/dist/. dist/dashboard/ && echo neurabot.com.br > dist/CNAME",
+    "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
     "concurrently": "^8.0.0",
