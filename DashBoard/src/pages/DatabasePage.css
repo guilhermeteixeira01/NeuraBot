@@ -1,4 +1,6 @@
 /* src/pages/DatabasePage.css */
+/* Design system: Orbitron + Sora · #07070f · #00d4ff / #0088ff */
+
 .db-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -7,20 +9,30 @@
 }
 
 .db-card {
-  background: var(--bg2);
-  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(0, 212, 255, 0.1);
   border-radius: 14px;
   padding: 20px;
+  backdrop-filter: blur(10px);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.db-card:hover {
+  border-color: rgba(0, 212, 255, 0.2);
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.05);
 }
 
 .db-card h3 {
-  font-size: 13px;
-  font-weight: 600;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
   margin-bottom: 14px;
-  color: var(--text2);
+  color: rgba(0, 212, 255, 0.7);
   display: flex;
   align-items: center;
   gap: 6px;
+  text-transform: uppercase;
 }
 
 .db-row {
@@ -28,9 +40,10 @@
   justify-content: space-between;
   align-items: center;
   padding: 8px 0;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid rgba(0, 212, 255, 0.06);
   font-size: 13px;
   gap: 8px;
+  font-family: 'Sora', sans-serif;
 }
 
 .db-row:last-child {
@@ -38,7 +51,7 @@
 }
 
 .db-row-key {
-  color: var(--text2);
+  color: #8888aa;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -46,20 +59,23 @@
 }
 
 .db-row-val {
-  font-family: var(--mono);
+  font-family: 'Sora', monospace;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
   word-break: break-all;
   text-align: right;
+  color: #00d4ff;
 }
 
 .broadcast-box {
-  background: var(--bg2);
-  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(0, 212, 255, 0.1);
   border-radius: 14px;
   padding: 20px;
+  backdrop-filter: blur(10px);
 }
 
+/* ── Responsivo ── */
 @media (max-width: 768px) {
   .db-grid {
     grid-template-columns: 1fr;

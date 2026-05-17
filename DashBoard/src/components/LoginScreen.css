@@ -1,32 +1,70 @@
 /* src/components/LoginScreen.css */
+/* Design system: Orbitron + Sora · #07070f · #00d4ff / #0088ff neon palette */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Sora:wght@300;400;600;700&display=swap');
+
 .login-screen {
   position: fixed;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg);
+  background: #07070f;
   z-index: 1000;
   padding: 16px;
+  font-family: 'Sora', 'Segoe UI', sans-serif;
+  overflow: hidden;
 }
 
+/* ── Background: grid + radial glow ── */
 .login-bg {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(88, 101, 242, 0.15) 0%, transparent 70%);
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(0, 212, 255, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 80% 80%, rgba(0, 136, 255, 0.07) 0%, transparent 60%);
 }
 
+.login-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 212, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  animation: grid-fade 1.2s ease forwards;
+}
+
+/* ── Scan line ── */
+.login-bg::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.35), transparent);
+  animation: scan 4s linear infinite;
+}
+
+/* ── Card ── */
 .login-card {
   position: relative;
   width: 100%;
   max-width: 420px;
   padding: 48px 40px;
-  background: var(--bg2);
-  border: 1px solid var(--border2);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(0, 212, 255, 0.18);
   border-radius: 20px;
   text-align: center;
+  backdrop-filter: blur(12px);
+  box-shadow:
+    0 0 40px rgba(0, 212, 255, 0.06),
+    inset 0 1px 0 rgba(0, 212, 255, 0.1);
+  animation: fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+/* ── Logo ── */
 .login-logo {
   width: 64px;
   height: 64px;
@@ -36,6 +74,9 @@
   align-items: center;
   justify-content: center;
   font-size: 28px;
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  background: rgba(0, 212, 255, 0.06);
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
 }
 
 .login-logo img {
@@ -43,16 +84,21 @@
   height: 130px;
 }
 
+/* ── Title ── */
 .login-title {
-  font-size: 26px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 22px;
   font-weight: 700;
-  letter-spacing: -0.5px;
+  letter-spacing: 1px;
   margin-bottom: 8px;
+  color: #fff;
+  text-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
 }
 
+/* ── Subtitle ── */
 .login-sub {
   font-size: 14px;
-  color: var(--text2);
+  color: #8888aa;
   margin-bottom: 36px;
   line-height: 1.6;
 }
@@ -67,16 +113,18 @@
   padding: 14px 20px;
   border-radius: 12px;
   cursor: pointer;
-  font-family: var(--sans);
+  font-family: 'Sora', sans-serif;
   font-size: 15px;
-  font-weight: 500;
-  transition: all .2s;
-  border: 1px solid var(--border2);
-  color: var(--text);
+  font-weight: 600;
+  transition: all 0.2s;
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.04);
+  letter-spacing: 0.3px;
 }
 
 .login-btn:disabled {
-  opacity: 0.6;
+  opacity: 0.45;
   cursor: not-allowed;
 }
 
@@ -85,25 +133,19 @@
 }
 
 /* ── Google ── */
-.google-btn {
-  background: var(--bg3);
-}
-
 .google-btn:hover:not(:disabled) {
-  background: var(--bg4);
-  border-color: var(--accent);
-  box-shadow: 0 0 20px rgba(88, 101, 242, 0.2);
+  background: rgba(0, 212, 255, 0.08);
+  border-color: rgba(0, 212, 255, 0.5);
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.18);
+  transform: translateY(-2px);
 }
 
 /* ── Microsoft ── */
-.microsoft-btn {
-  background: var(--bg3);
-}
-
 .microsoft-btn:hover:not(:disabled) {
-  background: var(--bg4);
-  border-color: #00A4EF;
-  box-shadow: 0 0 20px rgba(0, 164, 239, 0.2);
+  background: rgba(0, 164, 239, 0.08);
+  border-color: rgba(0, 164, 239, 0.5);
+  box-shadow: 0 0 20px rgba(0, 164, 239, 0.18);
+  transform: translateY(-2px);
 }
 
 /* ── Divisor ── */
@@ -112,8 +154,10 @@
   align-items: center;
   gap: 12px;
   margin: 14px 0;
-  color: var(--text3);
+  color: #8888aa;
   font-size: 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
 .login-divider::before,
@@ -121,7 +165,7 @@
   content: '';
   flex: 1;
   height: 1px;
-  background: var(--border2);
+  background: rgba(0, 212, 255, 0.12);
 }
 
 /* ── Spinner ── */
@@ -129,10 +173,10 @@
   display: inline-block;
   width: 16px;
   height: 16px;
-  border: 2px solid var(--text3);
-  border-top-color: var(--text);
+  border: 2px solid rgba(0, 212, 255, 0.2);
+  border-top-color: #00d4ff;
   border-radius: 50%;
-  animation: spin .7s linear infinite;
+  animation: spin 0.7s linear infinite;
   flex-shrink: 0;
 }
 
@@ -142,26 +186,62 @@
   }
 }
 
-/* ── Erro e nota ── */
+/* ── Erro ── */
 .login-error {
-  color: var(--red);
+  color: #ff4d6a;
   font-size: 13px;
   margin-top: 12px;
 }
 
+/* ── Nota ── */
 .login-note {
   margin-top: 20px;
   font-size: 12px;
-  color: var(--text3);
+  color: #8888aa;
 }
 
+/* ── Animações reutilizadas do global.css ── */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes scan {
+  0% {
+    top: -10%;
+  }
+
+  100% {
+    top: 110%;
+  }
+}
+
+@keyframes grid-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* ── Responsivo ── */
 @media (max-width: 480px) {
   .login-card {
     padding: 32px 24px;
   }
 
   .login-title {
-    font-size: 22px;
+    font-size: 18px;
+    letter-spacing: 0.5px;
   }
 
   .login-logo {
@@ -178,5 +258,17 @@
   .login-btn {
     font-size: 14px;
     padding: 12px 16px;
+  }
+}
+
+/* ── Touch: remove hover que "trava" em mobile ── */
+@media (hover: none) {
+
+  .google-btn:hover,
+  .microsoft-btn:hover {
+    transform: none;
+    box-shadow: none;
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(0, 212, 255, 0.2);
   }
 }

@@ -1,15 +1,18 @@
+/* src/pages/SubscriptionsPage.css */
+/* Design system: Orbitron + Sora · #07070f · #00d4ff / #0088ff */
+
 .subs-grid {
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
 
-/* ── CARD ── */
+/* ── Card ── */
 .sub-card {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(145deg, rgba(255, 255, 255, .03), rgba(255, 255, 255, .015));
-  border: 1px solid rgba(255, 255, 255, .06);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(0, 212, 255, 0.1);
   border-radius: 18px;
   padding: 0;
   display: flex;
@@ -17,25 +20,25 @@
   align-items: stretch;
   gap: 0;
   backdrop-filter: blur(10px);
-  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
 .sub-card:hover {
   transform: translateY(-2px);
-  border-color: rgba(88, 166, 255, .25);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, .25), 0 0 0 1px rgba(88, 166, 255, .08);
+  border-color: rgba(0, 212, 255, 0.28);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 212, 255, 0.06);
 }
 
 .sub-card::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at top right, rgba(88, 166, 255, .08), transparent 35%);
+  background: radial-gradient(circle at top right, rgba(0, 212, 255, 0.06), transparent 40%);
   pointer-events: none;
   z-index: 0;
 }
 
-/* ── BANNER ── */
+/* ── Banner ── */
 .sub-banner-wrap {
   position: relative;
   height: 80px;
@@ -49,7 +52,6 @@
   display: block;
 }
 
-/* Avatar sobreposto ao banner */
 .sub-banner-wrap .sub-avatar {
   position: absolute;
   bottom: -18px;
@@ -57,11 +59,11 @@
   width: 46px;
   height: 46px;
   border-radius: 50%;
-  border: 3px solid #121216;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, .4);
+  border: 3px solid #07070f;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 212, 255, 0.15);
 }
 
-/* ── CORPO (linha com avatar, info, preço, botões) ── */
+/* ── Card body ── */
 .sub-card-body {
   display: flex;
   align-items: center;
@@ -72,24 +74,23 @@
   z-index: 1;
 }
 
-/* Quando tem banner: padding extra no topo para o avatar sobreposto */
 .sub-card-body.has-banner {
   padding-top: 28px;
 }
 
-/* ── AVATAR (quando não há banner) ── */
+/* ── Avatar (sem banner) ── */
 .sub-avatar {
   width: 50px;
   height: 50px;
   border-radius: 14px;
   object-fit: cover;
-  background: var(--bg3);
-  border: 2px solid rgba(255, 255, 255, .08);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, .25);
+  background: rgba(0, 212, 255, 0.06);
+  border: 2px solid rgba(0, 212, 255, 0.15);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3), 0 0 12px rgba(0, 212, 255, 0.08);
   flex-shrink: 0;
 }
 
-/* ── INFO ── */
+/* ── Info ── */
 .sub-info {
   flex: 1;
   min-width: 0;
@@ -98,7 +99,8 @@
 .sub-name {
   font-size: 15px;
   font-weight: 700;
-  color: white;
+  color: #fff;
+  font-family: 'Sora', sans-serif;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -107,29 +109,29 @@
 
 .sub-meta {
   font-size: 12px;
-  color: var(--text3);
+  color: #8888aa;
   margin-top: 6px;
-  font-family: var(--mono);
+  font-family: 'Sora', monospace;
   line-height: 1.5;
 }
 
-/* ── STATUS BADGES ── */
+/* ── Status badges ── */
 .sub-status-paid {
-  background: rgba(35, 209, 139, .12);
-  color: #23d18b;
-  border: 1px solid rgba(35, 209, 139, .25);
+  background: rgba(0, 212, 255, 0.1);
+  color: #00d4ff;
+  border: 1px solid rgba(0, 212, 255, 0.25);
 }
 
 .sub-status-pending {
-  background: rgba(250, 166, 26, .12);
+  background: rgba(250, 166, 26, 0.1);
   color: #faa61a;
-  border: 1px solid rgba(250, 166, 26, .25);
+  border: 1px solid rgba(250, 166, 26, 0.25);
 }
 
 .sub-status-expired {
-  background: rgba(240, 71, 71, .12);
-  color: #f04747;
-  border: 1px solid rgba(240, 71, 71, .25);
+  background: rgba(255, 77, 106, 0.1);
+  color: #ff4d6a;
+  border: 1px solid rgba(255, 77, 106, 0.25);
 }
 
 .badge {
@@ -138,24 +140,29 @@
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: .4px;
+  letter-spacing: 0.4px;
   white-space: nowrap;
+  font-family: 'Sora', sans-serif;
 }
 
-/* ── BOTÕES ── */
+/* ── Botões ── */
 .btn {
-  border: 1px solid rgba(255, 255, 255, .08);
-  background: rgba(255, 255, 255, .04);
-  color: white;
+  border: 1px solid rgba(0, 212, 255, 0.15);
+  background: rgba(0, 212, 255, 0.05);
+  color: #fff;
   border-radius: 10px;
   padding: 9px 12px;
-  transition: .15s ease;
+  transition: all 0.15s ease;
   cursor: pointer;
   font-size: 13px;
+  font-family: 'Sora', sans-serif;
+  font-weight: 500;
 }
 
 .btn:hover {
-  background: rgba(255, 255, 255, .08);
+  background: rgba(0, 212, 255, 0.1);
+  border-color: rgba(0, 212, 255, 0.35);
+  box-shadow: 0 0 12px rgba(0, 212, 255, 0.1);
   transform: translateY(-1px);
 }
 
@@ -165,23 +172,25 @@
 }
 
 .btn-danger {
-  background: rgba(240, 71, 71, .12);
-  border-color: rgba(240, 71, 71, .18);
+  background: rgba(255, 77, 106, 0.08);
+  border-color: rgba(255, 77, 106, 0.2);
 }
 
 .btn-danger:hover {
-  background: rgba(240, 71, 71, .18);
+  background: rgba(255, 77, 106, 0.15);
+  border-color: rgba(255, 77, 106, 0.4);
+  box-shadow: 0 0 12px rgba(255, 77, 106, 0.1);
 }
 
-/* ── MODAL ── */
+/* ── Modal ── */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, .65);
+  background: rgba(0, 0, 0, 0.75);
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(8px);
   z-index: 999;
   padding: 16px;
 }
@@ -189,21 +198,26 @@
 .modal-card {
   width: 100%;
   max-width: 440px;
-  background: linear-gradient(180deg, rgba(30, 30, 35, .98), rgba(18, 18, 22, .98));
-  border: 1px solid rgba(255, 255, 255, .06);
+  background: rgba(10, 10, 20, 0.98);
+  border: 1px solid rgba(0, 212, 255, 0.15);
   border-radius: 20px;
   padding: 24px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, .45);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(0, 212, 255, 0.05);
   max-height: 90vh;
   overflow-y: auto;
 }
 
 .modal-card h3 {
   margin: 0 0 18px;
-  font-size: 18px;
+  font-size: 16px;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: #fff;
+  text-shadow: 0 0 12px rgba(0, 212, 255, 0.3);
 }
 
-/* ── FORM ── */
+/* ── Form ── */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -213,60 +227,62 @@
 
 .form-group label {
   font-size: 13px;
-  color: var(--text2);
+  color: #8888aa;
+  font-family: 'Sora', sans-serif;
 }
 
 .form-group input,
 .form-group select {
-  background: rgba(255, 255, 255, .04);
-  border: 1px solid rgba(255, 255, 255, .08);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(0, 212, 255, 0.12);
   border-radius: 12px;
   padding: 12px;
-  color: white;
+  color: #fff;
   outline: none;
-  transition: .15s ease;
+  transition: all 0.15s ease;
   width: 100%;
   box-sizing: border-box;
-  font-family: var(--sans);
+  font-family: 'Sora', sans-serif;
   font-size: 13px;
 }
 
 .form-group input:focus,
 .form-group select:focus {
-  border-color: rgba(88, 166, 255, .4);
-  box-shadow: 0 0 0 3px rgba(88, 166, 255, .12);
+  border-color: rgba(0, 212, 255, 0.45);
+  box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
 }
 
 .form-group select {
   appearance: none;
   -webkit-appearance: none;
-  background: rgba(255, 255, 255, .05);
-  color: white;
+  background: rgba(255, 255, 255, 0.03);
+  color: #fff;
   cursor: pointer;
 }
 
 .form-group select option {
-  background: #1e1f24;
-  color: white;
+  background: #0a0a14;
+  color: #fff;
 }
 
-/* ── LOADING ── */
+/* ── Loading ── */
 .loading {
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 24px;
-  color: var(--text2);
+  color: #8888aa;
   font-size: 14px;
+  font-family: 'Sora', sans-serif;
 }
 
 .spin {
   width: 18px;
   height: 18px;
-  border: 2px solid rgba(255, 255, 255, .1);
-  border-top-color: rgba(88, 166, 255, .8);
+  border: 2px solid rgba(0, 212, 255, 0.12);
+  border-top-color: #00d4ff;
   border-radius: 50%;
-  animation: spin .7s linear infinite;
+  animation: spin 0.7s linear infinite;
   flex-shrink: 0;
 }
 
@@ -276,9 +292,8 @@
   }
 }
 
-/* ── RESPONSIVO ── */
+/* ── Responsivo ── */
 @media (max-width: 768px) {
-
   .sub-banner-wrap {
     height: 60px;
   }
@@ -346,6 +361,6 @@
   }
 
   .modal-card h3 {
-    font-size: 16px;
+    font-size: 14px;
   }
 }

@@ -4,8 +4,6 @@ import {
   Square,
   Logs,
   Bot,
-  Cpu,
-  MemoryStick,
   RefreshCw,
   X,
 } from 'lucide-react';
@@ -70,7 +68,33 @@ export default function OverviewPage({ refreshTrigger }) {
         (s) => s.paymentStatus === 'pending'
       ).length;
 
-      setBots(botsData);
+      // 🔥 JOIN CORRETO (AQUI É O QUE FALTAVA)
+      const mergedBots = botsData.map((bot) => {
+        const sub = subsData.find(
+          (s) => s.pm2AppName === bot.name
+        );
+
+        return {
+          ...bot,
+
+          // 👇 IMAGEM DO BOT (PRIORIDADE BANCO)
+          botImgPerfil:
+            sub?.botImgPerfil ||
+            bot.botImgPerfil ||
+            bot.botAvatar ||
+            null,
+
+          botBannerUrl:
+            sub?.botBannerUrl ||
+            bot.botBannerUrl ||
+            null,
+
+          // opcional (debug útil)
+          subscription: sub || null,
+        };
+      });
+
+      setBots(mergedBots);
 
       setMetrics({
         online,
@@ -84,12 +108,7 @@ export default function OverviewPage({ refreshTrigger }) {
     } catch (e) {
       setError(e.message);
 
-      addLog(
-        'pm2-api',
-        'error',
-        e.message
-      );
-
+      addLog('pm2-api', 'error', e.message);
     } finally {
       setLoading(false);
     }
@@ -315,7 +334,24 @@ export default function OverviewPage({ refreshTrigger }) {
             <div className="bot-card">
 
               <div className="bot-icon">
-                <Bot size={20} />
+                {b.botImgPerfil ? (
+                  <img
+                    src={b.botImgPerfil}
+                    alt="bot"
+                    style={{
+                      width: 36,
+                      height: 36,
+                      borderRadius: '50%',
+                      objectFit: 'cover',
+                      flexShrink: 0
+                    }}
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                    }}
+                  />
+                ) : (
+                  <Bot size={20} />
+                )}
               </div>
 
               <div className="bot-info">

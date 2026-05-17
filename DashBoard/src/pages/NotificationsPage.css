@@ -1,69 +1,80 @@
 /* src/pages/NotificationsPage.css */
+/* Design system: Orbitron + Sora · #07070f · #00d4ff / #0088ff */
 
 .broadcast-box {
-  background: linear-gradient(145deg, rgba(255, 255, 255, .03), rgba(255, 255, 255, .015));
-  border: 1px solid rgba(255, 255, 255, .06);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(0, 212, 255, 0.1);
   border-radius: 18px;
   padding: 20px;
   backdrop-filter: blur(10px);
+  transition: border-color 0.18s ease;
+}
+
+.broadcast-box:hover {
+  border-color: rgba(0, 212, 255, 0.18);
 }
 
 .broadcast-box h3 {
-  font-size: 15px;
-  font-weight: 600;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
   margin-bottom: 14px;
-  color: var(--text);
+  color: #fff;
+  text-shadow: 0 0 12px rgba(0, 212, 255, 0.25);
 }
 
+/* ── Textarea ── */
 .txt {
   width: 100%;
   min-height: 110px;
-  background: rgba(255, 255, 255, .04);
-  border: 1px solid rgba(255, 255, 255, .08);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(0, 212, 255, 0.1);
   border-radius: 12px;
   padding: 12px 14px;
-  color: var(--text);
-  font-family: var(--sans);
+  color: #fff;
+  font-family: 'Sora', sans-serif;
   font-size: 13px;
   resize: vertical;
   outline: none;
-  transition: border-color .15s, box-shadow .15s;
+  transition: border-color 0.15s, box-shadow 0.15s;
   box-sizing: border-box;
 }
 
 .txt:focus {
-  border-color: rgba(88, 101, 242, .5);
-  box-shadow: 0 0 0 3px rgba(88, 101, 242, .12);
+  border-color: rgba(0, 212, 255, 0.45);
+  box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
 }
 
 .txt::placeholder {
-  color: var(--text3);
+  color: #8888aa;
 }
 
+/* ── Field input ── */
 .field-input {
   flex: 1;
   min-width: 0;
-  background: rgba(255, 255, 255, .04);
-  border: 1px solid rgba(255, 255, 255, .08);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(0, 212, 255, 0.1);
   border-radius: 12px;
   padding: 11px 14px;
-  color: var(--text);
-  font-family: var(--sans);
+  color: #fff;
+  font-family: 'Sora', sans-serif;
   font-size: 13px;
   outline: none;
-  transition: border-color .15s, box-shadow .15s;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
 .field-input:focus {
-  border-color: rgba(88, 101, 242, .5);
-  box-shadow: 0 0 0 3px rgba(88, 101, 242, .12);
+  border-color: rgba(0, 212, 255, 0.45);
+  box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
 }
 
 .field-input::placeholder {
-  color: var(--text3);
+  color: #8888aa;
 }
 
-/* ── SELECT de servidor ── */
+/* ── Select de servidor ── */
 .notif-select-wrap {
   position: relative;
   margin-bottom: 8px;
@@ -71,56 +82,56 @@
 
 .notif-select {
   width: 100%;
-  background: rgba(255, 255, 255, .04);
-  border: 1px solid rgba(255, 255, 255, .1);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(0, 212, 255, 0.12);
   border-radius: 12px;
   padding: 11px 14px;
-  color: var(--text);
-  font-family: var(--sans);
+  color: #fff;
+  font-family: 'Sora', sans-serif;
   font-size: 13px;
   outline: none;
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none;
-  transition: border-color .15s, box-shadow .15s;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
 .notif-select:focus {
-  border-color: rgba(88, 101, 242, .5);
-  box-shadow: 0 0 0 3px rgba(88, 101, 242, .12);
+  border-color: rgba(0, 212, 255, 0.45);
+  box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
 }
 
 .notif-select option {
-  background: #1c1f2a;
-  color: var(--text);
+  background: #0a0a14;
+  color: #fff;
 }
 
-/* ── Detalhes da assinatura selecionada ── */
+/* ── Meta da assinatura selecionada ── */
 .notif-meta {
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
   font-size: 12px;
-  color: var(--text3);
-  font-family: var(--mono);
-  background: rgba(255, 255, 255, .03);
-  border: 1px solid rgba(255, 255, 255, .06);
+  color: #8888aa;
+  font-family: 'Sora', monospace;
+  background: rgba(0, 212, 255, 0.04);
+  border: 1px solid rgba(0, 212, 255, 0.08);
   border-radius: 10px;
   padding: 8px 12px;
   margin-bottom: 4px;
 }
 
 .notif-meta strong {
-  color: var(--text2);
+  color: rgba(0, 212, 255, 0.7);
 }
 
-/* ── MOBILE ── */
+/* ── Mobile ── */
 @media (max-width: 768px) {
   .broadcast-box {
     padding: 14px;
   }
 
   .broadcast-box h3 {
-    font-size: 14px;
+    font-size: 12px;
   }
 }

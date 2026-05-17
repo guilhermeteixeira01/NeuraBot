@@ -1,4 +1,15 @@
 // src/pages/SubscriptionsPage.jsx
+import {
+  Play,
+  RotateCw,
+  Square,
+  Logs,
+  Bot,
+  Cpu,
+  MemoryStick,
+  RefreshCw,
+  X,
+} from 'lucide-react';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { api } from '../services/api';
@@ -243,10 +254,10 @@ function BillingModal({ sub, onClose }) {
           )}
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px' }}>
             <img
-              src={sub.botImgPerfil || sub.botAvatar || 'https://cdn-icons-png.flaticon.com/512/4712/4712109.png'}
+              src={sub.botImgPerfil || sub.botAvatar || <Bot size={20} />}
               alt="bot"
               style={{ width: 36, height: 36, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
-              onError={(e) => { e.currentTarget.src = 'https://cdn-icons-png.flaticon.com/512/4712/4712109.png'; }}
+              onError={(e) => { e.currentTarget.src = <Bot size={20} />; }}
             />
             <span style={{ color: 'var(--text2)', fontSize: 14, fontWeight: 600, flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {sub.guildName || sub.guildId}
@@ -801,7 +812,7 @@ export default function SubscriptionsPage({
           const avatar =
             s.botImgPerfil ||
             s.botAvatar ||
-            'https://cdn-icons-png.flaticon.com/512/4712/4712109.png';
+            null;
 
           const banner = s.botBannerUrl || null;
 
@@ -817,14 +828,20 @@ export default function SubscriptionsPage({
                     className="sub-banner"
                     onError={(e) => { e.currentTarget.style.display = 'none'; }}
                   />
-                  <img
-                    src={avatar}
-                    alt="bot"
-                    className="sub-avatar"
-                    onError={(e) => {
-                      e.currentTarget.src = 'https://cdn-icons-png.flaticon.com/512/4712/4712109.png';
-                    }}
-                  />
+                  {avatar ? (
+                    <img
+                      src={avatar}
+                      alt="bot"
+                      className="sub-avatar"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                      }}
+                    />
+                  ) : (
+                    <div className="sub-avatar fallback-avatar">
+                      <Bot size={20} />
+                    </div>
+                  )}
                 </div>
               ) : null}
 
@@ -838,7 +855,7 @@ export default function SubscriptionsPage({
                     alt="bot"
                     className="sub-avatar"
                     onError={(e) => {
-                      e.currentTarget.src = 'https://cdn-icons-png.flaticon.com/512/4712/4712109.png';
+                      e.currentTarget.src = <Bot size={20} />;
                     }}
                   />
                 )}

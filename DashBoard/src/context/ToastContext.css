@@ -1,4 +1,6 @@
 /* src/context/ToastContext.css */
+/* Design system: Orbitron + Sora · #07070f · #00d4ff / #0088ff */
+
 #toasts {
   position: fixed;
   bottom: 24px;
@@ -14,27 +16,33 @@
   border-radius: 10px;
   font-size: 13px;
   font-weight: 500;
-  animation: slideIn .2s ease;
+  font-family: 'Sora', sans-serif;
+  animation: slideIn 0.2s ease;
   max-width: 320px;
   border: 1px solid;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
 .toast-success {
-  background: rgba(35, 209, 139, 0.12);
-  color: var(--green);
-  border-color: rgba(35, 209, 139, 0.25);
+  background: rgba(0, 212, 255, 0.08);
+  color: #00d4ff;
+  border-color: rgba(0, 212, 255, 0.25);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 16px rgba(0, 212, 255, 0.08);
 }
 
 .toast-error {
-  background: rgba(240, 71, 71, 0.12);
-  color: var(--red);
-  border-color: rgba(240, 71, 71, 0.25);
+  background: rgba(255, 77, 106, 0.1);
+  color: #ff4d6a;
+  border-color: rgba(255, 77, 106, 0.25);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 16px rgba(255, 77, 106, 0.08);
 }
 
 .toast-info {
-  background: rgba(88, 101, 242, 0.12);
-  color: var(--accent2);
-  border-color: rgba(88, 101, 242, 0.25);
+  background: rgba(0, 136, 255, 0.1);
+  color: #0088ff;
+  border-color: rgba(0, 136, 255, 0.25);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 16px rgba(0, 136, 255, 0.08);
 }
 
 @keyframes slideIn {
@@ -49,7 +57,7 @@
   }
 }
 
-/* ── RESPONSIVO ── */
+/* ── Responsivo ── */
 @media (max-width: 480px) {
   #toasts {
     bottom: 16px;
