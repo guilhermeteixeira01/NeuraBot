@@ -9,11 +9,11 @@
 //
 // Para sobrescrever sem mudar o código, crie .env na raiz:
 //   VITE_PM2_URL=https://pm2.neurabot.com.br
-//   VITE_API_URL=https://pm2.neurabot.com.br:3301
+//   VITE_API_URL=https://sql.neurabot.com.br:3301
 
-const PM2_URL    = import.meta.env.VITE_PM2_URL    ?? 'https://pm2.neurabot.com.br';
-const PM2_TOKEN  = import.meta.env.VITE_PM2_TOKEN  ?? 'neurabot_super_token_2026';
-const API_URL    = import.meta.env.VITE_API_URL    ?? 'https://pm2.neurabot.com.br:3301';
+const PM2_URL = import.meta.env.VITE_PM2_URL ?? 'https://pm2.neurabot.com.br';
+const PM2_TOKEN = import.meta.env.VITE_PM2_TOKEN ?? 'neurabot_super_token_2026';
+const API_URL = import.meta.env.VITE_API_URL ?? 'https://sql.neurabot.com.br:3301';
 const API_SECRET = import.meta.env.VITE_API_SECRET ?? '@!@Neurabot32147';
 
 // Debug em desenvolvimento — mostra no console qual URL está sendo usada

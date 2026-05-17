@@ -4,16 +4,18 @@
   gap: 14px;
 }
 
+/* ── CARD ── */
 .sub-card {
   position: relative;
   overflow: hidden;
   background: linear-gradient(145deg, rgba(255, 255, 255, .03), rgba(255, 255, 255, .015));
   border: 1px solid rgba(255, 255, 255, .06);
   border-radius: 18px;
-  padding: 18px 20px;
+  padding: 0;
   display: flex;
-  align-items: center;
-  gap: 18px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
   backdrop-filter: blur(10px);
   transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
 }
@@ -30,12 +32,56 @@
   inset: 0;
   background: radial-gradient(circle at top right, rgba(88, 166, 255, .08), transparent 35%);
   pointer-events: none;
+  z-index: 0;
 }
 
+/* ── BANNER ── */
+.sub-banner-wrap {
+  position: relative;
+  height: 80px;
+  flex-shrink: 0;
+}
+
+.sub-banner {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Avatar sobreposto ao banner */
+.sub-banner-wrap .sub-avatar {
+  position: absolute;
+  bottom: -18px;
+  left: 16px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 3px solid #121216;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .4);
+}
+
+/* ── CORPO (linha com avatar, info, preço, botões) ── */
+.sub-card-body {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+/* Quando tem banner: padding extra no topo para o avatar sobreposto */
+.sub-card-body.has-banner {
+  padding-top: 28px;
+}
+
+/* ── AVATAR (quando não há banner) ── */
 .sub-avatar {
-  width: 58px;
-  height: 58px;
-  border-radius: 16px;
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
   object-fit: cover;
   background: var(--bg3);
   border: 2px solid rgba(255, 255, 255, .08);
@@ -43,6 +89,7 @@
   flex-shrink: 0;
 }
 
+/* ── INFO ── */
 .sub-info {
   flex: 1;
   min-width: 0;
@@ -66,6 +113,7 @@
   line-height: 1.5;
 }
 
+/* ── STATUS BADGES ── */
 .sub-status-paid {
   background: rgba(35, 209, 139, .12);
   color: #23d18b;
@@ -85,22 +133,16 @@
 }
 
 .badge {
-  padding: 6px 10px;
+  padding: 5px 10px;
   border-radius: 999px;
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .4px;
+  white-space: nowrap;
 }
 
-.sub-price {
-  font-family: var(--mono);
-  font-size: 15px;
-  font-weight: 700;
-  color: #23d18b;
-  flex-shrink: 0;
-}
-
+/* ── BOTÕES ── */
 .btn {
   border: 1px solid rgba(255, 255, 255, .08);
   background: rgba(255, 255, 255, .04);
@@ -109,11 +151,17 @@
   padding: 9px 12px;
   transition: .15s ease;
   cursor: pointer;
+  font-size: 13px;
 }
 
 .btn:hover {
   background: rgba(255, 255, 255, .08);
   transform: translateY(-1px);
+}
+
+.btn-sm {
+  padding: 7px 10px;
+  font-size: 12px;
 }
 
 .btn-danger {
@@ -125,6 +173,7 @@
   background: rgba(240, 71, 71, .18);
 }
 
+/* ── MODAL ── */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -145,6 +194,8 @@
   border-radius: 20px;
   padding: 24px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, .45);
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .modal-card h3 {
@@ -152,6 +203,7 @@
   font-size: 18px;
 }
 
+/* ── FORM ── */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -174,6 +226,7 @@
   outline: none;
   transition: .15s ease;
   width: 100%;
+  box-sizing: border-box;
   font-family: var(--sans);
   font-size: 13px;
 }
@@ -187,7 +240,6 @@
 .form-group select {
   appearance: none;
   -webkit-appearance: none;
-  -moz-appearance: none;
   background: rgba(255, 255, 255, .05);
   color: white;
   cursor: pointer;
@@ -198,27 +250,63 @@
   color: white;
 }
 
+/* ── LOADING ── */
+.loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 24px;
+  color: var(--text2);
+  font-size: 14px;
+}
+
+.spin {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, .1);
+  border-top-color: rgba(88, 166, 255, .8);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* ── RESPONSIVO ── */
 @media (max-width: 768px) {
 
-  /* Card vira coluna: avatar+info no topo, preço+status + botões embaixo */
-  .sub-card {
-    padding: 14px;
+  .sub-banner-wrap {
+    height: 60px;
+  }
+
+  .sub-banner {
+    height: 60px;
+  }
+
+  .sub-banner-wrap .sub-avatar {
+    bottom: -14px;
+    left: 12px;
+    width: 38px;
+    height: 38px;
+  }
+
+  .sub-card-body {
+    padding: 12px 14px;
     gap: 10px;
-    flex-wrap: wrap;
-    align-items: flex-start;
+  }
+
+  .sub-card-body.has-banner {
+    padding-top: 22px;
   }
 
   .sub-avatar {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-  }
-
-  /* Info ocupa o espaço ao lado do avatar */
-  .sub-info {
-    flex: 1;
-    min-width: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
   }
 
   .sub-name {
@@ -230,14 +318,12 @@
     word-break: break-all;
   }
 
-  /* Preço + status: ocupa linha inteira abaixo do avatar+info */
   .sub-price-row {
     flex-basis: 100%;
     order: 3;
     gap: 8px;
   }
 
-  /* Botões: linha inteira, cada botão cresce igual */
   .sub-actions {
     flex-basis: 100%;
     order: 4;
@@ -251,7 +337,6 @@
     padding: 8px 6px;
   }
 
-  /* Botão lixeira compacto */
   .sub-actions .btn-danger {
     flex: 0 0 42px;
   }
