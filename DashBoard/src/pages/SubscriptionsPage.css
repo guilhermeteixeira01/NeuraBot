@@ -7,69 +7,39 @@
 .sub-card {
   position: relative;
   overflow: hidden;
-
-  background:
-    linear-gradient(145deg,
-      rgba(255, 255, 255, .03),
-      rgba(255, 255, 255, .015));
-
+  background: linear-gradient(145deg, rgba(255, 255, 255, .03), rgba(255, 255, 255, .015));
   border: 1px solid rgba(255, 255, 255, .06);
-
   border-radius: 18px;
-
   padding: 18px 20px;
-
   display: flex;
   align-items: center;
   gap: 18px;
-
   backdrop-filter: blur(10px);
-
-  transition:
-    transform .18s ease,
-    border-color .18s ease,
-    box-shadow .18s ease;
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
 }
 
 .sub-card:hover {
   transform: translateY(-2px);
-
   border-color: rgba(88, 166, 255, .25);
-
-  box-shadow:
-    0 10px 30px rgba(0, 0, 0, .25),
-    0 0 0 1px rgba(88, 166, 255, .08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .25), 0 0 0 1px rgba(88, 166, 255, .08);
 }
 
 .sub-card::before {
   content: '';
-
   position: absolute;
   inset: 0;
-
-  background:
-    radial-gradient(circle at top right,
-      rgba(88, 166, 255, .08),
-      transparent 35%);
-
+  background: radial-gradient(circle at top right, rgba(88, 166, 255, .08), transparent 35%);
   pointer-events: none;
 }
 
 .sub-avatar {
   width: 58px;
   height: 58px;
-
   border-radius: 16px;
-
   object-fit: cover;
-
   background: var(--bg3);
-
   border: 2px solid rgba(255, 255, 255, .08);
-
-  box-shadow:
-    0 6px 18px rgba(0, 0, 0, .25);
-
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .25);
   flex-shrink: 0;
 }
 
@@ -82,20 +52,17 @@
   font-size: 15px;
   font-weight: 700;
   color: white;
-
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .sub-meta {
   font-size: 12px;
   color: var(--text3);
-
   margin-top: 6px;
-
   font-family: var(--mono);
-
   line-height: 1.5;
 }
 
@@ -119,14 +86,10 @@
 
 .badge {
   padding: 6px 10px;
-
   border-radius: 999px;
-
   font-size: 11px;
   font-weight: 700;
-
   text-transform: uppercase;
-
   letter-spacing: .4px;
 }
 
@@ -135,21 +98,16 @@
   font-size: 15px;
   font-weight: 700;
   color: #23d18b;
+  flex-shrink: 0;
 }
 
 .btn {
   border: 1px solid rgba(255, 255, 255, .08);
-
   background: rgba(255, 255, 255, .04);
-
   color: white;
-
   border-radius: 10px;
-
   padding: 9px 12px;
-
   transition: .15s ease;
-
   cursor: pointer;
 }
 
@@ -170,49 +128,34 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-
   background: rgba(0, 0, 0, .65);
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   backdrop-filter: blur(6px);
-
   z-index: 999;
+  padding: 16px;
 }
 
 .modal-card {
-  width: 440px;
-
-  background:
-    linear-gradient(180deg,
-      rgba(30, 30, 35, .98),
-      rgba(18, 18, 22, .98));
-
+  width: 100%;
+  max-width: 440px;
+  background: linear-gradient(180deg, rgba(30, 30, 35, .98), rgba(18, 18, 22, .98));
   border: 1px solid rgba(255, 255, 255, .06);
-
   border-radius: 20px;
-
   padding: 24px;
-
-  box-shadow:
-    0 20px 60px rgba(0, 0, 0, .45);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .45);
 }
 
 .modal-card h3 {
-  margin: 0;
-  margin-bottom: 18px;
-
+  margin: 0 0 18px;
   font-size: 18px;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-
   gap: 7px;
-
   margin-top: 14px;
 }
 
@@ -224,40 +167,100 @@
 .form-group input,
 .form-group select {
   background: rgba(255, 255, 255, .04);
-
   border: 1px solid rgba(255, 255, 255, .08);
-
   border-radius: 12px;
-
   padding: 12px;
-
   color: white;
-
   outline: none;
-
   transition: .15s ease;
+  width: 100%;
+  font-family: var(--sans);
+  font-size: 13px;
 }
 
 .form-group input:focus,
 .form-group select:focus {
   border-color: rgba(88, 166, 255, .4);
-
-  box-shadow:
-    0 0 0 3px rgba(88, 166, 255, .12);
+  box-shadow: 0 0 0 3px rgba(88, 166, 255, .12);
 }
 
 .form-group select {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-
   background: rgba(255, 255, 255, .05);
   color: white;
-
   cursor: pointer;
 }
 
 .form-group select option {
   background: #1e1f24;
   color: white;
+}
+
+/* ── RESPONSIVO ── */
+@media (max-width: 768px) {
+
+  /* Card vira coluna: avatar+info no topo, preço+status + botões embaixo */
+  .sub-card {
+    padding: 14px;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .sub-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+  }
+
+  /* Info ocupa o espaço ao lado do avatar */
+  .sub-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .sub-name {
+    font-size: 13px;
+  }
+
+  .sub-meta {
+    font-size: 11px;
+    word-break: break-all;
+  }
+
+  /* Preço + status: ocupa linha inteira abaixo do avatar+info */
+  .sub-price-row {
+    flex-basis: 100%;
+    order: 3;
+    gap: 8px;
+  }
+
+  /* Botões: linha inteira, cada botão cresce igual */
+  .sub-actions {
+    flex-basis: 100%;
+    order: 4;
+    gap: 8px;
+  }
+
+  .sub-actions .btn {
+    flex: 1;
+    justify-content: center;
+    font-size: 12px;
+    padding: 8px 6px;
+  }
+
+  /* Botão lixeira compacto */
+  .sub-actions .btn-danger {
+    flex: 0 0 42px;
+  }
+
+  .modal-card {
+    padding: 18px;
+  }
+
+  .modal-card h3 {
+    font-size: 16px;
+  }
 }

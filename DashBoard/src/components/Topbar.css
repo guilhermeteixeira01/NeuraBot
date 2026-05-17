@@ -9,6 +9,7 @@
   position: sticky;
   top: 0;
   z-index: 10;
+  gap: 12px;
 }
 
 .topbar-left h1 {
@@ -27,4 +28,50 @@
   display: flex;
   gap: 8px;
   align-items: center;
+  flex-shrink: 0;
+}
+
+/* ── BOTÃO HAMBURGUER (só aparece no mobile) ── */
+.menu-toggle {
+  display: none;
+  margin-bottom: 10px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all .15s;
+}
+
+.menu-toggle:hover {
+  background: var(--bg4);
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: flex;
+  }
+
+  .topbar {
+    padding: 14px 16px;
+  }
+
+  .topbar-left h1 {
+    font-size: 16px;
+  }
+
+  .topbar-left p {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .topbar-right .btn span {
+    display: none;
+  }
 }

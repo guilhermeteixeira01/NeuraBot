@@ -13,6 +13,8 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .log-header h3 {
@@ -32,6 +34,7 @@
   font-family: var(--mono);
   font-size: 11.5px;
   overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   gap: 1px;
@@ -46,6 +49,7 @@
   border-radius: 6px;
   line-height: 1.65;
   transition: background .1s;
+  min-width: 0;
 }
 
 .log-line:hover {
@@ -126,4 +130,42 @@
 .log-empty-icon {
   font-size: 22px;
   opacity: .3;
+}
+
+/* ── RESPONSIVO ── */
+@media (max-width: 768px) {
+  .log-panel {
+    padding: 14px;
+  }
+
+  .log-stream {
+    font-size: 10.5px;
+  }
+
+  .log-time {
+    min-width: 54px;
+    font-size: 10px;
+  }
+
+  .log-app {
+    max-width: 70px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  /* No mobile esconde timestamp e app name para dar espaço à mensagem */
+  .log-time {
+    display: none;
+  }
+
+  .log-app {
+    max-width: 60px;
+    font-size: 10px;
+  }
+
+  .log-line {
+    gap: 6px;
+    padding: 4px 8px;
+  }
 }

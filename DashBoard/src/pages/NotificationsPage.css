@@ -1,47 +1,126 @@
 /* src/pages/NotificationsPage.css */
+
 .broadcast-box {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 14px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, .03), rgba(255, 255, 255, .015));
+  border: 1px solid rgba(255, 255, 255, .06);
+  border-radius: 18px;
   padding: 20px;
+  backdrop-filter: blur(10px);
 }
 
 .broadcast-box h3 {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   margin-bottom: 14px;
+  color: var(--text);
 }
 
-textarea.txt {
+.txt {
   width: 100%;
-  min-height: 100px;
+  min-height: 110px;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: 12px;
   padding: 12px 14px;
-  background: var(--bg);
-  border: 1px solid var(--border2);
-  border-radius: 10px;
   color: var(--text);
   font-family: var(--sans);
   font-size: 13px;
   resize: vertical;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+  box-sizing: border-box;
 }
 
-textarea.txt:focus {
-  outline: none;
-  border-color: var(--accent);
+.txt:focus {
+  border-color: rgba(88, 101, 242, .5);
+  box-shadow: 0 0 0 3px rgba(88, 101, 242, .12);
+}
+
+.txt::placeholder {
+  color: var(--text3);
 }
 
 .field-input {
   flex: 1;
-  padding: 10px 12px;
-  background: var(--bg);
-  border: 1px solid var(--border2);
-  border-radius: 10px;
+  min-width: 0;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: 12px;
+  padding: 11px 14px;
   color: var(--text);
   font-family: var(--sans);
   font-size: 13px;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
 }
 
 .field-input:focus {
+  border-color: rgba(88, 101, 242, .5);
+  box-shadow: 0 0 0 3px rgba(88, 101, 242, .12);
+}
+
+.field-input::placeholder {
+  color: var(--text3);
+}
+
+/* ── SELECT de servidor ── */
+.notif-select-wrap {
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.notif-select {
+  width: 100%;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 12px;
+  padding: 11px 14px;
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 13px;
   outline: none;
-  border-color: var(--accent);
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+
+.notif-select:focus {
+  border-color: rgba(88, 101, 242, .5);
+  box-shadow: 0 0 0 3px rgba(88, 101, 242, .12);
+}
+
+.notif-select option {
+  background: #1c1f2a;
+  color: var(--text);
+}
+
+/* ── Detalhes da assinatura selecionada ── */
+.notif-meta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--text3);
+  font-family: var(--mono);
+  background: rgba(255, 255, 255, .03);
+  border: 1px solid rgba(255, 255, 255, .06);
+  border-radius: 10px;
+  padding: 8px 12px;
+  margin-bottom: 4px;
+}
+
+.notif-meta strong {
+  color: var(--text2);
+}
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  .broadcast-box {
+    padding: 14px;
+  }
+
+  .broadcast-box h3 {
+    font-size: 14px;
+  }
 }

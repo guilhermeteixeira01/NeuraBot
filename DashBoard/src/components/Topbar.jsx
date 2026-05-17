@@ -3,15 +3,15 @@ import { useEffect, useState } from 'react';
 import './Topbar.css';
 
 const PAGE_TITLES = {
-  overview:      'Visão geral',
-  bots:          'Bots PM2',
+  overview: 'Visão geral',
+  bots: 'Bots PM2',
   subscriptions: 'Assinaturas',
   notifications: 'Notificações',
-  logs:          'Logs',
-  database:      'MySQL',
+  logs: 'Logs',
+  database: 'MySQL',
 };
 
-export default function Topbar({ activePage, onRefresh }) {
+export default function Topbar({ activePage, onRefresh, onMenuToggle }) {
   const [time, setTime] = useState('');
 
   useEffect(() => {
@@ -25,11 +25,17 @@ export default function Topbar({ activePage, onRefresh }) {
   return (
     <div className="topbar">
       <div className="topbar-left">
-        <h1>{PAGE_TITLES[activePage] || activePage}</h1>
-        <p>{time}</p>
+        {/* Botão hamburguer — só aparece no mobile via CSS */}
+        <button className="menu-toggle" onClick={onMenuToggle} aria-label="Abrir menu">
+          ☰
+        </button>
+        <div>
+          <h1>{PAGE_TITLES[activePage] || activePage}</h1>
+          <p>{time}</p>
+        </div>
       </div>
       <div className="topbar-right">
-        <button className="btn" onClick={onRefresh}>↻ Atualizar</button>
+        <button className="btn" onClick={onRefresh}>↻ <span>Atualizar</span></button>
       </div>
     </div>
   );

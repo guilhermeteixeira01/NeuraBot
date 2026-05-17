@@ -13,15 +13,17 @@ import NotificationsPage from './pages/NotificationsPage';
 import DatabasePage from './pages/DatabasePage';
 
 export default function App() {
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
   const { toast } = useToast();
 
-  const [activePage, setActivePage] = useState('overview');
+  // Admin começa em 'overview', usuário comum em 'subscriptions'
+  const [activePage, setActivePage] = useState(null);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [subsFilter, setSubsFilter] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Loading state — user is undefined while Firebase checks auth
-  if (user === undefined) {
+  // Loading enquanto Firebase verifica auth + isAdmin
+  if (user === undefined || (user && isAdmin === undefined)) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', color: 'var(--text3)' }}>
         <div className="spin" style={{ marginRight: 10 }} /> Carregando...
@@ -31,9 +33,13 @@ export default function App() {
 
   if (!user) return <LoginScreen />;
 
+  // Define página inicial baseada no role (só na primeira vez)
+  const currentPage = activePage ?? (isAdmin ? 'overview' : 'subscriptions');
+
   function handleNavigate(page) {
     setActivePage(page);
     setSubsFilter(null);
+    setSidebarOpen(false);
   }
 
   function handleRefresh() {
@@ -44,22 +50,44 @@ export default function App() {
   function handleNavigateToSubs(filter) {
     setSubsFilter(filter);
     setActivePage('subscriptions');
+    setSidebarOpen(false);
   }
 
   return (
     <div className="layout">
-      <Sidebar activePage={activePage} onNavigate={handleNavigate} />
+      {sidebarOpen && (
+        <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)} />
+      )}
+
+      <Sidebar
+        activePage={currentPage}
+        onNavigate={handleNavigate}
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        isAdmin={isAdmin}
+      />
+
       <div className="main">
-        <Topbar activePage={activePage} onRefresh={handleRefresh} />
+        <Topbar
+          activePage={currentPage}
+          onRefresh={handleRefresh}
+          onMenuToggle={() => setSidebarOpen((v) => !v)}
+        />
         <div className="content">
-          {activePage === 'overview' && (
-            <OverviewPage refreshTrigger={refreshTrigger} />
+          {currentPage === 'overview' && isAdmin && (
+            <OverviewPage refreshTrigger={refreshTrigger} isAdmin={isAdmin} />
           )}
-          {activePage === 'subscriptions' && (
-            <SubscriptionsPage refreshTrigger={refreshTrigger} filter={subsFilter} />
+          {currentPage === 'subscriptions' && (
+            <SubscriptionsPage
+              refreshTrigger={refreshTrigger}
+              filter={subsFilter}
+              isAdmin={isAdmin}
+            />
           )}
-          {activePage === 'notifications' && <NotificationsPage />}
-          {activePage === 'database' && (
+          {currentPage === 'notifications' && isAdmin && (
+            <NotificationsPage isAdmin={isAdmin} />
+          )}
+          {currentPage === 'database' && isAdmin && (
             <DatabasePage refreshTrigger={refreshTrigger} onNavigateToSubs={handleNavigateToSubs} />
           )}
         </div>

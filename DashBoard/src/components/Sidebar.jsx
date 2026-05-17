@@ -5,26 +5,35 @@ import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import './Sidebar.css';
 
-const NAV_ITEMS = [
+const ADMIN_NAV = [
   { page: 'overview', icon: '🤖', label: 'Bots PM2' },
   { page: 'subscriptions', icon: '💳', label: 'Assinaturas' },
   { page: 'notifications', icon: '🔔', label: 'Notificações' },
   { page: 'database', icon: '🗄️', label: 'MySQL' },
 ];
 
-export default function Sidebar({ activePage, onNavigate }) {
+const USER_NAV = [
+  { page: 'subscriptions', icon: '💳', label: 'Minha Assinatura' },
+];
+
+export default function Sidebar({ activePage, onNavigate, isOpen, onClose, isAdmin }) {
   const { user } = useAuth();
   const { toast } = useToast();
+
+  const navItems = isAdmin ? ADMIN_NAV : USER_NAV;
 
   async function handleLogout() {
     await signOut(auth);
     toast('Saiu com sucesso', 'info');
+    onClose?.();
   }
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar${isOpen ? ' sidebar--open' : ''}`}>
+      <button className="sidebar-close" onClick={onClose} aria-label="Fechar menu">✕</button>
+
       <div className="sidebar-logo">
-        <div className="s-icon">🤖</div>
+        <div className="s-icon"><img src="../public/imgs/bot.png" alt="Logo" /></div>
         <div>
           <div className="s-name">NeuraBOT</div>
           <div className="s-version">v2.0.0</div>
@@ -32,12 +41,11 @@ export default function Sidebar({ activePage, onNavigate }) {
       </div>
 
       <nav>
-        <div className="nav-label">Menu</div>
-        {NAV_ITEMS.map(({ page, icon, label }) => (
+        <div className="nav-label">{isAdmin ? 'Admin' : 'Menu'}</div>
+        {navItems.map(({ page, icon, label }) => (
           <button
             key={page}
             className={`nav-item${activePage === page ? ' active' : ''}`}
-            data-page={page}
             onClick={() => onNavigate(page)}
           >
             <span className="ni">{icon}</span>
@@ -47,7 +55,7 @@ export default function Sidebar({ activePage, onNavigate }) {
       </nav>
 
       <div className="sidebar-user">
-        <div className="u-avatar" id="uAvatar">
+        <div className="u-avatar">
           {user?.photoURL ? (
             <img src={user.photoURL} alt="avatar" />
           ) : (

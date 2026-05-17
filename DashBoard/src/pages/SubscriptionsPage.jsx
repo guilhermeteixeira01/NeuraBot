@@ -2,15 +2,18 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { api } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { useLog } from '../context/LogContext';
 import './SubscriptionsPage.css';
 
 export default function SubscriptionsPage({
   refreshTrigger,
-  filter: externalFilter
+  filter: externalFilter,
+  isAdmin
 }) {
 
+  const { user } = useAuth();
   const { toast } = useToast();
   const { addLog } = useLog();
 
@@ -26,6 +29,11 @@ export default function SubscriptionsPage({
 
     try {
       let data = await api('/api/subscriptions');
+
+      // Usuário comum vê só as próprias assinaturas
+      if (!isAdmin) {
+        data = data.filter((s) => s.ownerEmail?.toLowerCase() === user?.email?.toLowerCase());
+      }
 
       if (f) {
         data = data.filter(
@@ -249,6 +257,7 @@ export default function SubscriptionsPage({
               {/* PRICE + STATUS */}
 
               <div
+                className="sub-price-row"
                 style={{
                   display: 'flex',
                   gap: 8,
@@ -281,6 +290,7 @@ export default function SubscriptionsPage({
               {/* ACTIONS */}
 
               <div
+                className="sub-actions"
                 style={{
                   display: 'flex',
                   gap: 5,

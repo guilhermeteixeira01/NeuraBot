@@ -20,10 +20,10 @@ export default function LoginScreen() {
     <div className="login-screen">
       <div className="login-bg" />
       <div className="login-card">
-        <div className="login-logo">🤖</div>
+        <div className="login-logo"><img src="../public/imgs/bot.png" alt="Bot Logo" /></div>
         <div className="login-title">NeuraBOT Panel</div>
         <div className="login-sub">
-          Gerencie seus bots Discord, processos PM2<br />e assinaturas em um só lugar.
+          Gerencie seus bots Discord.
         </div>
         <button className="google-btn" onClick={handleGoogle}>
           <svg width="18" height="18" viewBox="0 0 24 24">
