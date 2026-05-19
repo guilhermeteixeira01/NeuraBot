@@ -6,7 +6,7 @@ mkdirSync('dist/dashboard', { recursive: true })
 
 cpSync('NeuraBot/dist', 'dist', { recursive: true })
 cpSync('DashBoard/dist', 'dist/dashboard', { recursive: true })
-cpSync('GerarEmbed/dist', 'dist/gerarembed', { recursive: true })
+cpSync('GerarEmbed/dist', 'dist/GeradorEmbed', { recursive: true })
 
 writeFileSync('dist/CNAME', 'neurabot.com.br')
 
