@@ -1,9 +1,9 @@
 // src/components/StatusBadge.jsx
 const STATUS_MAP = {
-  online:  ['badge-online',   'online'],
-  stopped: ['badge-stopped',  'stopped'],
-  error:   ['badge-error',    'error'],
-  errored: ['badge-error',    'errored'],
+  online: ['badge-online', 'online'],
+  stopped: ['badge-stopped', 'offline'],
+  error: ['badge-error', 'error'],
+  errored: ['badge-error', 'errored'],
 };
 
 export default function StatusBadge({ status }) {

@@ -240,7 +240,7 @@ export default function OverviewPage({ refreshTrigger }) {
             Bots online
           </div>
 
-          <div className="metric-val">
+          <div className="metric-val-g">
             {metrics.online}
           </div>
 
@@ -268,7 +268,7 @@ export default function OverviewPage({ refreshTrigger }) {
             Pagamentos pendentes
           </div>
 
-          <div className="metric-val">
+          <div className="metric-val-y">
             {metrics.pending}
           </div>
 
@@ -282,7 +282,7 @@ export default function OverviewPage({ refreshTrigger }) {
             Restarts (total)
           </div>
 
-          <div className="metric-val">
+          <div className="metric-val-r">
             {metrics.restarts}
           </div>
 

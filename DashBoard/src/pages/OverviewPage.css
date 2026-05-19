@@ -66,6 +66,33 @@
   margin-bottom: 10px;
 }
 
+.metric-val-g {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 30px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  color: var(--green);
+  text-shadow: 0 0 20px #23d18b91;
+}
+
+.metric-val-y {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 30px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  color: var(--yellow);
+  text-shadow: 0 0 20px #faa61a91;
+}
+
+.metric-val-r {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 30px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  color: var(--red);
+  text-shadow: 0 0 20px #ff4d6a91;
+}
+
 .metric-val {
   font-family: 'Orbitron', sans-serif;
   font-size: 30px;

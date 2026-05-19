@@ -691,6 +691,9 @@ export default function SubscriptionsPage({
   // Modal cobrança Asaas (usuário comum)
   const [billing, setBilling] = useState(null);
 
+  // Rastreia avatares com erro de carregamento
+  const [avatarErrors, setAvatarErrors] = useState({});
+
   const load = useCallback(async (f) => {
     setLoading(true);
     try {
@@ -776,6 +779,12 @@ export default function SubscriptionsPage({
     expired: 'sub-status-expired',
   };
 
+  const STATUS_LABEL = {
+    paid: 'Pago',
+    pending: 'Pendente',
+    expired: 'Expirado',
+  };
+
   return (
     <div>
 
@@ -850,14 +859,18 @@ export default function SubscriptionsPage({
 
                 {/* AVATAR sem banner */}
                 {!banner && (
-                  <img
-                    src={avatar}
-                    alt="bot"
-                    className="sub-avatar"
-                    onError={(e) => {
-                      e.currentTarget.src = <Bot size={20} />;
-                    }}
-                  />
+                  avatar && !avatarErrors[s.guildId] ? (
+                    <img
+                      src={avatar}
+                      alt="bot"
+                      className="sub-avatar"
+                      onError={() => setAvatarErrors((prev) => ({ ...prev, [s.guildId]: true }))}
+                    />
+                  ) : (
+                    <div className="sub-avatar fallback-avatar">
+                      <Bot size={20} />
+                    </div>
+                  )
                 )}
 
                 {/* INFO */}
@@ -877,7 +890,7 @@ export default function SubscriptionsPage({
                   <span style={{ fontFamily: 'var(--mono)', fontSize: 13, fontWeight: 600, color: 'var(--green)' }}>
                     R$ {Number(s.price || 0).toFixed(2)}
                   </span>
-                  <span className={`badge ${stCls}`}>{s.paymentStatus}</span>
+                  <span className={`badge ${stCls}`}>{STATUS_LABEL[s.paymentStatus] || s.paymentStatus}</span>
                 </div>
 
                 {/* ACTIONS */}

@@ -147,9 +147,9 @@ body {
 }
 
 .badge-stopped {
-  background: rgba(250, 166, 26, 0.12);
-  color: var(--yellow);
-  border: 1px solid rgba(250, 166, 26, 0.25);
+  background: rgba(250, 26, 26, 0.12);
+  color: var(--red);
+  border: 1px solid rgba(250, 26, 26, 0.25);
 }
 
 /* ── DOT PULSE ── */
