@@ -88,6 +88,18 @@ export default function Navbar() {
             style={{ padding: "10px 22px", fontSize: 13 }}
             onClick={() => {
               const url = import.meta.env.DEV
+                ? "http://localhost:5175/"
+                : "https://neurabot.com.br/GeradorEmbed/"
+              window.open(url, "_blank")
+            }}
+          >
+            Gerar Embed
+          </button>
+          <button
+            className="btn-primary"
+            style={{ padding: "10px 22px", fontSize: 13 }}
+            onClick={() => {
+              const url = import.meta.env.DEV
                 ? "http://localhost:5174/"
                 : "https://neurabot.com.br/DashBoard/"
               window.open(url, "_blank")
@@ -142,6 +154,18 @@ export default function Navbar() {
             {link.label}
           </a>
         ))}
+        <button
+          className="btn-primary"
+          style={{ marginTop: 12, padding: "12px", fontSize: 14, width: "100%" }}
+          onClick={() => {
+            const url = import.meta.env.DEV
+              ? "http://localhost:5175/"
+              : "https://neurabot.com.br/GeradorEmbed/"
+            window.open(url, "_blank")
+          }}
+        >
+          Gerar Embed
+        </button>
         <button
           className="btn-primary"
           style={{ marginTop: 12, padding: "12px", fontSize: 14, width: "100%" }}
