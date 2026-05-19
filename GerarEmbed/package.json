@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --base=/GerarEmbed/",
+    "build": "vite build --base=/GeradorEmbed/",
     "preview": "vite preview"
   },
   "dependencies": {
