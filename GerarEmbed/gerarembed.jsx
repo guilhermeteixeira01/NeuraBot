@@ -4,19 +4,19 @@ import "./gerarembed.css";
 // ── markdown parser ───────────────────────────────────────────────────────────
 const mdRules = [
   [/^#### (.*)$/gm, "<span class='d-h4'>$1</span>"],
-  [/^### (.*)$/gm,  "<span class='d-h3'>$1</span>"],
-  [/^## (.*)$/gm,   "<span class='d-h2'>$1</span>"],
-  [/^# (.*)$/gm,    "<span class='d-h1'>$1</span>"],
+  [/^### (.*)$/gm, "<span class='d-h3'>$1</span>"],
+  [/^## (.*)$/gm, "<span class='d-h2'>$1</span>"],
+  [/^# (.*)$/gm, "<span class='d-h1'>$1</span>"],
   [/\*\*\*([^*]+)\*\*\*/g, "<b><i>$1</i></b>"],
-  [/\*\*([^*]+)\*\*/g,     "<b>$1</b>"],
-  [/\*([^*]+)\*/g,         "<i>$1</i>"],
-  [/__([^_]+)__/g,         "<u>$1</u>"],
-  [/~~([^~]+)~~/g,         "<s>$1</s>"],
-  [/\|\|([^|]+)\|\|/g,     "<span class='spoiler'>$1</span>"],
-  [/```([\s\S]+?)```/g,    "<pre><code>$1</code></pre>"],
-  [/`([^`]+)`/g,           "<code>$1</code>"],
-  [/^> (.+)/gm,            "<blockquote>$1</blockquote>"],
-  [/([^\n]+\n?)/g,         "<p>$1</p>"],
+  [/\*\*([^*]+)\*\*/g, "<b>$1</b>"],
+  [/\*([^*]+)\*/g, "<i>$1</i>"],
+  [/__([^_]+)__/g, "<u>$1</u>"],
+  [/~~([^~]+)~~/g, "<s>$1</s>"],
+  [/\|\|([^|]+)\|\|/g, "<span class='spoiler'>$1</span>"],
+  [/```([\s\S]+?)```/g, "<pre><code>$1</code></pre>"],
+  [/`([^`]+)`/g, "<code>$1</code>"],
+  [/^> (.+)/gm, "<blockquote>$1</blockquote>"],
+  [/([^\n]+\n?)/g, "<p>$1</p>"],
 ];
 function fromMarkdown(str) {
   if (!str) return "";
@@ -254,8 +254,10 @@ export default function App() {
 
       {/* ══ HEADER ══════════════════════════════════════════════════════════════ */}
       <header className="app-header">
-        <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2,
-          background: "linear-gradient(90deg,transparent 0%,#00d4ff 50%,transparent 100%)" }} />
+        <div style={{
+          position: "absolute", top: 0, left: 0, right: 0, height: 2,
+          background: "linear-gradient(90deg,transparent 0%,#00d4ff 50%,transparent 100%)"
+        }} />
 
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <div style={{ position: "relative", width: 44, height: 44, flexShrink: 0 }}>
@@ -270,7 +272,7 @@ export default function App() {
               border: "2px solid #00d4ff55",
               display: "flex", alignItems: "center", justifyContent: "center",
               fontSize: 20, animation: "float 4s ease-in-out infinite",
-            }}>🤖</div>
+            }}><img src="/imgs/bot sem efeito.png" alt="Bot Icon" style={{ width: 55, position: "relative", right: 1, top: 3 }} /></div>
           </div>
           <div>
             <h1 style={{
@@ -368,15 +370,6 @@ export default function App() {
                     rows={5}
                   />
                 </InputRow>
-                <div className="shortcuts-row" style={{
-                  marginLeft: 118, fontSize: 10, color: "#8888aa77",
-                  marginBottom: 14, display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center",
-                }}>
-                  <kbd>Ctrl+B</kbd> bold ·
-                  <kbd>Ctrl+I</kbd> italic ·
-                  <kbd>Ctrl+U</kbd> underline ·
-                  <kbd>Ctrl+S</kbd> strike
-                </div>
                 <InputRow label="Thumbnail">
                   <NInput value={embed.thumbnail.url} onChange={e => set("thumbnail.url", e.target.value)} placeholder="https://i.imgur.com/..." />
                 </InputRow>
@@ -491,7 +484,7 @@ export default function App() {
           </div>
           <p style={{
             fontFamily: "'Sora',sans-serif", fontSize: 10, color: "#8888aa44",
-            textAlign: "center", letterSpacing: ".04em", marginBottom: 12,
+            textAlign: "center", letterSpacing: ".04em", marginLeft: 120, marginBottom: 12,
           }}>
             Antes de editar, aperte em <span style={{ color: "#ff446677" }}>Limpar</span>
           </p>
@@ -539,7 +532,7 @@ export default function App() {
                     width: 40, height: 40, borderRadius: "50%",
                     background: "linear-gradient(135deg,#00d4ff,#0088ff)",
                     display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18,
-                  }}>🤖</div>
+                  }}><img src="/imgs/bot sem efeito.png" alt="Bot Icon" style={{ width: 50, position: "relative", right: 1, top: 4 }} /></div>
                 </div>
 
                 <div style={{ position: "relative", width: "100%" }}>
