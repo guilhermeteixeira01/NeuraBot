@@ -2,7 +2,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './gerarembed.jsx';
-import NotFoundPage from './NotFoundPage.jsx';
+import NotFoundPage from './src/NotFoundPage.jsx';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 createRoot(document.getElementById('root')).render(
