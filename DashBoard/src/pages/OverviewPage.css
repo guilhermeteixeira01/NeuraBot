@@ -67,39 +67,33 @@
 }
 
 .metric-val-g {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 30px;
-  font-weight: 900;
-  letter-spacing: -1px;
   color: var(--green);
   text-shadow: 0 0 20px #23d18b91;
 }
 
 .metric-val-y {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 30px;
-  font-weight: 900;
-  letter-spacing: -1px;
   color: var(--yellow);
   text-shadow: 0 0 20px #faa61a91;
 }
 
 .metric-val-r {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 30px;
-  font-weight: 900;
-  letter-spacing: -1px;
   color: var(--red);
   text-shadow: 0 0 20px #ff4d6a91;
 }
 
 .metric-val {
+  color: #fff;
+  text-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+}
+
+.metric-val,
+.metric-val-g,
+.metric-val-y,
+.metric-val-r {
   font-family: 'Orbitron', sans-serif;
   font-size: 30px;
   font-weight: 900;
   letter-spacing: -1px;
-  color: #fff;
-  text-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
 }
 
 .metric-sub {
@@ -357,7 +351,10 @@
     padding: 16px;
   }
 
-  .metric-val {
+  .metric-val,
+  .metric-val-g,
+  .metric-val-y,
+  .metric-val-r {
     font-size: 22px;
   }
 
@@ -393,7 +390,10 @@
     gap: 8px;
   }
 
-  .metric-val {
+  .metric-val,
+  .metric-val-g,
+  .metric-val-y,
+  .metric-val-r {
     font-size: 18px;
   }
 
