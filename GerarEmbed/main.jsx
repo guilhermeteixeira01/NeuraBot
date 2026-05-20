@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
-        <BrowserRouter basename="/GerarEmbed/">
+        <BrowserRouter basename="/GeradorEmbed/">
             <Routes>
                 <Route path="/" element={<App />} />
                 <Route path="*" element={<NotFoundPage />} />
