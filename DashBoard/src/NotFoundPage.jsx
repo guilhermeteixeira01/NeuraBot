@@ -78,7 +78,7 @@ export default function NotFoundPage() {
             </p>
 
             <a
-                href="/"
+                href="/DashBoard/"
                 style={{
                     display: "inline-flex",
                     alignItems: "center",

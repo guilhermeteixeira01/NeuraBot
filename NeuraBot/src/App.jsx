@@ -20,7 +20,7 @@ function MainLayout() {
 
 export default function App() {
   return (
-    <BrowserRouter basename="/NeuraBot/">
+    <BrowserRouter basename="/">
       <div style={{
         background: "#07070f",
         color: "#fff",
