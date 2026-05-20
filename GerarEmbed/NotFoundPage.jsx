@@ -1,7 +1,7 @@
 export default function NotFoundPage() {
-    return (
-        <>
-            <style>{`
+  return (
+    <>
+      <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Sora:wght@300;400;600;700&display=swap');
 
         .nf-body {
@@ -253,53 +253,53 @@ export default function NotFoundPage() {
         }
       `}</style>
 
-            <div className="nf-body">
-                <div className="nf-grid-bg" />
-                <div className="nf-glow-orb nf-glow-orb-1" />
-                <div className="nf-glow-orb nf-glow-orb-2" />
-                <div className="nf-scan-line" />
+      <div className="nf-body">
+        <div className="nf-grid-bg" />
+        <div className="nf-glow-orb nf-glow-orb-1" />
+        <div className="nf-glow-orb nf-glow-orb-2" />
+        <div className="nf-scan-line" />
 
-                <nav className="nf-nav">
-                    <a href="/" className="nf-nav-logo">NEURA<span>BOT</span></a>
-                </nav>
+        <nav className="nf-nav">
+          <a href="/" className="nf-nav-logo">NEURA<span>BOT</span></a>
+        </nav>
 
-                <section className="nf-section">
-                    <div className="nf-inner">
+        <section className="nf-section">
+          <div className="nf-inner">
 
-                        <div className="nf-badge">
-                            <span className="nf-badge-dot" />
-                            Página não encontrada
-                        </div>
-
-                        <div className="nf-code">404</div>
-
-                        <h1 className="nf-title">Oops! Rota desconhecida</h1>
-                        <p className="nf-desc">
-                            A página que você está procurando não existe, foi movida ou está
-                            temporariamente indisponível. Verifique o endereço ou volte para o início.
-                        </p>
-
-                        <div className="nf-buttons">
-                            <a href="/DashBoard/" className="nf-btn-primary">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                                    <path d="M3 12L12 3l9 9" />
-                                    <path d="M9 21V12h6v9" />
-                                </svg>
-                                Voltar ao início
-                            </a>
-                        </div>
-
-                    </div>
-                </section>
-
-                <footer className="nf-footer">
-                    <span className="nf-footer-copy">© 2025 Neurabot. Todos os direitos reservados.</span>
-                    <div className="nf-footer-status">
-                        <span className="nf-status-dot" />
-                        Todos os sistemas operacionais
-                    </div>
-                </footer>
+            <div className="nf-badge">
+              <span className="nf-badge-dot" />
+              Página não encontrada
             </div>
-        </>
-    );
+
+            <div className="nf-code">404</div>
+
+            <h1 className="nf-title">Oops! Rota desconhecida</h1>
+            <p className="nf-desc">
+              A página que você está procurando não existe, foi movida ou está
+              temporariamente indisponível. Verifique o endereço ou volte para o início.
+            </p>
+
+            <div className="nf-buttons">
+              <a href="/GerarEmbed/" className="nf-btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M3 12L12 3l9 9" />
+                  <path d="M9 21V12h6v9" />
+                </svg>
+                Voltar ao início
+              </a>
+            </div>
+
+          </div>
+        </section>
+
+        <footer className="nf-footer">
+          <span className="nf-footer-copy">© 2025 Neurabot. Todos os direitos reservados.</span>
+          <div className="nf-footer-status">
+            <span className="nf-status-dot" />
+            Todos os sistemas operacionais
+          </div>
+        </footer>
+      </div>
+    </>
+  );
 }
