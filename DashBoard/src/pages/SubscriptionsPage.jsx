@@ -694,6 +694,29 @@ export default function SubscriptionsPage({
   // Rastreia avatares com erro de carregamento
   const [avatarErrors, setAvatarErrors] = useState({});
 
+  // Hoje — atualiza toda meia-noite para recalcular dias restantes
+  const [today, setToday] = useState(() => {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    return d;
+  });
+
+  useEffect(() => {
+    const now = new Date();
+    const midnight = new Date(now);
+    midnight.setDate(midnight.getDate() + 1);
+    midnight.setHours(0, 0, 0, 0);
+    const msUntilMidnight = midnight - now;
+
+    const timeout = setTimeout(() => {
+      const d = new Date();
+      d.setHours(0, 0, 0, 0);
+      setToday(d);
+    }, msUntilMidnight);
+
+    return () => clearTimeout(timeout);
+  }, [today]);
+
   const load = useCallback(async (f) => {
     setLoading(true);
     try {
@@ -757,6 +780,22 @@ export default function SubscriptionsPage({
 
   // ── UPDATE (admin) ───────────────────────────────────────────────────────
 
+  async function setPremium(guildId) {
+    if (!confirm('Tornar esta assinatura PREMIUM (gratuita, sem data de expiração)?')) return;
+    try {
+      await api(`/api/subscriptions/${guildId}`, 'PUT', {
+        price: 0,
+        paymentStatus: 'paid',
+        startDate: null,
+        endDate: null,
+      });
+      toast('★ Assinatura definida como PREMIUM!', 'success');
+      load(filter);
+    } catch (e) {
+      toast(`Erro: ${e.message}`, 'error');
+    }
+  }
+
   async function saveEdit() {
     try {
       await api(`/api/subscriptions/${editing.guildId}`, 'PUT', {
@@ -817,6 +856,14 @@ export default function SubscriptionsPage({
             ? new Date(s.endDate).toLocaleDateString('pt-BR')
             : '—';
           const stCls = STATUS_CLS[s.paymentStatus] || 'badge-offline';
+
+          const daysLeft = (() => {
+            if (!s.endDate || Number(s.price || 0) === 0) return null;
+            const endDay = new Date(s.endDate);
+            endDay.setHours(0, 0, 0, 0);
+            const diff = Math.ceil((endDay - today) / (1000 * 60 * 60 * 24));
+            return diff;
+          })();
 
           const avatar =
             s.botImgPerfil ||
@@ -880,26 +927,70 @@ export default function SubscriptionsPage({
                     ID: {s.guildId}
                     {' · '}
                     Bot: {s.botId || '—'}
-                    {' · '}
-                    Vence: {end}
+                    {s.startDate && (
+                      <>
+                        {' · '}
+                        Início: {new Date(s.startDate).toLocaleDateString('pt-BR')}
+                      </>
+                    )}
+                    {s.endDate && Number(s.price || 0) > 0 && (
+                      <>
+                        {' · '}
+                        Vence: {end}
+                        {' · '}
+                        <span style={{
+                          fontWeight: 600,
+                          color: daysLeft <= 3 ? 'var(--red, #e74c3c)' : daysLeft <= 7 ? 'var(--yellow, #f0a500)' : 'var(--green)',
+                        }}>
+                          {daysLeft > 0 ? `${daysLeft}d restantes` : daysLeft === 0 ? 'Vence hoje' : 'Expirado'}
+                        </span>
+                      </>
+                    )}
                   </div>
                 </div>
 
                 {/* PRICE + STATUS */}
                 <div className="sub-price-row" style={{ display: 'flex', gap: 8, alignItems: 'center', flexShrink: 0 }}>
-                  <span style={{ fontFamily: 'var(--mono)', fontSize: 13, fontWeight: 600, color: 'var(--green)' }}>
-                    R$ {Number(s.price || 0).toFixed(2)}
-                  </span>
-                  <span className={`badge ${stCls}`}>{STATUS_LABEL[s.paymentStatus] || s.paymentStatus}</span>
+                  {Number(s.price || 0) > 0 && (
+                    <span style={{ fontFamily: 'var(--mono)', fontSize: 13, fontWeight: 600, color: 'var(--green)' }}>
+                      R$ {Number(s.price || 0).toFixed(2)}
+                    </span>
+                  )}
+                  {Number(s.price || 0) === 0 ? (
+                    <span style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 4,
+                      fontSize: 12,
+                      fontWeight: 700,
+                      padding: '7px 10px',
+                      borderRadius: 6,
+                      background: 'linear-gradient(135deg, #b8860b, #ffd700, #b8860b)',
+                      color: '#1a1000',
+                      letterSpacing: '0.05em',
+                      boxShadow: '0 0 8px rgba(255, 215, 0, 0.4)',
+                    }}>
+                      ★ PREMIUM
+                    </span>
+                  ) : (
+                    <span className={`badge ${stCls}`}>{STATUS_LABEL[s.paymentStatus] || s.paymentStatus}</span>
+                  )}
                 </div>
 
                 {/* ACTIONS */}
                 <div className="sub-actions" style={{ display: 'flex', gap: 5, flexShrink: 0 }}>
                   {isAdmin ? (
                     <>
-                      <button className="btn btn-sm" onClick={() => registerPayment(s.guildId, s.price || 0)}>
-                        💰 Renovar
-                      </button>
+                      {Number(s.price || 0) > 0 && (
+                        <button className="btn btn-sm" onClick={() => registerPayment(s.guildId, s.price || 0)}>
+                          💰 Renovar
+                        </button>
+                      )}
+                      {Number(s.price || 0) > 0 && (
+                        <button className="btn btn-sm" onClick={() => setPremium(s.guildId)}>
+                          ★ Premium
+                        </button>
+                      )}
                       <button className="btn btn-sm" onClick={() => setEditing({ ...s })}>
                         ✏ Editar
                       </button>
@@ -908,9 +999,11 @@ export default function SubscriptionsPage({
                       </button>
                     </>
                   ) : (
-                    <button className="btn btn-sm" onClick={() => setBilling(s)}>
-                      💳 Gerar Cobrança
-                    </button>
+                    Number(s.price || 0) > 0 && (
+                      <button className="btn btn-sm" onClick={() => setBilling(s)}>
+                        💳 Gerar Cobrança
+                      </button>
+                    )
                   )}
                 </div>
 

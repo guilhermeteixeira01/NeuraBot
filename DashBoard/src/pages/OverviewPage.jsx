@@ -360,6 +360,26 @@ export default function OverviewPage({ refreshTrigger }) {
                   {b.name}
                   {' '}
                   <StatusBadge status={b.status} />
+                  {b.subscription && Number(b.subscription.price || 0) === 0 && (
+                    <span style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '3px',
+                      fontSize: '11px',
+                      fontWeight: 700,
+                      padding: '5px 10px',
+                      borderRadius: '50px',
+                      border: '1px solid rgba(255, 215, 0, 0.6)',
+                      background: 'linear-gradient(135deg, #b8860b, #ffd700, #b8860b)',
+                      color: '#1a1000',
+                      letterSpacing: '0.05em',
+                      boxShadow: '0 0 8px rgba(255, 215, 0, 0.4)',
+                      marginLeft: 4,
+                      verticalAlign: 'middle',
+                    }}>
+                      ★ PREMIUM
+                    </span>
+                  )}
                 </div>
 
                 <div className="bot-desc">
