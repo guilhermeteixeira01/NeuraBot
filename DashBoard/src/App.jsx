@@ -1,5 +1,5 @@
 // src/App.jsx
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useAuth } from './context/AuthContext';
 import { useToast } from './context/ToastContext';
 
@@ -12,7 +12,20 @@ import SubscriptionsPage from './pages/SubscriptionsPage';
 import NotificationsPage from './pages/NotificationsPage';
 import DatabasePage from './pages/DatabasePage';
 
+import { useDevToolsBlocker } from '../../NeuraBot/src/hooks/useDevToolsBlocker';
+import BlockScreen from '../../NeuraBot/src/components/ui/BlockScreen';
+
 export default function App() {
+  const [blocked, setBlocked] = useState(false);
+
+  const handleOpen = useCallback(() => setBlocked(true), []);
+  const handleClose = useCallback(() => setBlocked(false), []);
+
+  useDevToolsBlocker({ onOpen: handleOpen, onClose: handleClose });
+
+  // Enquanto DevTools estiver aberto, mostra tela de bloqueio
+  if (blocked) return <BlockScreen />;
+
   const { user, isAdmin } = useAuth();
   const { toast } = useToast();
 

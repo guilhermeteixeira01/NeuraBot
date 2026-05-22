@@ -5,8 +5,12 @@ import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import HomePage from "./pages/HomePage";
 import NotFoundPage from "./pages/NotFoundPage";
+import { useState, useCallback } from 'react';
+import { useDevToolsBlocker } from './hooks/useDevToolsBlocker';
+import BlockScreen from './components/ui/BlockScreen';
 
 function MainLayout() {
+
   return (
     <>
       <Navbar />
@@ -19,6 +23,17 @@ function MainLayout() {
 }
 
 export default function App() {
+
+  const [blocked, setBlocked] = useState(false);
+
+  const handleOpen = useCallback(() => setBlocked(true), []);
+  const handleClose = useCallback(() => setBlocked(false), []);
+
+  useDevToolsBlocker({ onOpen: handleOpen, onClose: handleClose });
+
+  // Enquanto DevTools estiver aberto, mostra tela de bloqueio
+  if (blocked) return <BlockScreen />;
+
   return (
     <BrowserRouter basename="/">
       <div style={{

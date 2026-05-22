@@ -1,5 +1,7 @@
 import { useState, useRef, useCallback } from "react";
 import "./gerarembed.css";
+import { useDevToolsBlocker } from '../NeuraBot/src/hooks/useDevToolsBlocker';
+import BlockScreen from '../NeuraBot/src/components/ui/BlockScreen';
 
 // ── markdown parser ───────────────────────────────────────────────────────────
 const mdRules = [
@@ -137,6 +139,16 @@ function Toast({ visible, message, type }) {
 
 // ── main ──────────────────────────────────────────────────────────────────────
 export default function App() {
+  const [blocked, setBlocked] = useState(false);
+
+  const handleOpen = useCallback(() => setBlocked(true), []);
+  const handleClose = useCallback(() => setBlocked(false), []);
+
+  useDevToolsBlocker({ onOpen: handleOpen, onClose: handleClose });
+
+  // Enquanto DevTools estiver aberto, mostra tela de bloqueio
+  if (blocked) return <BlockScreen />;
+  
   const [embed, setEmbed] = useState(defaultEmbed());
   const [output, setOutput] = useState("");
   const [toast, setToast] = useState({ visible: false, message: "", type: "success" });
