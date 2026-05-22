@@ -125,6 +125,231 @@
   color: rgba(0, 212, 255, 0.7);
 }
 
+/* ══════════════════════════════════════
+   DISCORD SYNC — visível só para clientes
+   ══════════════════════════════════════ */
+
+/* Header da seção */
+.dc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.dc-timestamp {
+  font-size: 11px;
+  color: var(--text3, #8888aa);
+  font-family: 'Sora', monospace;
+}
+
+/* Resumo 4 stats */
+.dc-summary {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.dc-stat {
+  flex: 1;
+  min-width: 64px;
+  background: rgba(0, 212, 255, 0.05);
+  border: 1px solid rgba(0, 212, 255, 0.1);
+  border-radius: 12px;
+  padding: 10px 8px;
+  text-align: center;
+}
+
+.dc-stat-val {
+  display: block;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #00d4ff;
+}
+
+.dc-stat-label {
+  display: block;
+  font-family: 'Sora', sans-serif;
+  font-size: 10px;
+  color: #8888aa;
+  margin-top: 2px;
+  letter-spacing: 0.5px;
+}
+
+/* Tabs */
+.dc-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.dc-tab {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(0, 212, 255, 0.1);
+  border-radius: 8px;
+  padding: 7px 14px;
+  color: #8888aa;
+  font-family: 'Sora', sans-serif;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.dc-tab:hover {
+  border-color: rgba(0, 212, 255, 0.3);
+  color: #ccc;
+}
+
+.dc-tab.active {
+  background: rgba(0, 212, 255, 0.1);
+  border-color: rgba(0, 212, 255, 0.4);
+  color: #00d4ff;
+}
+
+/* Campo de busca */
+.dc-search {
+  width: 100%;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+/* Lista de itens */
+.dc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.dc-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.dc-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dc-list::-webkit-scrollbar-thumb {
+  background: rgba(0, 212, 255, 0.2);
+  border-radius: 4px;
+}
+
+/* Item individual */
+.dc-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 10px;
+  transition: border-color 0.12s;
+}
+
+.dc-item:hover {
+  border-color: rgba(0, 212, 255, 0.15);
+}
+
+.dc-item-icon {
+  font-size: 13px;
+  width: 18px;
+  text-align: center;
+  flex-shrink: 0;
+  color: #8888aa;
+}
+
+.dc-item-name {
+  font-family: 'Sora', sans-serif;
+  font-size: 13px;
+  color: #e0e0f0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
+}
+
+.dc-item-meta {
+  font-family: 'Sora', monospace;
+  font-size: 11px;
+  color: #8888aa;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+  flex-shrink: 0;
+}
+
+.dc-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+
+.dc-item-info .dc-item-name {
+  flex: none;
+}
+
+.dc-item-info .dc-item-meta {
+  max-width: 100%;
+}
+
+/* Avatar de membro */
+.dc-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(0, 212, 255, 0.15);
+  flex-shrink: 0;
+}
+
+/* Badges de cargo no membro */
+.dc-roles-wrap {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  max-width: 140px;
+  flex-shrink: 0;
+}
+
+.dc-role-badge {
+  font-family: 'Sora', sans-serif;
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: rgba(0, 212, 255, 0.08);
+  border: 1px solid rgba(0, 212, 255, 0.15);
+  color: rgba(0, 212, 255, 0.7);
+  white-space: nowrap;
+}
+
+/* Bolinha de cor do cargo */
+.dc-role-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Empty state */
+.dc-empty {
+  font-size: 13px;
+  color: #8888aa;
+  margin-top: 10px;
+  font-family: 'Sora', sans-serif;
+}
+
 /* ── Mobile ── */
 @media (max-width: 768px) {
   .broadcast-box {
@@ -133,5 +358,21 @@
 
   .broadcast-box h3 {
     font-size: 12px;
+  }
+
+  .dc-summary {
+    gap: 6px;
+  }
+
+  .dc-stat-val {
+    font-size: 15px;
+  }
+
+  .dc-roles-wrap {
+    max-width: 90px;
+  }
+
+  .dc-item-meta {
+    max-width: 80px;
   }
 }

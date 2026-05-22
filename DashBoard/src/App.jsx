@@ -84,7 +84,7 @@ export default function App() {
               isAdmin={isAdmin}
             />
           )}
-          {currentPage === 'notifications' && isAdmin && (
+          {currentPage === 'notifications' && (
             <NotificationsPage isAdmin={isAdmin} />
           )}
           {currentPage === 'database' && isAdmin && (

@@ -11,6 +11,7 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(undefined);
   const [isAdmin, setIsAdmin] = useState(undefined);
   const [subscription, setSubscription] = useState(null);  // assinatura vinculada ao email
+  const [subscriptionLoading, setSubscriptionLoading] = useState(true); // true até resolver
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (u) => {
@@ -18,6 +19,7 @@ export function AuthProvider({ children }) {
         setUser(null);
         setIsAdmin(false);
         setSubscription(null);
+        setSubscriptionLoading(false);
         return;
       }
 
@@ -49,9 +51,12 @@ export function AuthProvider({ children }) {
           // 404 = email não vinculado a nenhuma assinatura
           setSubscription(null);
           console.warn('[AuthContext] nenhuma assinatura vinculada ao e-mail:', u.email);
+        } finally {
+          setSubscriptionLoading(false);
         }
       } else {
         setSubscription(null); // admin acessa tudo, não precisa filtrar
+        setSubscriptionLoading(false);
       }
 
       setUser(u);
@@ -61,7 +66,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isAdmin, subscription }}>
+    <AuthContext.Provider value={{ user, isAdmin, subscription, subscriptionLoading }}>
       {children}
     </AuthContext.Provider>
   );

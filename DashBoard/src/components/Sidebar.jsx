@@ -14,6 +14,7 @@ const ADMIN_NAV = [
 
 const USER_NAV = [
   { page: 'subscriptions', icon: '💳', label: 'Minha Assinatura' },
+  { page: 'notifications', icon: '🔔', label: 'Notificações' },
 ];
 
 export default function Sidebar({ activePage, onNavigate, isOpen, onClose, isAdmin }) {
