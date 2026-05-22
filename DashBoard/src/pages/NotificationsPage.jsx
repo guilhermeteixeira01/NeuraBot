@@ -358,6 +358,11 @@ export default function NotificationsPage({ isAdmin }) {
                 </div>
 
                 <div style={{ display: 'flex', gap: 8, marginTop: 10, alignItems: 'center' }}>
+                  <button className="btn btn-embed">
+                    <a href="https://neurabot.com.br/GeradorEmbed/" target="_blank">
+                      Gerar Embed
+                    </a>
+                  </button>
                   <button
                     className="btn btn-accent"
                     onClick={handleSendChannelMsg}
