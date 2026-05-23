@@ -3,6 +3,7 @@ import BotCard from "../ui/BotCard";
 import Console3D from "../ui/Console3D";
 import SectionLabel from "../ui/SectionLabel";
 import { BOTS } from "../../data/bots";
+import { Icon } from "../ui/Icons";
 
 const TAGS = ["Servidores Gamers", "E-sports", "Comunidades", "Educação", "Negócios"];
 
@@ -36,6 +37,17 @@ export default function BotsSection() {
         }
         .bot-feature-item:hover {
           border-color: var(--bot-color, #00d4ff44);
+        }
+        .bot-feature-icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 36px;
+          height: 36px;
+          border-radius: 8px;
+          background: color-mix(in srgb, var(--bot-color, #00d4ff) 12%, transparent);
+          flex-shrink: 0;
+          margin-top: 1px;
         }
         @media (max-width: 900px) {
           .bots-layout {
@@ -97,7 +109,14 @@ export default function BotsSection() {
                   className="bot-feature-item"
                   style={{ "--bot-color": bot.color }}
                 >
-                  <span style={{ fontSize: 22, lineHeight: 1 }}>{feature.icon}</span>
+                  <div className="bot-feature-icon">
+                    <Icon
+                      name={feature.icon}
+                      size={18}
+                      color={bot.color}
+                      strokeWidth={1.8}
+                    />
+                  </div>
                   <div>
                     <div style={{ color: "#fff", fontSize: 13, fontWeight: 600, marginBottom: 4 }}>
                       {feature.label}

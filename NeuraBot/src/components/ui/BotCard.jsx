@@ -1,3 +1,5 @@
+import { Icon } from "./Icons";
+
 export default function BotCard({ bot, active, onClick }) {
   return (
     <div
@@ -41,10 +43,9 @@ export default function BotCard({ bot, active, onClick }) {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontSize: 22,
           }}
         >
-          {bot.icon}
+          <Icon name={bot.icon} size={22} color={bot.color} strokeWidth={1.6} />
         </div>
         <div>
           <div

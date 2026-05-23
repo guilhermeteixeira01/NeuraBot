@@ -5,7 +5,7 @@ export const BOTS = [
     tag: "Multifuncional",
     color: "#00d4ff",
     glow: "#00d4ff44",
-    icon: "🤖",
+    icon: "cpu",
     desc: "O bot completo e totalmente configurável para o seu servidor Discord. Personalize cada detalhe do sistema de tickets, anúncios com embed e boas-vindas do jeito que você quiser.",
     stats: [
       { label: "Servidores", value: "1.2K+" },
@@ -14,17 +14,17 @@ export const BOTS = [
     ],
     features: [
       {
-        icon: "🎫",
+        icon: "message-circle",
         label: "Sistema de Tickets",
         desc: "Suporte organizado com abertura, gerenciamento e fechamento de tickets. Configure canais, cargos de suporte, mensagens e categorias do jeito que precisar.",
       },
       {
-        icon: "📢",
+        icon: "zap",
         label: "Anúncios com Embed",
         desc: "Crie anúncios profissionais com embeds totalmente personalizáveis — cor, título, descrição, imagem, rodapé e muito mais.",
       },
       {
-        icon: "👋",
+        icon: "users",
         label: "Boas-Vindas",
         desc: "Receba novos membros com mensagens automáticas e personalizadas. Configure canal, imagem, texto e mencione o membro como quiser.",
       },
@@ -35,11 +35,11 @@ export const BOTS = [
   {
     id: 2,
     name: "Neura Bot Music",
-    tag: "DESENVLOLVIMENTO",
+    tag: "DESENVOLVIMENTO",
     color: "#ffee00",
     glow: "#ffd90044",
-    icon: "🤖",
-    desc: "O bot completo com sistema de comando para escutar aquela música boa com seus amigos !!.",
+    icon: "music",
+    desc: "O bot completo com sistema de comando para escutar aquela música boa com seus amigos.",
     stats: [
       { label: "Servidores", value: "..." },
       { label: "Usuários Atendidos", value: "..." },
@@ -47,7 +47,7 @@ export const BOTS = [
     ],
     features: [
       {
-        icon: "🔊",
+        icon: "music",
         label: "Sistema de Música",
         desc: "Ouça música com seus amigos em canais de voz.",
       },

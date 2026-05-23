@@ -1,4 +1,5 @@
 import { STATS } from "../../data/site";
+import { Icon } from "../ui/Icons";
 
 export default function StatsBar() {
   return (
@@ -34,7 +35,9 @@ export default function StatsBar() {
       <div className="stats-grid">
         {STATS.map((s) => (
           <div key={s.label} style={{ textAlign: "center" }}>
-            <div style={{ fontSize: 28 }}>{s.icon}</div>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 4 }}>
+              <Icon name={s.icon} size={28} color="#00d4ff" strokeWidth={1.5} />
+            </div>
             <div
               style={{
                 fontFamily: "'Orbitron', sans-serif",

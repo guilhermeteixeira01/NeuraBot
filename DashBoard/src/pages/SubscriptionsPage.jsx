@@ -11,6 +11,132 @@ import {
   X,
 } from 'lucide-react';
 
+// ─── SVG Icons ───────────────────────────────────────────────────────────────
+
+const IconPix = ({ size = 24 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2L7 7H4V10L2 12L4 14V17H7L12 22L17 17H20V14L22 12L20 10V7H17L12 2Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+    <path d="M9 12L11 14L15 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const IconBoleto = ({ size = 24 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" strokeWidth="1.5" />
+    <path d="M6 9V15M8 9V15M11 9V15M13 9V15M16 9V15M18 9V15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+  </svg>
+);
+
+const IconCreditCard = ({ size = 24 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" strokeWidth="1.5" />
+    <path d="M2 10H22" stroke="currentColor" strokeWidth="1.5" />
+    <rect x="5" y="13" width="4" height="2" rx="0.5" fill="currentColor" />
+  </svg>
+);
+
+const IconClock = ({ size = 20 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" />
+    <path d="M12 7V12L15 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const IconDocument = ({ size = 20 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+    <path d="M14 2V8H20" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+    <line x1="8" y1="13" x2="16" y2="13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    <line x1="8" y1="17" x2="16" y2="17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+  </svg>
+);
+
+const IconMoney = ({ size = 20 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" />
+    <path d="M12 7V17M9 9.5C9 8.67 10.34 8 12 8C13.66 8 15 8.67 15 9.5C15 10.33 13.66 11 12 11C10.34 11 9 11.67 9 12.5C9 13.33 10.34 14 12 14C13.66 14 15 13.33 15 12.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+  </svg>
+);
+
+const IconCheckCircle = ({ size = 48 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" />
+    <path d="M8 12L11 15L16 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const IconCopy = ({ size = 16 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="9" y="9" width="11" height="11" rx="2" stroke="currentColor" strokeWidth="1.5" />
+    <path d="M5 15H4C3.46957 15 2.96086 14.7893 2.58579 14.4142C2.21071 14.0391 2 13.5304 2 13V4C2 3.46957 2.21071 2.96086 2.58579 2.58579C2.96086 2.21071 3.46957 2 4 2H13C13.5304 2 14.0391 2.21071 14.4142 2.58579C14.7893 2.96086 15 3.46957 15 4V5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+  </svg>
+);
+
+const IconPrint = ({ size = 16 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M6 9V2H18V9" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+    <rect x="2" y="9" width="20" height="9" rx="2" stroke="currentColor" strokeWidth="1.5" />
+    <path d="M6 14H18V22H6V14Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+    <circle cx="18" cy="12" r="1" fill="currentColor" />
+  </svg>
+);
+
+const IconLink = ({ size = 16 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M10 13C10.4295 13.5741 10.9774 14.0491 11.6066 14.3929C12.2357 14.7367 12.9315 14.9411 13.6467 14.9923C14.3618 15.0435 15.0796 14.9403 15.7513 14.6897C16.4231 14.4392 17.0331 14.047 17.54 13.54L20.54 10.54C21.4508 9.59699 21.9548 8.33397 21.9434 7.02299C21.932 5.71201 21.4061 4.45794 20.4791 3.53087C19.5521 2.6038 18.298 2.07799 16.987 2.0666C15.676 2.0552 14.413 2.55918 13.47 3.46997L11.75 5.17997" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    <path d="M14 11C13.5705 10.4259 13.0226 9.95083 12.3934 9.60704C11.7643 9.26326 11.0685 9.05891 10.3533 9.00769C9.63816 8.95647 8.92037 9.05966 8.24864 9.31023C7.5769 9.5608 6.96689 9.95297 6.46 10.46L3.46 13.46C2.54921 14.403 2.04524 15.666 2.0566 16.977C2.06796 18.288 2.59377 19.5421 3.52084 20.4691C4.44791 21.3962 5.70199 21.922 7.01297 21.9334C8.32395 21.9448 9.58697 21.4408 10.53 20.53L12.24 18.82" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+  </svg>
+);
+
+const IconTrash = ({ size = 16 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3 6H5H21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    <path d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6L18 20C18 20.5304 17.7893 21.0391 17.4142 21.4142C17.0391 21.7893 16.5304 22 16 22H8C7.46957 22 6.96086 21.7893 6.58579 21.4142C6.21071 21.0391 6 20.5304 6 20L5 6H19Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const IconEdit = ({ size = 16 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M18.5 2.5C18.8978 2.10217 19.4374 1.87868 20 1.87868C20.5626 1.87868 21.1022 2.10217 21.5 2.5C21.8978 2.89782 22.1213 3.43739 22.1213 4C22.1213 4.56261 21.8978 5.10217 21.5 5.5L12 15L8 16L9 12L18.5 2.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const IconRocket = ({ size = 16 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M4.5 16.5C3 17.76 2.5 21.5 2.5 21.5C2.5 21.5 6.24 21 7.5 19.5C8.21 18.66 8.2 17.37 7.41 16.59C7.02 16.21 6.5 16 5.96 16C5.41 16.01 4.89 16.21 4.5 16.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M12 15L9 12C9.79 10.26 10.97 8.72 12.44 7.49C14.69 5.62 17.5 4.5 20.5 4.5C20.5 7.5 19.38 10.31 17.51 12.56C16.28 14.03 14.74 15.21 13 16L12 15Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M9 12H4C4 12 4.7 9.5 6.5 8L9 12Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M12 15V20C12 20 14.5 19.3 16 17.5L12 15Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const IconRefresh = ({ size = 16 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M1 4V10H7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M23 20V14H17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M20.49 9C19.9828 7.56677 19.1209 6.28509 17.9845 5.27501C16.8482 4.26493 15.4745 3.55976 13.9917 3.22426C12.5089 2.88875 10.9652 2.93434 9.50481 3.35677C8.04437 3.77921 6.71475 4.56471 5.64 5.64L1 10M23 14L18.36 18.36C17.2853 19.4353 15.9556 20.2208 14.4952 20.6432C13.0348 21.0657 11.4911 21.1112 10.0083 20.7757C8.52547 20.4402 7.1518 19.7351 6.01547 18.725C4.87913 17.7149 4.01717 16.4332 3.51 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const IconStar = ({ size = 14 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+  </svg>
+);
+
+const IconArrowLeft = ({ size = 16 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const IconClose = ({ size = 16 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+  </svg>
+);
+
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { api } from '../services/api';
 import { useAuth } from '../context/AuthContext';
@@ -75,7 +201,7 @@ function BillingModal({ sub, onClose }) {
         if (subData?.paymentStatus === 'paid') {
           clearInterval(pollRef.current);
           setPaid(true);
-          toast('🎉 Pagamento confirmado! Assinatura renovada.', 'success');
+          toast('Pagamento confirmado! Assinatura renovada.', 'success');
         }
       } catch { /* silencia erros de polling */ }
 
@@ -213,12 +339,16 @@ function BillingModal({ sub, onClose }) {
   }
 
   const METHOD_LABELS = {
-    PIX: { icon: '⚡', label: 'PIX', desc: 'Pagamento instantâneo' },
-    BOLETO: { icon: '🏦', label: 'Boleto', desc: 'Vence em 3 dias úteis' },
-    CREDIT_CARD: { icon: '💳', label: 'Cartão de Crédito', desc: 'Débito imediato' },
+    PIX: { icon: <IconPix size={24} />, label: 'PIX', desc: 'Pagamento instantâneo' },
+    BOLETO: { icon: <IconBoleto size={24} />, label: 'Boleto', desc: 'Vence em 3 dias úteis' },
+    CREDIT_CARD: { icon: <IconCreditCard size={24} />, label: 'Cartão de Crédito', desc: 'Débito imediato' },
   };
 
-  const BILLING_ICONS = { PIX: '⚡', BOLETO: '🏦', CREDIT_CARD: '💳' };
+  const BILLING_ICONS = {
+    PIX: <IconPix size={20} />,
+    BOLETO: <IconBoleto size={20} />,
+    CREDIT_CARD: <IconCreditCard size={20} />,
+  };
 
   return (
     <div className="modal-overlay">
@@ -226,19 +356,19 @@ function BillingModal({ sub, onClose }) {
 
         {/* ── Header ── */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-          <h3 style={{ margin: 0 }}>
-            {step === 'loading_charges' && '⏳ Verificando faturas...'}
-            {step === 'existing' && '📄 Fatura em Aberto'}
-            {step === 'choose' && '💰 Gerar Cobrança'}
-            {step === 'form' && `${METHOD_LABELS[method]?.icon} Pagar via ${METHOD_LABELS[method]?.label}`}
-            {step === 'result' && '✅ Cobrança Gerada'}
+          <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+            {step === 'loading_charges' && <><IconClock size={18} /> Verificando faturas...</>}
+            {step === 'existing' && <><IconDocument size={18} /> Fatura em Aberto</>}
+            {step === 'choose' && <><IconMoney size={18} /> Gerar Cobrança</>}
+            {step === 'form' && <>{METHOD_LABELS[method]?.icon} Pagar via {METHOD_LABELS[method]?.label}</>}
+            {step === 'result' && <><IconCheckCircle size={18} /> Cobrança Gerada</>}
           </h3>
           <button
             className="btn btn-sm btn-danger"
             onClick={handleClose}
             style={{ padding: '4px 10px' }}
           >
-            ✕
+            <IconClose size={14} />
           </button>
         </div>
 
@@ -291,7 +421,7 @@ function BillingModal({ sub, onClose }) {
               border: '1px solid var(--yellow, #f0a500)',
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                <span style={{ fontSize: 20 }}>{BILLING_ICONS[existingCharge.billingType] || '📄'}</span>
+                <span style={{ fontSize: 20, display: 'flex', alignItems: 'center' }}>{BILLING_ICONS[existingCharge.billingType] || <IconDocument size={20} />}</span>
                 <span style={{ fontWeight: 600, color: 'var(--text2)' }}>
                   {existingCharge.billingType === 'PIX' && 'PIX'}
                   {existingCharge.billingType === 'BOLETO' && 'Boleto Bancário'}
@@ -349,8 +479,8 @@ function BillingModal({ sub, onClose }) {
                     }}>
                       {existingCharge.pixPayload}
                     </div>
-                    <button className="btn" style={{ width: '100%' }} onClick={() => copyToClipboard(existingCharge.pixPayload)}>
-                      📋 Copiar código PIX
+                    <button className="btn" style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }} onClick={() => copyToClipboard(existingCharge.pixPayload)}>
+                      <IconCopy size={14} /> Copiar código PIX
                     </button>
                   </>
                 )}
@@ -366,9 +496,9 @@ function BillingModal({ sub, onClose }) {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn"
-                    style={{ textAlign: 'center', textDecoration: 'none' }}
+                    style={{ textAlign: 'center', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
                   >
-                    🖨️ Visualizar / Imprimir Boleto
+                    <IconPrint size={14} /> Visualizar / Imprimir Boleto
                   </a>
                 )}
                 {existingCharge.invoiceUrl && (
@@ -377,9 +507,9 @@ function BillingModal({ sub, onClose }) {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn btn-sm"
-                    style={{ textAlign: 'center', textDecoration: 'none' }}
+                    style={{ textAlign: 'center', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
                   >
-                    🔗 Link da Fatura
+                    <IconLink size={14} /> Link da Fatura
                   </a>
                 )}
               </div>
@@ -390,9 +520,9 @@ function BillingModal({ sub, onClose }) {
               className="btn btn-danger"
               onClick={handleCancelCharge}
               disabled={loading}
-              style={{ marginTop: 4 }}
+              style={{ marginTop: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
             >
-              {loading ? '⏳ Cancelando...' : '🗑 Cancelar e gerar nova cobrança'}
+              {loading ? <><IconClock size={14} /> Cancelando...</> : <><IconTrash size={14} /> Cancelar e gerar nova cobrança</>}
             </button>
 
           </div>
@@ -408,7 +538,7 @@ function BillingModal({ sub, onClose }) {
                 onClick={() => handleMethodSelect(key)}
                 style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 18px', textAlign: 'left', fontSize: 15 }}
               >
-                <span style={{ fontSize: 24 }}>{icon}</span>
+                <span style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>{icon}</span>
                 <div>
                   <div style={{ fontWeight: 600 }}>{label}</div>
                   <div style={{ fontSize: 12, color: 'var(--text3)', fontWeight: 400 }}>{desc}</div>
@@ -504,19 +634,20 @@ function BillingModal({ sub, onClose }) {
                 className="btn"
                 onClick={handleSubmit}
                 disabled={loading}
-                style={{ flex: 1 }}
+                style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
               >
                 {loading
-                  ? (method === 'PIX' ? '⏳ Gerando QR Code...' : '⏳ Gerando...')
-                  : '🚀 Gerar Cobrança'
+                  ? <><IconClock size={14} /> {method === 'PIX' ? 'Gerando QR Code...' : 'Gerando...'}</>
+                  : <><IconRocket size={14} /> Gerar Cobrança</>
                 }
               </button>
               <button
                 className="btn btn-danger"
                 onClick={() => setStep('choose')}
                 disabled={loading}
+                style={{ display: 'flex', alignItems: 'center', gap: 6 }}
               >
-                ← Voltar
+                <IconArrowLeft size={14} /> Voltar
               </button>
             </div>
 
@@ -562,8 +693,8 @@ function BillingModal({ sub, onClose }) {
                     }}>
                       {result.pixData.payload}
                     </div>
-                    <button className="btn" style={{ width: '100%' }} onClick={() => copyToClipboard(result.pixData.payload)}>
-                      📋 Copiar código PIX
+                    <button className="btn" style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }} onClick={() => copyToClipboard(result.pixData.payload)}>
+                      <IconCopy size={14} /> Copiar código PIX
                     </button>
                   </>
                 )}
@@ -592,9 +723,9 @@ function BillingModal({ sub, onClose }) {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn"
-                    style={{ textAlign: 'center', textDecoration: 'none' }}
+                    style={{ textAlign: 'center', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
                   >
-                    🖨️ Visualizar / Imprimir Boleto
+                    <IconPrint size={14} /> Visualizar / Imprimir Boleto
                   </a>
                 )}
                 {result.charge.invoiceUrl && (
@@ -603,9 +734,9 @@ function BillingModal({ sub, onClose }) {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn btn-sm"
-                    style={{ textAlign: 'center', textDecoration: 'none' }}
+                    style={{ textAlign: 'center', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
                   >
-                    🔗 Link da Fatura
+                    <IconLink size={14} /> Link da Fatura
                   </a>
                 )}
               </div>
@@ -614,7 +745,9 @@ function BillingModal({ sub, onClose }) {
             {/* CARTÃO */}
             {method === 'CREDIT_CARD' && result.charge && (
               <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: 48, marginBottom: 8 }}>✅</div>
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 8, color: 'var(--green)' }}>
+                  <IconCheckCircle size={48} />
+                </div>
                 <p style={{ color: 'var(--text2)', margin: 0, fontWeight: 600 }}>
                   Pagamento com cartão processado!
                 </p>
@@ -656,7 +789,7 @@ function BillingModal({ sub, onClose }) {
                 fontWeight: 600,
                 color: 'var(--green)',
               }}>
-                ✅ Pagamento confirmado! Assinatura renovada.
+                <IconCheckCircle size={18} /> Pagamento confirmado! Assinatura renovada.
               </div>
             )}
 
@@ -789,7 +922,7 @@ export default function SubscriptionsPage({
         startDate: null,
         endDate: null,
       });
-      toast('★ Assinatura definida como PREMIUM!', 'success');
+      toast('Assinatura definida como PREMIUM!', 'success');
       load(filter);
     } catch (e) {
       toast(`Erro: ${e.message}`, 'error');
@@ -830,8 +963,8 @@ export default function SubscriptionsPage({
       {/* HEADER */}
       <div className="section-header">
         <div className="section-title">Assinaturas</div>
-        <button className="btn btn-sm" onClick={() => load(filter)}>
-          ↻ Recarregar
+        <button className="btn btn-sm" onClick={() => load(filter)} style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+          <IconRefresh size={14} /> Recarregar
         </button>
       </div>
 
@@ -970,7 +1103,7 @@ export default function SubscriptionsPage({
                       letterSpacing: '0.05em',
                       boxShadow: '0 0 8px rgba(255, 215, 0, 0.4)',
                     }}>
-                      ★ PREMIUM
+                      <IconStar size={12} /> PREMIUM
                     </span>
                   ) : (
                     <span className={`badge ${stCls}`}>{STATUS_LABEL[s.paymentStatus] || s.paymentStatus}</span>
@@ -982,26 +1115,26 @@ export default function SubscriptionsPage({
                   {isAdmin ? (
                     <>
                       {Number(s.price || 0) > 0 && (
-                        <button className="btn btn-sm" onClick={() => registerPayment(s.guildId, s.price || 0)}>
-                          💰 Renovar
+                        <button className="btn btn-sm" onClick={() => registerPayment(s.guildId, s.price || 0)} style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                          <IconMoney size={13} /> Renovar
                         </button>
                       )}
                       {Number(s.price || 0) > 0 && (
-                        <button className="btn btn-sm" onClick={() => setPremium(s.guildId)}>
-                          ★ Premium
+                        <button className="btn btn-sm" onClick={() => setPremium(s.guildId)} style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                          <IconStar size={13} /> Premium
                         </button>
                       )}
-                      <button className="btn btn-sm" onClick={() => setEditing({ ...s })}>
-                        ✏ Editar
+                      <button className="btn btn-sm" onClick={() => setEditing({ ...s })} style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                        <IconEdit size={13} /> Editar
                       </button>
-                      <button className="btn btn-sm btn-danger" onClick={() => deleteSub(s.guildId)}>
-                        🗑
+                      <button className="btn btn-sm btn-danger" onClick={() => deleteSub(s.guildId)} style={{ display: 'inline-flex', alignItems: 'center' }}>
+                        <IconTrash size={13} />
                       </button>
                     </>
                   ) : (
                     Number(s.price || 0) > 0 && (
-                      <button className="btn btn-sm" onClick={() => setBilling(s)}>
-                        💳 Gerar Cobrança
+                      <button className="btn btn-sm" onClick={() => setBilling(s)} style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                        <IconCreditCard size={13} /> Gerar Cobrança
                       </button>
                     )
                   )}

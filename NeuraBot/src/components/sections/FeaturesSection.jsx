@@ -1,5 +1,6 @@
 import SectionLabel from "../ui/SectionLabel";
 import { FEATURES } from "../../data/site";
+import { Icon } from "../../components/ui/Icons";
 
 export default function FeaturesSection() {
   return (
@@ -96,7 +97,20 @@ function FeatureCard({ feature: f }) {
         overflow: "hidden",
       }}
     >
-      <div style={{ fontSize: 32, marginBottom: 16 }}>{f.icon}</div>
+      <div
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: 48,
+          height: 48,
+          borderRadius: 12,
+          background: `color-mix(in srgb, ${f.color} 12%, transparent)`,
+          marginBottom: 16,
+        }}
+      >
+        <Icon name={f.icon} size={24} color={f.color} strokeWidth={1.6} />
+      </div>
       <h3
         style={{
           fontFamily: "'Orbitron', sans-serif",
