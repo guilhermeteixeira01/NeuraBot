@@ -1,3 +1,5 @@
+import botlogo from "../../../../imgs/bot sem efeito.png";
+
 export default function CTASection() {
   return (
     <section
@@ -39,7 +41,7 @@ export default function CTASection() {
       <div style={{ position: "relative", zIndex: 1 }}>
         <div style={{ display: "inline-block", animation: "float 4s ease-in-out infinite", marginBottom: 32 }}>
           <img
-            src="/imgs/bot sem efeito.png"
+            src={botlogo}
             alt="Mascote Neura Bot"
             style={{ width: 120, filter: "drop-shadow(0 0 30px #00d4ff66)" }}
           />

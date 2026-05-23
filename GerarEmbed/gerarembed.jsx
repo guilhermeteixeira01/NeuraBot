@@ -2,6 +2,7 @@ import { useState, useRef, useCallback } from "react";
 import "./gerarembed.css";
 import { useDevToolsBlocker } from '../NeuraBot/src/hooks/useDevToolsBlocker';
 import BlockScreen from '../NeuraBot/src/components/ui/BlockScreen';
+import botlogo from "../imgs/bot sem efeito.png";
 
 // ── markdown parser ───────────────────────────────────────────────────────────
 const mdRules = [
@@ -148,7 +149,7 @@ export default function App() {
 
   // Enquanto DevTools estiver aberto, mostra tela de bloqueio
   if (blocked) return <BlockScreen />;
-  
+
   const [embed, setEmbed] = useState(defaultEmbed());
   const [output, setOutput] = useState("");
   const [toast, setToast] = useState({ visible: false, message: "", type: "success" });
@@ -284,7 +285,7 @@ export default function App() {
               border: "2px solid #00d4ff55",
               display: "flex", alignItems: "center", justifyContent: "center",
               fontSize: 20, animation: "float 4s ease-in-out infinite",
-            }}><img src="/imgs/bot sem efeito.png" alt="Bot Icon" style={{ width: 55, position: "relative", right: 1, top: 3 }} /></div>
+            }}><img src={botlogo} alt="Bot Icon" style={{ width: 55, position: "relative", right: 1, top: 3 }} /></div>
           </div>
           <div>
             <h1 style={{
@@ -544,7 +545,7 @@ export default function App() {
                     width: 40, height: 40, borderRadius: "50%",
                     background: "linear-gradient(135deg,#00d4ff,#0088ff)",
                     display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18,
-                  }}><img src="/imgs/bot sem efeito.png" alt="Bot Icon" style={{ width: 50, position: "relative", right: 1, top: 4 }} /></div>
+                  }}><img src={botlogo} alt="Bot Icon" style={{ width: 50, position: "relative", right: 1, top: 4 }} /></div>
                 </div>
 
                 <div style={{ position: "relative", width: "100%" }}>

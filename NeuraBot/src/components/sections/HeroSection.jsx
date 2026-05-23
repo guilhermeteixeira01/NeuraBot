@@ -1,5 +1,6 @@
 import ParticleField from "../ui/ParticleField";
 import { STATS } from "../../data/site";
+import botlogo from "../../../../imgs/bot sem efeito.png";
 
 export default function HeroSection() {
   return (
@@ -247,7 +248,7 @@ export default function HeroSection() {
               >
                 <img
                   className="hero-mascot-img"
-                  src="/imgs/bot sem efeito.png"
+                  src={botlogo}
                   alt="Mascote Neura Bot"
                   style={{
                     position: "relative",
