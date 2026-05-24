@@ -354,6 +354,8 @@
 @media (max-width: 768px) {
   .broadcast-box {
     padding: 14px;
+    /* Garante que nada vaze para fora do card */
+    overflow: hidden;
   }
 
   .broadcast-box h3 {
@@ -368,11 +370,87 @@
     font-size: 15px;
   }
 
-  .dc-roles-wrap {
-    max-width: 90px;
+  /* ── Correção principal: itens não podem ultrapassar o container ── */
+  .dc-list {
+    /* Remove o padding-right que pode causar scroll horizontal */
+    padding-right: 2px;
+    /* Força o scroll apenas vertical */
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .dc-item {
+    /* Impede que o flex item estoure a largura do pai */
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+    /* Reduz padding para caber melhor */
+    padding: 7px 8px;
+    gap: 7px;
+  }
+
+  .dc-item-name {
+    /* Trunca o nome se for longo demais */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+    font-size: 12px;
   }
 
   .dc-item-meta {
+    /* Reduz largura máxima e garante truncamento */
+    max-width: 72px;
+    font-size: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 0;
+  }
+
+  /* Em mobile, esconde o meta de canal (topic) se não couber */
+  .dc-item-info {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .dc-item-info .dc-item-meta {
+    max-width: 100%;
+  }
+
+  /* Badges de cargo — menos por linha */
+  .dc-roles-wrap {
     max-width: 80px;
+    gap: 3px;
+  }
+
+  .dc-role-badge {
+    font-size: 9px;
+    padding: 2px 5px;
+  }
+
+  /* Avatar um pouco menor */
+  .dc-avatar {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Tabs compactas */
+  .dc-tab {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  /* Campo de busca sem overflow */
+  .dc-search {
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  /* Header não quebra feio */
+  .dc-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
   }
 }
