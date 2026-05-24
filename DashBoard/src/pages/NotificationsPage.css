@@ -401,8 +401,9 @@
     max-width: 100%;
   }
 
-  /* Esconde scrollbar no mobile — scroll ainda funciona */
   .dc-list {
+    height: 340px;
+    max-height: 340px;
     scrollbar-width: none;
     -ms-overflow-style: none;
   }

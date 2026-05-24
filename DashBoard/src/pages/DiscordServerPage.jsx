@@ -1,5 +1,5 @@
 // src/pages/DiscordServerPage.jsx
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { useLog } from '../context/LogContext';
@@ -172,6 +172,8 @@ export default function DiscordServerPage() {
         .filter(r => r.name.toLowerCase().includes(q))
         .sort((a, b) => b.position - a.position);
 
+    const listRef = useRef(null);
+
     // ── Handler: enviar mensagem para canal ───────────────
     async function handleSendChannelMsg() {
         if (!selectedChannelId) return toast('Selecione um canal', 'error');
@@ -271,7 +273,7 @@ export default function DiscordServerPage() {
                             <button
                                 key={t.id}
                                 className={`dc-tab${discordTab === t.id ? ' active' : ''}`}
-                                onClick={() => { setDiscordTab(t.id); setDiscordSearch(''); }}
+                                onClick={() => { setDiscordTab(t.id); setDiscordSearch(''); if (listRef.current) listRef.current.scrollTop = 0; }}
                                 style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}
                             >
                                 {t.icon}{t.label}
@@ -300,7 +302,7 @@ export default function DiscordServerPage() {
                             Nenhum dado sincronizado ainda. Aguarde o bot enviar os dados.
                         </p>
                     ) : (
-                        <div className="dc-list">
+                        <div className="dc-list" ref={listRef}>
 
                             {discordTab === 'channels' && (
                                 filteredChannels.length === 0
