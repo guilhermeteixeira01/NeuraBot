@@ -8,6 +8,9 @@
   padding: 20px;
   backdrop-filter: blur(10px);
   transition: border-color 0.18s ease;
+  overflow: hidden;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .broadcast-box:hover {
@@ -225,7 +228,9 @@
   gap: 4px;
   max-height: 320px;
   overflow-y: auto;
+  overflow-x: hidden;
   padding-right: 4px;
+  max-width: 100%;
 }
 
 .dc-list::-webkit-scrollbar {
