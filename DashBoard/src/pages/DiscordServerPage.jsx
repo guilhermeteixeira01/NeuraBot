@@ -113,6 +113,7 @@ export default function DiscordServerPage() {
     const [loadingDiscord, setLoadingDiscord] = useState(false);
     const [discordTab, setDiscordTab] = useState('channels');
     const [discordSearch, setDiscordSearch] = useState('');
+    const [channelPage, setChannelPage] = useState(0);
 
     // ── Enviar mensagem para canal ─────────────────────────
     const [selectedChannelId, setSelectedChannelId] = useState('');
@@ -273,7 +274,7 @@ export default function DiscordServerPage() {
                             <button
                                 key={t.id}
                                 className={`dc-tab${discordTab === t.id ? ' active' : ''}`}
-                                onClick={() => { setDiscordTab(t.id); setDiscordSearch(''); if (listRef.current) listRef.current.scrollTop = 0; }}
+                                onClick={() => { setDiscordTab(t.id); setDiscordSearch(''); setChannelPage(0); if (listRef.current) listRef.current.scrollTop = 0; }}
                                 style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}
                             >
                                 {t.icon}{t.label}
@@ -289,7 +290,7 @@ export default function DiscordServerPage() {
                                     discordTab === 'members' ? 'Buscar membro...' : 'Buscar cargo...'
                             }
                             value={discordSearch}
-                            onChange={(e) => setDiscordSearch(e.target.value)}
+                            onChange={(e) => { setDiscordSearch(e.target.value); setChannelPage(0); }}
                         />
                     )}
 
@@ -304,25 +305,49 @@ export default function DiscordServerPage() {
                     ) : (
                         <div className="dc-list" ref={listRef}>
 
-                            {discordTab === 'channels' && (
-                                filteredChannels.length === 0
+                            {discordTab === 'channels' && (() => {
+                                const PAGE_SIZE = 10;
+                                const paged = filteredChannels.slice(0, (channelPage + 1) * PAGE_SIZE);
+                                const hasMore = paged.length < filteredChannels.length;
+                                return filteredChannels.length === 0
                                     ? <p className="dc-empty">Nenhum canal encontrado.</p>
-                                    : filteredChannels.map(c => (
-                                        <div key={c.id} className="dc-item">
-                                            <span className="dc-item-icon" style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-                                                {CHANNEL_ICON_MAP[c.type] || <IconHash size={13} />}
-                                            </span>
-                                            <div className="dc-item-info">
-                                                <span className="dc-item-name">{c.name}</span>
-                                                {c.topic && (
-                                                    <span className="dc-item-meta" title={c.topic}>
-                                                        {c.topic.slice(0, 40)}{c.topic.length > 40 ? '…' : ''}
-                                                    </span>
-                                                )}
+                                    : <>
+                                        {paged.map(c => (
+                                            <div key={c.id} className="dc-item">
+                                                <span className="dc-item-icon" style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+                                                    {CHANNEL_ICON_MAP[c.type] || <IconHash size={13} />}
+                                                </span>
+                                                <div className="dc-item-info">
+                                                    <span className="dc-item-name">{c.name}</span>
+                                                    {c.topic && (
+                                                        <span className="dc-item-meta" title={c.topic}>
+                                                            {c.topic.slice(0, 40)}{c.topic.length > 40 ? '…' : ''}
+                                                        </span>
+                                                    )}
+                                                </div>
                                             </div>
-                                        </div>
-                                    ))
-                            )}
+                                        ))}
+                                        {hasMore && (
+                                            <button
+                                                onClick={() => setChannelPage(p => p + 1)}
+                                                style={{
+                                                    background: 'rgba(0,212,255,0.06)',
+                                                    border: '1px solid rgba(0,212,255,0.15)',
+                                                    borderRadius: 10,
+                                                    color: '#00d4ff',
+                                                    fontFamily: "'Sora', sans-serif",
+                                                    fontSize: 12,
+                                                    padding: '8px 0',
+                                                    cursor: 'pointer',
+                                                    width: '100%',
+                                                    marginTop: 2,
+                                                }}
+                                            >
+                                                Ver mais ({filteredChannels.length - paged.length} restantes)
+                                            </button>
+                                        )}
+                                    </>;
+                            })()}
 
                             {discordTab === 'members' && (
                                 filteredMembers.length === 0
