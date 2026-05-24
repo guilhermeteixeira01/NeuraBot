@@ -408,7 +408,11 @@
     flex-shrink: 0;
   }
 
-  /* Em mobile, esconde o meta de canal (topic) se não couber */
+  /* Em mobile, esconde o topic do canal (dc-item-meta direto no dc-item, não dentro de dc-item-info) */
+  .dc-item>.dc-item-meta {
+    display: none;
+  }
+
   .dc-item-info {
     min-width: 0;
     overflow: hidden;
