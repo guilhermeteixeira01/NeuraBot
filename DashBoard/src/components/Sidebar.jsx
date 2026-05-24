@@ -70,6 +70,7 @@ const ADMIN_NAV = [
 const USER_NAV = [
   { page: 'subscriptions', icon: <IconCreditCard size={18} />, label: 'Minha Assinatura' },
   { page: 'notifications', icon: <IconBell size={18} />, label: 'Notificações' },
+  { page: 'discordServer', icon: <IconBot size={18} />, label: 'Servidor Discord' },
 ];
 
 export default function Sidebar({ activePage, onNavigate, isOpen, onClose, isAdmin }) {

@@ -27,6 +27,7 @@ const PAGE_TITLES = {
   notifications: 'Notificações',
   logs: 'Logs',
   database: 'MySQL',
+  discordServer: 'Dados do Servidor Discord',
 };
 
 export default function Topbar({ activePage, onRefresh, onMenuToggle }) {

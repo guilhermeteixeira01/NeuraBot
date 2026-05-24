@@ -197,8 +197,13 @@ function BillingModal({ sub, onClose }) {
       attempts++;
       setPollCount(attempts);
       try {
+        if (!sub.dashboardEmail) return; // guard: evita URL malformada
         const subData = await api(`/api/subscriptions/by-email/${sub.dashboardEmail}`);
-        if (subData?.paymentStatus === 'paid') {
+        // Filtra pelo guildId correto para não confirmar pagamento de outra assinatura
+        const match = Array.isArray(subData)
+          ? subData.find((s) => s.guildId === sub.guildId)
+          : subData?.guildId === sub.guildId ? subData : null;
+        if (match?.paymentStatus === 'paid') {
           clearInterval(pollRef.current);
           setPaid(true);
           toast('Pagamento confirmado! Assinatura renovada.', 'success');
@@ -289,6 +294,16 @@ function BillingModal({ sub, onClose }) {
         toast('Preencha todos os dados do cartão.', 'error');
         return;
       }
+      const expiryDigits = card.expiry.replace(/\D/g, '');
+      if (expiryDigits.length !== 6) {
+        toast('Validade inválida. Use o formato MM/AAAA (ex: 08/2027).', 'error');
+        return;
+      }
+      const expMonth = parseInt(expiryDigits.slice(0, 2), 10);
+      if (expMonth < 1 || expMonth > 12) {
+        toast('Mês de validade inválido.', 'error');
+        return;
+      }
     }
 
     setLoading(true);
@@ -296,7 +311,7 @@ function BillingModal({ sub, onClose }) {
       const body = {
         guildId: sub.guildId,
         ownerName: ownerName.trim(),
-        ownerEmail: sub.dashboardEmail || undefined,
+        ...(sub.dashboardEmail ? { ownerEmail: sub.dashboardEmail } : {}),
         cpfCnpj: rawCpf,
         amount: sub.price,
         billingType: method,
@@ -315,7 +330,9 @@ function BillingModal({ sub, onClose }) {
         body.creditCardHolderInfo = {
           name: ownerName.trim(),
           cpfCnpj: rawCpf,
-          email: sub.dashboardEmail || undefined,
+          ...(sub.dashboardEmail ? { email: sub.dashboardEmail } : {}),
+          // phone, postalCode e addressNumber devem ser preenchidos pelo backend
+          // caso a conta Asaas exija esses campos — verificar server.js
         };
       }
 
@@ -383,12 +400,22 @@ function BillingModal({ sub, onClose }) {
             />
           )}
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px' }}>
-            <img
-              src={sub.botImgPerfil || sub.botAvatar || <Bot size={20} />}
-              alt="bot"
-              style={{ width: 36, height: 36, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
-              onError={(e) => { e.currentTarget.src = <Bot size={20} />; }}
-            />
+            {(sub.botImgPerfil || sub.botAvatar) ? (
+              <img
+                src={sub.botImgPerfil || sub.botAvatar}
+                alt="bot"
+                style={{ width: 36, height: 36, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
+                onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.nextSibling && (e.currentTarget.nextSibling.style.display = 'flex'); }}
+              />
+            ) : null}
+            <div style={{
+              width: 36, height: 36, borderRadius: '50%', flexShrink: 0,
+              display: (sub.botImgPerfil || sub.botAvatar) ? 'none' : 'flex',
+              alignItems: 'center', justifyContent: 'center',
+              background: 'var(--bg3)', color: 'var(--text3)',
+            }}>
+              <Bot size={20} />
+            </div>
             <span style={{ color: 'var(--text2)', fontSize: 14, fontWeight: 600, flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {sub.guildName || sub.guildId}
             </span>
@@ -614,6 +641,11 @@ function BillingModal({ sub, onClose }) {
                         setCard({ ...card, expiry: v });
                       }}
                     />
+                    {card.expiry && card.expiry.length > 0 && card.expiry.replace(/\D/g, '').length < 6 && (
+                      <span style={{ fontSize: 11, color: 'var(--red, #e74c3c)', marginTop: 2 }}>
+                        Use o formato MM/AAAA (ex: 08/2027)
+                      </span>
+                    )}
                   </div>
                   <div className="form-group">
                     <label>CVV *</label>

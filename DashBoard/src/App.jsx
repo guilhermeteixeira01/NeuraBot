@@ -11,6 +11,7 @@ import OverviewPage from './pages/OverviewPage';
 import SubscriptionsPage from './pages/SubscriptionsPage';
 import NotificationsPage from './pages/NotificationsPage';
 import DatabasePage from './pages/DatabasePage';
+import DiscordServerPage from './pages/DiscordServerPage';
 
 import { useDevToolsBlocker } from '../../NeuraBot/src/hooks/useDevToolsBlocker';
 import BlockScreen from '../../NeuraBot/src/components/ui/BlockScreen';
@@ -99,6 +100,9 @@ export default function App() {
           )}
           {currentPage === 'notifications' && (
             <NotificationsPage isAdmin={isAdmin} />
+          )}
+          {currentPage === 'discordServer' && (
+            <DiscordServerPage isAdmin={isAdmin} />
           )}
           {currentPage === 'database' && isAdmin && (
             <DatabasePage refreshTrigger={refreshTrigger} onNavigateToSubs={handleNavigateToSubs} />
