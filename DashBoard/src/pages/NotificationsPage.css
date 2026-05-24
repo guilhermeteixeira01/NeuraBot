@@ -8,8 +8,6 @@
   padding: 20px;
   backdrop-filter: blur(10px);
   transition: border-color 0.18s ease;
-  overflow: hidden;
-  max-width: 100%;
   box-sizing: border-box;
 }
 
@@ -226,12 +224,10 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  height: 320px;
-  min-height: 0;
+  max-height: 320px;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-right: 4px;
-  max-width: 100%;
+  width: 100%;
   box-sizing: border-box;
 }
 
@@ -404,4 +400,15 @@
   .dc-item-meta {
     max-width: 100%;
   }
+
+  /* Esconde scrollbar no mobile — scroll ainda funciona */
+  .dc-list {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .dc-list::-webkit-scrollbar {
+    display: none;
+  }
+
 }
