@@ -24,7 +24,7 @@ function MainLayout() {
 
 export default function App() {
 
-  /* const [blocked, setBlocked] = useState(false);
+  const [blocked, setBlocked] = useState(false);
 
   const handleOpen = useCallback(() => setBlocked(true), []);
   const handleClose = useCallback(() => setBlocked(false), []);
@@ -32,7 +32,7 @@ export default function App() {
   useDevToolsBlocker({ onOpen: handleOpen, onClose: handleClose });
 
   // Enquanto DevTools estiver aberto, mostra tela de bloqueio
-  if (blocked) return <BlockScreen />; */
+  if (blocked) return <BlockScreen />;
 
   return (
     <BrowserRouter basename="/">
