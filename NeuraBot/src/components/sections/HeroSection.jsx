@@ -41,6 +41,32 @@ export default function HeroSection() {
           gap: 14px;
           flex-wrap: wrap;
         }
+        /* Floating info cards */
+        .hero-float-card {
+          position: absolute;
+          background: rgba(13,13,26,0.8);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border: 1px solid rgba(0,212,255,0.18);
+          border-radius: 14px;
+          padding: 12px 18px;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+          white-space: nowrap;
+        }
+        .hero-float-card-val {
+          font-family: 'Orbitron', sans-serif;
+          font-weight: 700;
+          font-size: 15px;
+          color: #00d4ff;
+        }
+        .hero-float-card-lbl {
+          color: #8888aa;
+          font-size: 11px;
+          margin-top: 2px;
+        }
+        .hfc-1 { top: 20px; right: 200px; animation: floatCard 5s ease-in-out infinite; }
+        .hfc-2 { bottom: 100px; right: -80px; animation: floatCard 6s 0.5s ease-in-out infinite; }
+        .hfc-3 { top: 200px; left: -50px; animation: floatCard 4.5s 1s ease-in-out infinite; }
 
         @media (max-width: 768px) {
           .hero-grid {
@@ -80,6 +106,7 @@ export default function HeroSection() {
             max-width: 100% !important;
             margin-bottom: 32px !important;
           }
+          .hero-float-card { display: none; }
         }
 
         @media (max-width: 480px) {
@@ -91,29 +118,31 @@ export default function HeroSection() {
 
       <ParticleField />
 
+      {/* Grid background */}
       <div
         aria-hidden="true"
         style={{
           position: "absolute",
           inset: 0,
           backgroundImage:
-            "linear-gradient(rgba(0,212,255,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.07) 1px,transparent 1px)",
+            "linear-gradient(rgba(0,212,255,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.05) 1px,transparent 1px)",
           backgroundSize: "60px 60px",
           animation: "grid-fade 1s forwards",
         }}
       />
 
+      {/* Radial glow */}
       <div
         aria-hidden="true"
         style={{
           position: "absolute",
           top: "50%",
-          left: "50%",
+          left: "55%",
           transform: "translate(-50%,-50%)",
           width: 800,
           height: 800,
           borderRadius: "50%",
-          background: "radial-gradient(circle, #00d4ff08 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(0,212,255,0.06) 0%, transparent 65%)",
           pointerEvents: "none",
         }}
       />
@@ -132,14 +161,15 @@ export default function HeroSection() {
         <div className="hero-grid">
           {/* Left: copy */}
           <div className="hero-copy" style={{ animation: "fadeUp 0.8s ease both" }}>
+            {/* Online badge */}
             <div
               style={{
                 display: "inline-flex",
                 alignItems: "center",
                 gap: 8,
-                background: "#00d4ff15",
-                border: "1px solid #00d4ff30",
-                borderRadius: 20,
+                background: "rgba(0,212,255,0.08)",
+                border: "1px solid rgba(0,212,255,0.25)",
+                borderRadius: 50,
                 padding: "6px 16px",
                 marginBottom: 24,
               }}
@@ -154,7 +184,7 @@ export default function HeroSection() {
                   flexShrink: 0,
                 }}
               />
-              <span style={{ color: "#00d4ff", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, textTransform: "uppercase" }}>
+              <span style={{ color: "#00d4ff", fontSize: 11, fontWeight: 600, letterSpacing: 1.5, textTransform: "uppercase" }}>
                 Sistema Online — 99.9% Uptime
               </span>
             </div>
@@ -164,7 +194,7 @@ export default function HeroSection() {
                 fontFamily: "'Orbitron', sans-serif",
                 fontWeight: 900,
                 fontSize: "clamp(30px, 5vw, 62px)",
-                lineHeight: 1.1,
+                lineHeight: 1.05,
                 background: "linear-gradient(135deg, #ffffff 30%, #00d4ff)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
@@ -191,11 +221,9 @@ export default function HeroSection() {
             </p>
 
             <div className="hero-buttons">
-              {/* <button className="btn-primary" style={{ fontSize: 15 }}>
-                🚀 Começar Grátis
-              </button> */}
               <button className="btn-outline" onClick={() => window.open("/DOCS/documentacao_neura_bot.html", "_blank")}>
-                Ver Documentação →</button>
+                Ver Documentação →
+              </button>
             </div>
 
             <div className="hero-stats">
@@ -227,7 +255,7 @@ export default function HeroSection() {
                     position: "absolute",
                     inset: -20,
                     borderRadius: "50%",
-                    border: "1px solid #00d4ff40",
+                    border: "1px solid rgba(0,212,255,0.3)",
                     animation: `pulse-ring 2.5s ${i * 1.2}s ease-out infinite`,
                   }}
                 />
@@ -238,12 +266,13 @@ export default function HeroSection() {
                   width: 280,
                   height: 280,
                   borderRadius: "50%",
-                  background: "radial-gradient(circle at 40% 35%, #00d4ff15, #0a0a1f)",
-                  border: "1px solid #00d4ff25",
+                  background: "radial-gradient(circle at 40% 35%, rgba(0,212,255,0.1), rgba(10,10,31,0.8))",
+                  border: "1px solid rgba(0,212,255,0.2)",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
                   animation: "float 4s ease-in-out infinite",
+                  backdropFilter: "blur(8px)",
                 }}
               >
                 <img
@@ -257,9 +286,26 @@ export default function HeroSection() {
                     width: 220,
                     height: 220,
                     objectFit: "contain",
-                    filter: "drop-shadow(0 0 30px #00d4ff55)",
+                    filter: "drop-shadow(0 0 30px rgba(0,212,255,0.5))",
                   }}
                 />
+              </div>
+
+              {/* Floating info cards */}
+              <div className="hero-float-card hfc-1">
+                <div className="hero-float-card-val">3.700+</div>
+                <div className="hero-float-card-lbl">Servidores Ativos</div>
+              </div>
+              <div className="hero-float-card hfc-2">
+                <div className="hero-float-card-val">99.9%</div>
+                <div className="hero-float-card-lbl">Uptime Garantido</div>
+              </div>
+              <div className="hero-float-card hfc-3">
+                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#22c55e", animation: "blink 1.5s infinite" }} />
+                  <span style={{ color: "#22c55e", fontSize: 11, fontWeight: 700 }}>ONLINE</span>
+                </div>
+                <div className="hero-float-card-lbl" style={{ marginTop: 3 }}>Todos os sistemas</div>
               </div>
             </div>
           </div>

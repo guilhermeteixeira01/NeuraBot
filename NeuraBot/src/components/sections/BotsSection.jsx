@@ -30,13 +30,16 @@ export default function BotsSection() {
           gap: 14px;
           align-items: flex-start;
           padding: 14px 16px;
-          background: #0d0d18;
-          border: 1px solid #1e1e2e;
-          border-radius: 10px;
-          transition: border-color 0.2s;
+          background: rgba(13,13,26,0.65);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border: 1px solid rgba(0,212,255,0.08);
+          border-radius: 12px;
+          transition: border-color 0.25s, background 0.25s;
         }
         .bot-feature-item:hover {
-          border-color: var(--bot-color, #00d4ff44);
+          border-color: rgba(0,212,255,0.35);
+          background: rgba(0,212,255,0.04);
         }
         .bot-feature-icon {
           display: flex;
@@ -49,10 +52,36 @@ export default function BotsSection() {
           flex-shrink: 0;
           margin-top: 1px;
         }
+
+        /* ── Console 3D tilt ── */
+        .console-3d-scene {
+          perspective: 1000px;
+          perspective-origin: 70% 50%;
+        }
+        .console-3d-inner {
+          transform: rotateY(-10deg) rotateX(2deg);
+          transform-origin: right center;
+          transform-style: preserve-3d;
+          border-radius: 14px;
+          box-shadow:
+            -6px 6px 0 -1px rgba(0,212,255,0.08),
+            -12px 12px 0 -2px rgba(0,212,255,0.04),
+            0 24px 60px rgba(0,0,0,0.5),
+            inset 0 1px 0 rgba(0,212,255,0.1);
+        }
+
         @media (max-width: 900px) {
           .bots-layout {
             grid-template-columns: 1fr !important;
-            gap: 40px !important;
+            gap: 32px !important;
+          }
+          .console-3d-scene {
+            perspective: none !important;
+          }
+          .console-3d-inner {
+            transform: none !important;
+            transform-origin: unset !important;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4) !important;
           }
         }
         @media (max-width: 480px) {
@@ -66,14 +95,13 @@ export default function BotsSection() {
       `}</style>
 
       {/* Header */}
-      <div style={{ textAlign: "center", marginBottom: 60 }}>
+      <div style={{ textAlign: "center", marginBottom: 60, display: "flex", flexDirection: "column", gap: 16 }}>
         <SectionLabel text="Nossa Suíte" />
         <h2
           style={{
             fontFamily: "'Orbitron', sans-serif",
             fontSize: "clamp(24px,4vw,44px)",
             fontWeight: 900,
-            marginBottom: 16,
           }}
         >
           CADA BOT. UM SUPERPODER.
@@ -85,7 +113,7 @@ export default function BotsSection() {
 
       <div className="bots-layout">
         {/* Left: Bot cards + Features */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
           <div className="bots-cards-grid">
             {BOTS.map((b, i) => (
               <BotCard
@@ -98,8 +126,8 @@ export default function BotsSection() {
           </div>
 
           {/* Features do bot ativo */}
-          <div>
-            <div style={{ color: "#555", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", marginBottom: 12 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <div style={{ color: "#444466", fontSize: 11, letterSpacing: 2, textTransform: "uppercase" }}>
               Funcionalidades
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
@@ -132,9 +160,9 @@ export default function BotsSection() {
         </div>
 
         {/* Right panel: Console + Tags */}
-        <div>
-          <div style={{ marginBottom: 16 }}>
-            <div style={{ color: "#555", fontSize: 12, letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>
+        <div style={{ minWidth: 0, display: "flex", flexDirection: "column", gap: 80 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            <div style={{ color: "#444466", fontSize: 12, letterSpacing: 2, textTransform: "uppercase" }}>
               Console Interativo
             </div>
             <div style={{ color: "#8888aa", fontSize: 13 }}>
@@ -142,27 +170,35 @@ export default function BotsSection() {
             </div>
           </div>
 
-          <Console3D botName={bot.name} commands={bot.commands} color={bot.color} />
+          <div className="console-3d-scene">
+            <div className="console-3d-inner">
+              <Console3D botName={bot.name} commands={bot.commands} color={bot.color} />
+            </div>
+          </div>
 
           <div
             style={{
-              marginTop: 20,
               padding: "16px 20px",
-              background: "#0d0d18",
-              border: "1px solid #1e1e2e",
-              borderRadius: 10,
+              background: "rgba(13,13,26,0.65)",
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+              border: "1px solid rgba(0,212,255,0.08)",
+              borderRadius: 12,
+              display: "flex",
+              flexDirection: "column",
+              gap: 10,
             }}
           >
-            <div style={{ color: "#555", fontSize: 11, marginBottom: 8, textTransform: "uppercase", letterSpacing: 1 }}>
+            <div style={{ color: "#444466", fontSize: 11, textTransform: "uppercase", letterSpacing: 1 }}>
               Disponível em:
             </div>
-            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
               {TAGS.map((tag) => (
                 <span
                   key={tag}
                   style={{
-                    background: "#1a1a2e",
-                    border: "1px solid #2a2a3e",
+                    background: "rgba(0,212,255,0.05)",
+                    border: "1px solid rgba(0,212,255,0.15)",
                     color: "#8888aa",
                     fontSize: 11,
                     padding: "4px 12px",

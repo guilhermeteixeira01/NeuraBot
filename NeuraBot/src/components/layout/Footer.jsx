@@ -93,8 +93,9 @@ export default function Footer() {
               </span>
             </div>
             <p style={{ color: "#555", fontSize: 13, lineHeight: 1.8, maxWidth: 260 }}>
-              A plataforma de bots Discord mais avançada do Brasil. Feito com 🤍 para a
-              comunidade gamer.
+              A plataforma de bots Discord mais avançada do Brasil. Feito com 🤍. Desenvolvido por <a href="https://github.com/guilhermeteixeira01" target="_blank" rel="noopener noreferrer" style={{ color: "#00d4ff", textDecoration: "none" }}>
+                Guilherme Teixeira
+              </a>
             </p>
           </div>
 

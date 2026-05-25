@@ -8,7 +8,7 @@ export default function FeaturesSection() {
       id="recursos"
       style={{
         padding: "80px 40px",
-        background: "#0a0a14",
+        background: "rgba(10,10,20,0.8)",
         position: "relative",
         overflow: "hidden",
       }}
@@ -44,7 +44,20 @@ export default function FeaturesSection() {
           width: 600,
           height: 600,
           borderRadius: "50%",
-          background: "radial-gradient(circle, #a855f715 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(0,85,255,0.07) 0%, transparent 70%)",
+          pointerEvents: "none",
+        }}
+      />
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          left: -200,
+          top: "20%",
+          width: 400,
+          height: 400,
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(0,212,255,0.04) 0%, transparent 70%)",
           pointerEvents: "none",
         }}
       />
@@ -75,12 +88,16 @@ export default function FeaturesSection() {
 
 function FeatureCard({ feature: f }) {
   function handleEnter(e) {
-    e.currentTarget.style.border = `1px solid ${f.color}44`;
+    e.currentTarget.style.borderColor = `${f.color}55`;
     e.currentTarget.style.transform = "translateY(-4px)";
+    e.currentTarget.style.boxShadow = `0 12px 40px ${f.color}10`;
+    e.currentTarget.style.background = "rgba(13,13,26,0.85)";
   }
   function handleLeave(e) {
-    e.currentTarget.style.border = "1px solid #1e1e2e";
+    e.currentTarget.style.borderColor = "rgba(0,212,255,0.08)";
     e.currentTarget.style.transform = "none";
+    e.currentTarget.style.boxShadow = "none";
+    e.currentTarget.style.background = "rgba(13,13,26,0.65)";
   }
 
   return (
@@ -88,9 +105,11 @@ function FeatureCard({ feature: f }) {
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
       style={{
-        background: "#0d0d18",
-        border: "1px solid #1e1e2e",
-        borderRadius: 12,
+        background: "rgba(13,13,26,0.65)",
+        backdropFilter: "blur(16px)",
+        WebkitBackdropFilter: "blur(16px)",
+        border: "1px solid rgba(0,212,255,0.08)",
+        borderRadius: 14,
         padding: "28px 24px",
         transition: "all 0.3s",
         position: "relative",
@@ -114,7 +133,7 @@ function FeatureCard({ feature: f }) {
       <h3
         style={{
           fontFamily: "'Orbitron', sans-serif",
-          fontSize: 14,
+          fontSize: 13,
           fontWeight: 700,
           color: f.color,
           marginBottom: 10,

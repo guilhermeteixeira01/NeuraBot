@@ -8,11 +8,8 @@
   padding: 0;
   -webkit-tap-highlight-color: transparent;
   -webkit-user-select: none;
-  /* Chrome, Safari */
   -moz-user-select: none;
-  /* Firefox */
   -ms-user-select: none;
-  /* IE/Edge antigo */
   user-select: none;
 }
 
@@ -27,68 +24,89 @@ body {
   overflow-x: hidden;
 }
 
+/* ── Scrollbar ── */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0a0a14;
+  background: #07070f;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #00d4ff44;
-  border-radius: 3px;
+  background: #00d4ff55;
+  border-radius: 2px;
 }
 
-/* ── Buttons ── */
+/* ── CSS Variables ── */
+:root {
+  --cyan: #00d4ff;
+  --blue: #0055ff;
+  --blue2: #0088ff;
+  --bg: #07070f;
+  --bg2: #0d0d1a;
+  --bg3: #0a0a14;
+  --glass: rgba(13, 13, 26, 0.65);
+  --glass-border: rgba(0, 212, 255, 0.12);
+  --glass-border-hover: rgba(0, 212, 255, 0.45);
+  --text-dim: #8888aa;
+}
+
+/* ══════════════════════════════════════════
+   BUTTONS — NeonMorphic pill style
+   ══════════════════════════════════════════ */
+
 .btn-primary {
   display: inline-block;
   background: linear-gradient(135deg, #00d4ff, #0088ff);
   color: #fff;
   border: none;
-  border-radius: 8px;
-  padding: 14px 32px;
-  font-size: 15px;
+  border-radius: 50px;
+  padding: 12px 28px;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
   font-family: 'Sora', sans-serif;
-  transition: all 0.2s;
+  transition: all 0.25s;
   letter-spacing: 0.5px;
   text-decoration: none;
   text-align: center;
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px #00d4ff44;
+  box-shadow: 0 8px 32px rgba(0, 212, 255, 0.55);
 }
 
 .btn-outline {
   display: inline-block;
   background: transparent;
   color: #00d4ff;
-  border: 1px solid #00d4ff55;
-  border-radius: 8px;
-  padding: 13px 28px;
+  border: 1px solid rgba(0, 212, 255, 0.45);
+  border-radius: 50px;
+  padding: 11px 26px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   font-family: 'Sora', sans-serif;
-  transition: all 0.2s;
+  transition: all 0.25s;
   text-decoration: none;
   text-align: center;
+  backdrop-filter: blur(8px);
 }
 
 .btn-outline:hover {
-  background: #00d4ff11;
+  background: rgba(0, 212, 255, 0.1);
   border-color: #00d4ff;
+  box-shadow: 0 0 16px rgba(0, 212, 255, 0.2);
 }
 
 /* ── Nav links ── */
 .nav-link {
   color: #8888aa;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 13px;
   transition: color 0.2s;
 }
 
@@ -96,7 +114,28 @@ body {
   color: #00d4ff;
 }
 
-/* ── Animations ── */
+/* ══════════════════════════════════════════
+   GLASSMORPHISM CARDS — shared utility
+   ══════════════════════════════════════════ */
+
+.glass-card {
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+}
+
+.glass-card:hover {
+  border-color: var(--glass-border-hover);
+  box-shadow: 0 12px 40px rgba(0, 212, 255, 0.08);
+}
+
+/* ══════════════════════════════════════════
+   ANIMATIONS
+   ══════════════════════════════════════════ */
+
 @keyframes float {
 
   0%,
@@ -165,16 +204,30 @@ body {
   }
 }
 
-/* ── Utility ── */
+@keyframes floatCard {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* ══════════════════════════════════════════
+   PLAN CARDS
+   ══════════════════════════════════════════ */
+
 .plan-card:hover {
   transform: translateY(-6px) !important;
 }
 
-/* ════════════════════════════════════════
+/* ══════════════════════════════════════════
    RESPONSIVO — Mobile First
-   ════════════════════════════════════════ */
+   ══════════════════════════════════════════ */
 
-/* ── Containers genéricos ── */
 .container {
   width: 100%;
   max-width: 1200px;
@@ -256,7 +309,7 @@ body {
   }
 }
 
-/* ── Grids de cards (bots, features, stats) ── */
+/* ── Grids de cards ── */
 @media (max-width: 1024px) {
 
   .bots-grid,
@@ -293,7 +346,7 @@ body {
   }
 }
 
-/* ── Planos (plans) ── */
+/* ── Planos ── */
 @media (max-width: 1024px) {
 
   .plans-grid,

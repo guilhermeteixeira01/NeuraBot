@@ -3,6 +3,7 @@ import botlogo from "../../../../imgs/bot sem efeito.png";
 export default function CTASection() {
   return (
     <section
+      className="cta-section"
       style={{
         padding: "80px 40px",
         textAlign: "center",
@@ -28,12 +29,25 @@ export default function CTASection() {
         }
       `}</style>
 
+      {/* Radial glow */}
       <div
         aria-hidden="true"
         style={{
           position: "absolute",
           inset: 0,
-          background: "radial-gradient(ellipse at 50% 50%, #00d4ff0a 0%, transparent 70%)",
+          background: "radial-gradient(ellipse 70% 70% at 50% 50%, rgba(0,212,255,0.06) 0%, transparent 70%)",
+          pointerEvents: "none",
+        }}
+      />
+      {/* Grid subtle */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage:
+            "linear-gradient(rgba(0,212,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.03) 1px,transparent 1px)",
+          backgroundSize: "60px 60px",
           pointerEvents: "none",
         }}
       />
@@ -43,7 +57,7 @@ export default function CTASection() {
           <img
             src={botlogo}
             alt="Mascote Neura Bot"
-            style={{ width: 120, filter: "drop-shadow(0 0 30px #00d4ff66)" }}
+            style={{ width: 120, filter: "drop-shadow(0 0 30px rgba(0,212,255,0.5))" }}
           />
         </div>
 
@@ -73,7 +87,7 @@ export default function CTASection() {
         <div className="cta-buttons">
           <button
             className="btn-primary"
-            style={{ fontSize: 16, padding: "16px 40px" }}
+            style={{ fontSize: 16, padding: "14px 40px" }}
             onClick={() => window.open("https://discord.gg/mxGBvZQEZf", "_blank")}
           >
             🚀 Ir para o Discord

@@ -15,9 +15,12 @@ export default function Navbar() {
         left: 0,
         right: 0,
         zIndex: 100,
-        background: scrolled || menuOpen ? "rgba(7,7,15,0.97)" : "transparent",
-        backdropFilter: scrolled ? "blur(20px)" : "none",
-        borderBottom: scrolled ? "1px solid #ffffff0d" : "none",
+        background: scrolled || menuOpen
+          ? "rgba(7,7,15,0.85)"
+          : "transparent",
+        backdropFilter: scrolled || menuOpen ? "blur(24px)" : "none",
+        WebkitBackdropFilter: scrolled || menuOpen ? "blur(24px)" : "none",
+        borderBottom: scrolled ? "1px solid rgba(0,212,255,0.1)" : "none",
         padding: "0 40px",
         transition: "all 0.3s",
       }}
@@ -60,6 +63,7 @@ export default function Navbar() {
               fontSize: 14,
               color: "#fff",
               flexShrink: 0,
+              boxShadow: "0 0 16px rgba(0,212,255,0.4)",
             }}
           >
             NB
@@ -84,8 +88,8 @@ export default function Navbar() {
             </a>
           ))}
           <button
-            className="btn-primary"
-            style={{ padding: "10px 22px", fontSize: 13 }}
+            className="btn-outline"
+            style={{ padding: "9px 20px", fontSize: 13 }}
             onClick={() => {
               const url = import.meta.env.DEV
                 ? "http://localhost:5175/"
@@ -97,7 +101,7 @@ export default function Navbar() {
           </button>
           <button
             className="btn-primary"
-            style={{ padding: "10px 22px", fontSize: 13 }}
+            style={{ padding: "9px 20px", fontSize: 13 }}
             onClick={() => {
               const url = import.meta.env.DEV
                 ? "http://localhost:5174/"
@@ -149,13 +153,13 @@ export default function Navbar() {
             href={link.href}
             className="nav-link"
             onClick={() => setMenuOpen(false)}
-            style={{ fontSize: 15, padding: "10px 0", borderBottom: "1px solid #ffffff08" }}
+            style={{ fontSize: 15, padding: "10px 0", borderBottom: "1px solid rgba(0,212,255,0.06)" }}
           >
             {link.label}
           </a>
         ))}
         <button
-          className="btn-primary"
+          className="btn-outline"
           style={{ marginTop: 12, padding: "12px", fontSize: 14, width: "100%" }}
           onClick={() => {
             const url = import.meta.env.DEV

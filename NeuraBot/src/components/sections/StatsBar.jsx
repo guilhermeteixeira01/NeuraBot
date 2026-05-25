@@ -5,9 +5,11 @@ export default function StatsBar() {
   return (
     <div
       style={{
-        background: "#0d0d1a",
-        borderTop: "1px solid #1e1e2e",
-        borderBottom: "1px solid #1e1e2e",
+        background: "rgba(13,13,26,0.7)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        borderTop: "1px solid rgba(0,212,255,0.1)",
+        borderBottom: "1px solid rgba(0,212,255,0.1)",
         padding: "28px 40px",
       }}
     >
@@ -19,10 +21,22 @@ export default function StatsBar() {
           max-width: 1200px;
           margin: 0 auto;
         }
+        .stats-item {
+          text-align: center;
+          padding: 16px;
+          border-radius: 14px;
+          background: rgba(0,212,255,0.03);
+          border: 1px solid rgba(0,212,255,0.07);
+          transition: border-color 0.25s, background 0.25s;
+        }
+        .stats-item:hover {
+          border-color: rgba(0,212,255,0.25);
+          background: rgba(0,212,255,0.06);
+        }
         @media (max-width: 700px) {
           .stats-grid {
             grid-template-columns: repeat(2, 1fr) !important;
-            gap: 24px !important;
+            gap: 14px !important;
           }
         }
         @media (max-width: 360px) {
@@ -34,9 +48,9 @@ export default function StatsBar() {
 
       <div className="stats-grid">
         {STATS.map((s) => (
-          <div key={s.label} style={{ textAlign: "center" }}>
+          <div key={s.label} className="stats-item">
             <div style={{ display: "flex", justifyContent: "center", marginBottom: 4 }}>
-              <Icon name={s.icon} size={28} color="#00d4ff" strokeWidth={1.5} />
+              <Icon name={s.icon} size={26} color="#00d4ff" strokeWidth={1.5} />
             </div>
             <div
               style={{
@@ -44,7 +58,8 @@ export default function StatsBar() {
                 fontWeight: 700,
                 fontSize: 24,
                 color: "#00d4ff",
-                marginTop: 4,
+                marginTop: 6,
+                textShadow: "0 0 20px rgba(0,212,255,0.4)",
               }}
             >
               {s.value}
