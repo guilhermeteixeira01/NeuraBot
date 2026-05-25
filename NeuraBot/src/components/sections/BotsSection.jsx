@@ -63,11 +63,6 @@ export default function BotsSection() {
           transform-origin: right center;
           transform-style: preserve-3d;
           border-radius: 14px;
-          box-shadow:
-            -6px 6px 0 -1px rgba(0,212,255,0.08),
-            -12px 12px 0 -2px rgba(0,212,255,0.04),
-            0 24px 60px rgba(0,0,0,0.5),
-            inset 0 1px 0 rgba(0,212,255,0.1);
         }
 
         @media (max-width: 900px) {
