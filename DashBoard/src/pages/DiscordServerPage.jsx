@@ -567,12 +567,17 @@ export default function DiscordServerPage() {
                                     filteredChannels.length === 0
                                         ? <p className="dc-empty">Nenhum canal encontrado.</p>
                                         : filteredChannels.map(c => (
-                                            <div key={c.id} className="dc-item">
+                                            <div key={c.id} className={`dc-item${c.type === 4 ? ' dc-item--category' : ''}`}>
                                                 <span className="dc-item-icon" style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
                                                     {CHANNEL_ICON_MAP[c.type] || <IconHash size={13} />}
                                                 </span>
                                                 <div className="dc-item-info">
-                                                    <span className="dc-item-name">{c.name}</span>
+                                                    <span
+                                                        className="dc-item-name"
+                                                        style={{ fontVariantEmoji: 'text', WebkitFontSmoothing: 'antialiased' }}
+                                                    >
+                                                        {c.name}
+                                                    </span>
                                                     {c.topic && (
                                                         <span className="dc-item-meta" title={c.topic}>
                                                             {c.topic.slice(0, 40)}{c.topic.length > 40 ? '…' : ''}
