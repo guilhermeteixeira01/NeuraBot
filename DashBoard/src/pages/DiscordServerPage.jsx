@@ -1,9 +1,11 @@
 // src/pages/DiscordServerPage.jsx
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { useLog } from '../context/LogContext';
 import { getGuildData, sendChannelMessage } from '../services/discordSync';
+import { api } from '../services/api';
+import { Bot } from 'lucide-react';
 
 // ─── SVG Icons ───────────────────────────────────────────────────────────────
 
@@ -87,6 +89,20 @@ const IconClose = ({ size = 11 }) => (
     </svg>
 );
 
+const IconChevronDown = ({ size = 14 }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+);
+
+const IconRefresh = ({ size = 14 }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 4V10H7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M23 20V14H17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M20.49 9C19.98 7.57 19.12 6.28 17.98 5.27C16.85 4.26 15.47 3.56 13.99 3.22C12.51 2.89 10.97 2.93 9.5 3.36C8.04 3.78 6.71 4.56 5.64 5.64L1 10M23 14L18.36 18.36C17.29 19.44 15.96 20.22 14.5 20.64C13.03 21.07 11.49 21.11 10.01 20.78C8.52 20.44 7.15 19.74 6.01 18.73C4.88 17.71 4.02 16.43 3.51 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+);
+
 // Canal icons mapeados por tipo
 const CHANNEL_ICON_MAP = {
     0: <IconHash size={13} />,
@@ -96,23 +112,115 @@ const CHANNEL_ICON_MAP = {
     15: <IconList size={13} />,
 };
 
+// ─── BotSelector ─────────────────────────────────────────────────────────────
+// Exibe todos os bots vinculados ao cliente e permite selecionar qual visualizar
+
+function BotSelector({ subs, selectedGuildId, onSelect }) {
+    if (!subs || subs.length === 0) return null;
+
+    return (
+        <div style={{ marginBottom: 16 }}>
+            {/* Label */}
+            <div style={{ fontSize: 12, color: 'var(--text3)', marginBottom: 8, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                Seus bots vinculados ({subs.length})
+            </div>
+
+            {/* Cards de bot */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                {subs.map((s) => {
+                    const isSelected = s.guildId === selectedGuildId;
+                    const avatar = s.botImgPerfil || s.botAvatar || null;
+                    const isPaid = s.paymentStatus === 'paid';
+
+                    return (
+                        <button
+                            key={s.guildId}
+                            onClick={() => onSelect(s)}
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 8,
+                                padding: '7px 12px',
+                                borderRadius: 8,
+                                border: isSelected
+                                    ? '1.5px solid var(--accent, #5865f2)'
+                                    : '1.5px solid var(--border, #2e2e3a)',
+                                background: isSelected
+                                    ? 'color-mix(in srgb, var(--accent, #5865f2) 12%, transparent)'
+                                    : 'var(--bg2, #16161e)',
+                                cursor: 'pointer',
+                                color: 'var(--text1)',
+                                transition: 'all 0.15s',
+                                minWidth: 0,
+                                maxWidth: 130,
+                            }}
+                        >
+                            {/* Avatar do bot */}
+                            {avatar ? (
+                                <img
+                                    src={avatar}
+                                    alt=""
+                                    style={{ width: 26, height: 26, borderRadius: '50%', flexShrink: 0, objectFit: 'cover' }}
+                                    onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                                />
+                            ) : (
+                                <div style={{
+                                    width: 26, height: 26, borderRadius: '50%', flexShrink: 0,
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                    background: 'var(--bg3, #1e1e2e)', color: 'var(--text3)',
+                                }}>
+                                    <Bot size={14} />
+                                </div>
+                            )}
+
+                            {/* Nome do servidor/bot */}
+                            <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+                                <span style={{
+                                    fontSize: 13,
+                                    fontWeight: 600,
+                                    color: isSelected ? 'var(--accent, #5865f2)' : 'var(--text1)',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap',
+                                    maxWidth: 140,
+                                }}>
+                                    {s.guildName || s.guildId}
+                                </span>
+                                <span style={{ fontSize: 11, color: isPaid ? 'var(--green)' : 'var(--yellow, #f0a500)' }}>
+                                    {isPaid ? '● Ativo' : '● Pendente'}
+                                </span>
+                            </div>
+                        </button>
+                    );
+                })}
+            </div>
+        </div>
+    );
+}
+
 // ─── DiscordServerPage ────────────────────────────────────────────────────────
 
 export default function DiscordServerPage() {
-    const { user, subscription: linkedSub, subscriptionLoading } = useAuth();
+    const { user, subscription: linkedSub, subscriptionLoading, isAdmin } = useAuth();
     const { toast } = useToast();
     const { addLog } = useLog();
 
-    // ── Assinatura do cliente ──────────────────────────────
+    // ── Assinaturas do cliente ─────────────────────────────
+    const [allSubs, setAllSubs] = useState([]);
+    const [loadingSubs, setLoadingSubs] = useState(true);
+
+    // ── Seleção de bot ─────────────────────────────────────
     const [selectedGuildId, setSelectedGuildId] = useState('');
     const [selectedSub, setSelectedSub] = useState(null);
-    const [loadingSub, setLoadingSub] = useState(true);
 
     // ── Discord data ───────────────────────────────────────
     const [discordData, setDiscordData] = useState(null);
     const [loadingDiscord, setLoadingDiscord] = useState(false);
     const [discordTab, setDiscordTab] = useState('channels');
     const [discordSearch, setDiscordSearch] = useState('');
+
+    // ── Filtro de bots ─────────────────────────────────────
+    const [botFilter, setBotFilter] = useState('all'); // 'all' | 'paid' | 'pending' | 'expired'
 
     // ── Enviar mensagem para canal ─────────────────────────
     const [selectedChannelId, setSelectedChannelId] = useState('');
@@ -122,17 +230,49 @@ export default function DiscordServerPage() {
     const [channelSearch, setChannelSearch] = useState('');
     const [sendingMsg, setSendingMsg] = useState(false);
 
-    // Carrega assinatura do cliente
-    useEffect(() => {
+    // ── Carrega todas as assinaturas do cliente ────────────
+    const loadSubs = useCallback(async () => {
         if (user === undefined || subscriptionLoading) return;
-        if (linkedSub && linkedSub.paymentStatus === 'paid') {
-            setSelectedGuildId(linkedSub.guildId);
-            setSelectedSub(linkedSub);
-        }
-        setLoadingSub(false);
-    }, [linkedSub, user, subscriptionLoading]);
+        setLoadingSubs(true);
+        try {
+            if (isAdmin) {
+                // Admin: carrega todas
+                const data = await api('/api/subscriptions');
+                setAllSubs(Array.isArray(data) ? data : []);
+            } else if (user?.email) {
+                // Cliente: carrega pelo e-mail
+                const data = await api(`/api/subscriptions/by-email/${user.email}`);
+                const arr = Array.isArray(data) ? data : data ? [data] : [];
+                setAllSubs(arr);
 
-    // Carrega dados do Discord quando troca de servidor
+                // Seleciona automaticamente o primeiro ativo
+                if (arr.length > 0 && !selectedGuildId) {
+                    const firstPaid = arr.find(s => s.paymentStatus === 'paid') || arr[0];
+                    setSelectedGuildId(firstPaid.guildId);
+                    setSelectedSub(firstPaid);
+                }
+            } else if (linkedSub) {
+                setAllSubs([linkedSub]);
+                setSelectedGuildId(linkedSub.guildId);
+                setSelectedSub(linkedSub);
+            }
+        } catch {
+            // Fallback: usa linkedSub do contexto
+            if (linkedSub) {
+                setAllSubs([linkedSub]);
+                setSelectedGuildId(linkedSub.guildId);
+                setSelectedSub(linkedSub);
+            } else {
+                setAllSubs([]);
+            }
+        } finally {
+            setLoadingSubs(false);
+        }
+    }, [user, subscriptionLoading, isAdmin, linkedSub]);
+
+    useEffect(() => { loadSubs(); }, [loadSubs]);
+
+    // ── Carrega dados do Discord quando troca de servidor ──
     useEffect(() => {
         if (!selectedGuildId) return;
         setLoadingDiscord(true);
@@ -146,6 +286,21 @@ export default function DiscordServerPage() {
             .catch(() => toast('Erro ao carregar dados do servidor Discord', 'error'))
             .finally(() => setLoadingDiscord(false));
     }, [selectedGuildId]);
+
+    // ── Troca de bot selecionado ───────────────────────────
+    function handleSelectBot(sub) {
+        if (sub.guildId === selectedGuildId) return;
+        setSelectedGuildId(sub.guildId);
+        setSelectedSub(sub);
+        setDiscordTab('channels');
+        setDiscordSearch('');
+    }
+
+    // ── Bots filtrados para o seletor ──────────────────────
+    const filteredSubs = allSubs.filter(s => {
+        if (botFilter === 'all') return true;
+        return s.paymentStatus === botFilter;
+    });
 
     // Canais de texto disponíveis para envio (tipo 0 = texto, tipo 5 = anúncio)
     const textChannels = (discordData?.channels || []).filter(c => c.type === 0 || c.type === 5);
@@ -208,23 +363,23 @@ export default function DiscordServerPage() {
 
     // ── Render ─────────────────────────────────────────────
 
-    if (loadingSub) {
+    if (loadingSubs || subscriptionLoading) {
         return (
             <div>
                 <div className="section-title" style={{ marginBottom: 16 }}>Servidor Discord</div>
                 <div className="loading" style={{ padding: '16px 0' }}>
-                    <div className="spin" /> Carregando...
+                    <div className="spin" /> Carregando bots vinculados...
                 </div>
             </div>
         );
     }
 
-    if (!selectedSub) {
+    if (allSubs.length === 0) {
         return (
             <div>
                 <div className="section-title" style={{ marginBottom: 16 }}>Servidor Discord</div>
                 <p style={{ fontSize: 13, color: 'var(--text3)' }}>
-                    Nenhuma assinatura ativa encontrada.
+                    Nenhuma assinatura ativa encontrada para este e-mail.
                 </p>
             </div>
         );
@@ -232,146 +387,251 @@ export default function DiscordServerPage() {
 
     return (
         <div>
-            <div className="section-title" style={{ marginBottom: 16 }}>Servidor Discord</div>
-            {/* ── DADOS DO SERVIDOR DISCORD ── */}
-            <div style={{ marginTop: 20 }}>
-                <div className="broadcast-box">
+            <div className="section-header" style={{ marginBottom: 16 }}>
+                <div className="section-title">Servidor Discord</div>
+                <button
+                    className="btn btn-sm"
+                    onClick={loadSubs}
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}
+                >
+                    <IconRefresh size={13} /> Recarregar
+                </button>
+            </div>
 
-                    <div className="dc-header">
-                        <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: 7 }}>
-                            <IconServer size={15} /> Dados do servidor Discord
-                        </h3>
-                        {discordData && (
-                            <span className="dc-timestamp">
-                                Atualizado: {new Date(discordData.timestamp).toLocaleString('pt-BR')}
-                            </span>
-                        )}
-                    </div>
+            {/* ── SELETOR DE BOTS ──────────────────────────────── */}
+            <div className="broadcast-box" style={{ marginBottom: 16 }}>
 
-                    {discordData && (
-                        <div className="dc-summary">
-                            {[
-                                { val: discordData.summary.totalChannels, label: 'Canais' },
-                                { val: discordData.summary.humans, label: 'Membros' },
-                                { val: discordData.summary.bots, label: 'Bots' },
-                                { val: discordData.summary.totalRoles, label: 'Cargos' },
-                            ].map(({ val, label }) => (
-                                <div key={label} className="dc-stat">
-                                    <span className="dc-stat-val">{val}</span>
-                                    <span className="dc-stat-label">{label}</span>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-
-                    <div className="dc-tabs">
+                {/* Filtro de status dos bots */}
+                {allSubs.length > 1 && (
+                    <div style={{ display: 'flex', gap: 6, marginBottom: 12, flexWrap: 'wrap', alignItems: 'center' }}>
+                        <span style={{ fontSize: 12, color: 'var(--text3)', marginRight: 4 }}>Filtrar:</span>
                         {[
-                            { id: 'channels', label: 'Canais', icon: <IconHash size={13} /> },
-                            { id: 'members', label: 'Membros', icon: <IconUser size={13} /> },
-                            { id: 'roles', label: 'Cargos', icon: <IconTag size={13} /> },
-                        ].map(t => (
+                            { id: 'all', label: 'Todos' },
+                            { id: 'paid', label: 'Ativos' },
+                            { id: 'pending', label: 'Pendentes' },
+                            { id: 'expired', label: 'Expirados' },
+                        ].map(f => (
                             <button
-                                key={t.id}
-                                className={`dc-tab${discordTab === t.id ? ' active' : ''}`}
-                                onClick={() => { setDiscordTab(t.id); setDiscordSearch(''); if (listRef.current) listRef.current.scrollTop = 0; }}
-                                style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}
+                                key={f.id}
+                                className={`dc-tab${botFilter === f.id ? ' active' : ''}`}
+                                onClick={() => setBotFilter(f.id)}
+                                style={{ fontSize: 12, padding: '4px 10px' }}
                             >
-                                {t.icon}{t.label}
+                                {f.label}
+                                {f.id !== 'all' && (
+                                    <span style={{
+                                        marginLeft: 5,
+                                        fontSize: 10,
+                                        background: 'var(--bg3)',
+                                        borderRadius: 10,
+                                        padding: '1px 5px',
+                                    }}>
+                                        {allSubs.filter(s => s.paymentStatus === f.id).length}
+                                    </span>
+                                )}
+                                {f.id === 'all' && (
+                                    <span style={{
+                                        marginLeft: 5,
+                                        fontSize: 10,
+                                        background: 'var(--bg3)',
+                                        borderRadius: 10,
+                                        padding: '1px 5px',
+                                    }}>
+                                        {allSubs.length}
+                                    </span>
+                                )}
                             </button>
                         ))}
                     </div>
+                )}
 
-                    {discordData && (
-                        <input
-                            className="field-input dc-search"
-                            placeholder={
-                                discordTab === 'channels' ? 'Buscar canal...' :
-                                    discordTab === 'members' ? 'Buscar membro...' : 'Buscar cargo...'
-                            }
-                            value={discordSearch}
-                            onChange={(e) => setDiscordSearch(e.target.value)}
-                        />
-                    )}
-
-                    {loadingDiscord ? (
-                        <div className="loading" style={{ padding: '16px 0' }}>
-                            <div className="spin" /> Carregando dados do Discord...
-                        </div>
-                    ) : !discordData ? (
-                        <p className="dc-empty">
-                            Nenhum dado sincronizado ainda. Aguarde o bot enviar os dados.
-                        </p>
-                    ) : (
-                        <div className="dc-list" ref={listRef}>
-
-                            {discordTab === 'channels' && (
-                                filteredChannels.length === 0
-                                    ? <p className="dc-empty">Nenhum canal encontrado.</p>
-                                    : filteredChannels.map(c => (
-                                        <div key={c.id} className="dc-item">
-                                            <span className="dc-item-icon" style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-                                                {CHANNEL_ICON_MAP[c.type] || <IconHash size={13} />}
-                                            </span>
-                                            <div className="dc-item-info">
-                                                <span className="dc-item-name">{c.name}</span>
-                                                {c.topic && (
-                                                    <span className="dc-item-meta" title={c.topic}>
-                                                        {c.topic.slice(0, 40)}{c.topic.length > 40 ? '…' : ''}
-                                                    </span>
-                                                )}
-                                            </div>
-                                        </div>
-                                    ))
-                            )}
-
-                            {discordTab === 'members' && (
-                                filteredMembers.length === 0
-                                    ? <p className="dc-empty">Nenhum membro encontrado.</p>
-                                    : filteredMembers.map(m => (
-                                        <div key={m.id} className="dc-item">
-                                            <img
-                                                src={m.avatar}
-                                                alt=""
-                                                className="dc-avatar"
-                                                onError={e => { e.target.src = 'https://cdn.discordapp.com/embed/avatars/0.png'; }}
-                                            />
-                                            <div className="dc-item-info">
-                                                <span className="dc-item-name">{m.displayName}</span>
-                                                <span className="dc-item-meta">@{m.username}</span>
-                                            </div>
-                                            <div className="dc-roles-wrap">
-                                                {m.roles.slice(0, 3).map(r => (
-                                                    <span key={r.id} className="dc-role-badge">{r.name}</span>
-                                                ))}
-                                                {m.roles.length > 3 && (
-                                                    <span className="dc-role-badge">+{m.roles.length - 3}</span>
-                                                )}
-                                            </div>
-                                        </div>
-                                    ))
-                            )}
-
-                            {discordTab === 'roles' && (
-                                filteredRoles.length === 0
-                                    ? <p className="dc-empty">Nenhum cargo encontrado.</p>
-                                    : filteredRoles.map(r => (
-                                        <div key={r.id} className="dc-item">
-                                            <span
-                                                className="dc-role-dot"
-                                                style={{ background: r.color === '#000000' ? '#555' : r.color }}
-                                            />
-                                            <span className="dc-item-name">{r.name}</span>
-                                            <span className="dc-item-meta">
-                                                {r.memberCount} membro{r.memberCount !== 1 ? 's' : ''}
-                                            </span>
-                                        </div>
-                                    ))
-                            )}
-
-                        </div>
-                    )}
-                </div>
+                {/* Cards de seleção de bot */}
+                {filteredSubs.length === 0 ? (
+                    <p style={{ fontSize: 13, color: 'var(--text3)', margin: 0 }}>
+                        Nenhum bot com este status.
+                    </p>
+                ) : (
+                    <BotSelector
+                        subs={filteredSubs}
+                        selectedGuildId={selectedGuildId}
+                        onSelect={handleSelectBot}
+                    />
+                )}
             </div>
+
+            {/* ── DADOS DO SERVIDOR DISCORD (do bot selecionado) ── */}
+            {selectedSub && (
+                <div style={{ marginTop: 4 }}>
+                    <div className="broadcast-box">
+
+                        {/* Header com identidade do bot selecionado */}
+                        <div className="dc-header" style={{ marginBottom: 12 }}>
+                            <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+                                {/* Avatar do bot selecionado */}
+                                {(selectedSub.botImgPerfil || selectedSub.botAvatar) ? (
+                                    <img
+                                        src={selectedSub.botImgPerfil || selectedSub.botAvatar}
+                                        alt=""
+                                        style={{ width: 22, height: 22, borderRadius: '50%', objectFit: 'cover' }}
+                                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                                    />
+                                ) : (
+                                    <Bot size={16} style={{ color: 'var(--text3)' }} />
+                                )}
+                                <IconServer size={15} />
+                                {selectedSub.guildName || selectedSub.guildId}
+                            </h3>
+                            {discordData && (
+                                <span className="dc-timestamp">
+                                    Atualizado: {new Date(discordData.timestamp).toLocaleString('pt-BR')}
+                                </span>
+                            )}
+                        </div>
+
+                        {/* Alerta se assinatura não está paga */}
+                        {selectedSub.paymentStatus !== 'paid' && (
+                            <div style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 7,
+                                padding: '9px 12px',
+                                borderRadius: 8,
+                                background: 'color-mix(in srgb, var(--yellow, #f0a500) 10%, transparent)',
+                                border: '1px solid var(--yellow, #f0a500)',
+                                fontSize: 12,
+                                color: 'var(--yellow, #f0a500)',
+                                marginBottom: 14,
+                            }}>
+                                <IconWarning size={13} />
+                                Assinatura {selectedSub.paymentStatus === 'pending' ? 'pendente' : 'expirada'} — dados podem estar desatualizados.
+                            </div>
+                        )}
+
+                        {discordData && (
+                            <div className="dc-summary">
+                                {[
+                                    { val: discordData.summary.totalChannels, label: 'Canais' },
+                                    { val: discordData.summary.humans, label: 'Membros' },
+                                    { val: discordData.summary.bots, label: 'Bots' },
+                                    { val: discordData.summary.totalRoles, label: 'Cargos' },
+                                ].map(({ val, label }) => (
+                                    <div key={label} className="dc-stat">
+                                        <span className="dc-stat-val">{val}</span>
+                                        <span className="dc-stat-label">{label}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        <div className="dc-tabs">
+                            {[
+                                { id: 'channels', label: 'Canais', icon: <IconHash size={13} /> },
+                                { id: 'members', label: 'Membros', icon: <IconUser size={13} /> },
+                                { id: 'roles', label: 'Cargos', icon: <IconTag size={13} /> },
+                            ].map(t => (
+                                <button
+                                    key={t.id}
+                                    className={`dc-tab${discordTab === t.id ? ' active' : ''}`}
+                                    onClick={() => { setDiscordTab(t.id); setDiscordSearch(''); if (listRef.current) listRef.current.scrollTop = 0; }}
+                                    style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}
+                                >
+                                    {t.icon}{t.label}
+                                </button>
+                            ))}
+                        </div>
+
+                        {discordData && (
+                            <input
+                                className="field-input dc-search"
+                                placeholder={
+                                    discordTab === 'channels' ? 'Buscar canal...' :
+                                        discordTab === 'members' ? 'Buscar membro...' : 'Buscar cargo...'
+                                }
+                                value={discordSearch}
+                                onChange={(e) => setDiscordSearch(e.target.value)}
+                            />
+                        )}
+
+                        {loadingDiscord ? (
+                            <div className="loading" style={{ padding: '16px 0' }}>
+                                <div className="spin" /> Carregando dados do Discord...
+                            </div>
+                        ) : !discordData ? (
+                            <p className="dc-empty">
+                                Nenhum dado sincronizado ainda. Aguarde o bot enviar os dados.
+                            </p>
+                        ) : (
+                            <div className="dc-list" ref={listRef}>
+
+                                {discordTab === 'channels' && (
+                                    filteredChannels.length === 0
+                                        ? <p className="dc-empty">Nenhum canal encontrado.</p>
+                                        : filteredChannels.map(c => (
+                                            <div key={c.id} className="dc-item">
+                                                <span className="dc-item-icon" style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+                                                    {CHANNEL_ICON_MAP[c.type] || <IconHash size={13} />}
+                                                </span>
+                                                <div className="dc-item-info">
+                                                    <span className="dc-item-name">{c.name}</span>
+                                                    {c.topic && (
+                                                        <span className="dc-item-meta" title={c.topic}>
+                                                            {c.topic.slice(0, 40)}{c.topic.length > 40 ? '…' : ''}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        ))
+                                )}
+
+                                {discordTab === 'members' && (
+                                    filteredMembers.length === 0
+                                        ? <p className="dc-empty">Nenhum membro encontrado.</p>
+                                        : filteredMembers.map(m => (
+                                            <div key={m.id} className="dc-item">
+                                                <img
+                                                    src={m.avatar}
+                                                    alt=""
+                                                    className="dc-avatar"
+                                                    onError={e => { e.target.src = 'https://cdn.discordapp.com/embed/avatars/0.png'; }}
+                                                />
+                                                <div className="dc-item-info">
+                                                    <span className="dc-item-name">{m.displayName}</span>
+                                                    <span className="dc-item-meta">@{m.username}</span>
+                                                </div>
+                                                <div className="dc-roles-wrap">
+                                                    {m.roles.slice(0, 3).map(r => (
+                                                        <span key={r.id} className="dc-role-badge">{r.name}</span>
+                                                    ))}
+                                                    {m.roles.length > 3 && (
+                                                        <span className="dc-role-badge">+{m.roles.length - 3}</span>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        ))
+                                )}
+
+                                {discordTab === 'roles' && (
+                                    filteredRoles.length === 0
+                                        ? <p className="dc-empty">Nenhum cargo encontrado.</p>
+                                        : filteredRoles.map(r => (
+                                            <div key={r.id} className="dc-item">
+                                                <span
+                                                    className="dc-role-dot"
+                                                    style={{ background: r.color === '#000000' ? '#555' : r.color }}
+                                                />
+                                                <span className="dc-item-name">{r.name}</span>
+                                                <span className="dc-item-meta">
+                                                    {r.memberCount} membro{r.memberCount !== 1 ? 's' : ''}
+                                                </span>
+                                            </div>
+                                        ))
+                                )}
+
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

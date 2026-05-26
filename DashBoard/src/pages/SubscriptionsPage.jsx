@@ -882,11 +882,31 @@ export default function SubscriptionsPage({
     return () => clearTimeout(timeout);
   }, [today]);
 
+  // ── Filtro de status — só para cliente ──────────────────────────────────
+  const [clientStatusFilter, setClientStatusFilter] = useState('all');
+
   const load = useCallback(async (f) => {
     setLoading(true);
     try {
       if (!isAdmin) {
-        if (linkedSub) {
+        // Cliente: busca todas as assinaturas vinculadas ao e-mail
+        if (user?.email) {
+          try {
+            const data = await api(`/api/subscriptions/by-email/${user.email}`);
+            const arr = Array.isArray(data) ? data : data ? [data] : [];
+            setSubs(arr);
+            addLog('api', 'info', `${arr.length} assinatura(s) carregada(s) para ${user.email}`);
+          } catch {
+            // fallback para linkedSub
+            if (linkedSub) {
+              setSubs([linkedSub]);
+              addLog('api', 'info', `Assinatura carregada para ${linkedSub.dashboardEmail}`);
+            } else {
+              setSubs([]);
+              addLog('api', 'warn', 'Nenhuma assinatura vinculada a este e-mail');
+            }
+          }
+        } else if (linkedSub) {
           setSubs([linkedSub]);
           addLog('api', 'info', `Assinatura carregada para ${linkedSub.dashboardEmail}`);
         } else {
@@ -907,7 +927,7 @@ export default function SubscriptionsPage({
     } finally {
       setLoading(false);
     }
-  }, [addLog, isAdmin, linkedSub]);
+  }, [addLog, isAdmin, linkedSub, user]);
 
   useEffect(() => {
     load(externalFilter || filter);
@@ -1000,6 +1020,36 @@ export default function SubscriptionsPage({
         </button>
       </div>
 
+      {/* FILTRO DE STATUS — só para cliente com múltiplos bots */}
+      {!isAdmin && !loading && subs.length > 1 && (
+        <div style={{ display: 'flex', gap: 6, marginBottom: 14, flexWrap: 'wrap', alignItems: 'center' }}>
+          <span style={{ fontSize: 12, color: 'var(--text3)', marginRight: 2, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+            Filtrar:
+          </span>
+          {[
+            { id: 'all', label: 'Todos' },
+            { id: 'paid', label: 'Pagos' },
+            { id: 'pending', label: 'Pendentes' },
+            { id: 'expired', label: 'Expirados' },
+          ].map(f => {
+            const count = f.id === 'all' ? subs.length : subs.filter(s => s.paymentStatus === f.id).length;
+            return (
+              <button
+                key={f.id}
+                className={`dc-tab${clientStatusFilter === f.id ? ' active' : ''}`}
+                onClick={() => setClientStatusFilter(f.id)}
+                style={{ fontSize: 12, padding: '4px 10px' }}
+              >
+                {f.label}
+                <span style={{ marginLeft: 5, fontSize: 10, background: 'var(--bg3)', borderRadius: 10, padding: '1px 5px' }}>
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      )}
+
       {/* GRID */}
       <div className="subs-grid">
 
@@ -1016,7 +1066,7 @@ export default function SubscriptionsPage({
           </div>
         )}
 
-        {!loading && subs.map((s) => {
+        {!loading && (isAdmin ? subs : subs.filter(s => clientStatusFilter === 'all' || s.paymentStatus === clientStatusFilter)).map((s) => {
           const end = s.endDate
             ? new Date(s.endDate).toLocaleDateString('pt-BR')
             : '—';

@@ -1,10 +1,11 @@
 // src/pages/NotificationsPage.jsx
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { api } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { useLog } from '../context/LogContext';
 import { getGuildData, sendChannelMessage } from '../services/discordSync';
+import { Bot } from 'lucide-react';
 import './NotificationsPage.css';
 
 // ─── SVG Icons ───────────────────────────────────────────────────────────────
@@ -59,6 +60,101 @@ const IconMegaphone = ({ size = 14 }) => (
   </svg>
 );
 
+// ─── BotSelector ─────────────────────────────────────────────────────────────
+
+function BotSelector({ subs, selectedGuildId, onSelect, botFilter, setBotFilter }) {
+  const counts = {
+    all: subs.length,
+    paid: subs.filter(s => s.paymentStatus === 'paid').length,
+    pending: subs.filter(s => s.paymentStatus === 'pending').length,
+    expired: subs.filter(s => s.paymentStatus === 'expired').length,
+  };
+
+  const filtered = subs.filter(s => botFilter === 'all' || s.paymentStatus === botFilter);
+
+  return (
+    <div style={{ marginBottom: 16 }}>
+      {/* Filtro — só aparece se tiver mais de 1 bot */}
+      {subs.length > 1 && (
+        <div style={{ display: 'flex', gap: 6, marginBottom: 10, flexWrap: 'wrap', alignItems: 'center' }}>
+          <span style={{ fontSize: 12, color: 'var(--text3)', marginRight: 2, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+            Filtrar:
+          </span>
+          {[
+            { id: 'all', label: 'Todos' },
+            { id: 'paid', label: 'Ativos' },
+            { id: 'pending', label: 'Pendentes' },
+            { id: 'expired', label: 'Expirados' },
+          ].map(f => (
+            <button
+              key={f.id}
+              className={`dc-tab${botFilter === f.id ? ' active' : ''}`}
+              onClick={() => setBotFilter(f.id)}
+              style={{ fontSize: 12, padding: '4px 10px' }}
+            >
+              {f.label}
+              <span style={{ marginLeft: 5, fontSize: 10, background: 'var(--bg3)', borderRadius: 10, padding: '1px 5px' }}>
+                {counts[f.id]}
+              </span>
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Label */}
+      <div style={{ fontSize: 12, color: 'var(--text3)', marginBottom: 8, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+        Seus bots vinculados ({subs.length})
+      </div>
+
+      {/* Cards */}
+      {filtered.length === 0 ? (
+        <p style={{ fontSize: 13, color: 'var(--text3)', margin: 0 }}>Nenhum bot com este status.</p>
+      ) : (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          {filtered.map(s => {
+            const isSelected = s.guildId === selectedGuildId;
+            const avatar = s.botImgPerfil || s.botAvatar || null;
+            const isPaid = s.paymentStatus === 'paid';
+            return (
+              <button
+                key={s.guildId}
+                onClick={() => onSelect(s)}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 8,
+                  padding: '7px 12px', borderRadius: 8,
+                  border: isSelected ? '1.5px solid var(--accent, #5865f2)' : '1.5px solid var(--border, #2e2e3a)',
+                  background: isSelected ? 'color-mix(in srgb, var(--accent, #5865f2) 12%, transparent)' : 'var(--bg2, #16161e)',
+                  cursor: 'pointer', color: 'var(--text1)', transition: 'all 0.15s',
+                  minWidth: 0, maxWidth: 130,
+                }}
+              >
+                {avatar ? (
+                  <img src={avatar} alt="" style={{ width: 26, height: 26, borderRadius: '50%', flexShrink: 0, objectFit: 'cover' }}
+                    onError={e => { e.currentTarget.style.display = 'none'; }} />
+                ) : (
+                  <div style={{ width: 26, height: 26, borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg3)', color: 'var(--text3)' }}>
+                    <Bot size={14} />
+                  </div>
+                )}
+                <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: isSelected ? 'var(--accent, #5865f2)' : 'var(--text1)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 140 }}>
+                    {s.guildName || s.guildId}
+                  </span>
+                  <span style={{ fontSize: 11, color: isPaid ? 'var(--green)' : 'var(--yellow, #f0a500)' }}>
+                    {isPaid ? '● Ativo' : '● Pendente'}
+                  </span>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── NotificationsPage ───────────────────────────────────────────────────────
+
 export default function NotificationsPage({ isAdmin }) {
   const { user, subscription: linkedSub, subscriptionLoading } = useAuth();
   const { toast } = useToast();
@@ -68,10 +164,12 @@ export default function NotificationsPage({ isAdmin }) {
   const [broadcastMsg, setBroadcastMsg] = useState('');
   const [broadcastStatus, setBroadcastStatus] = useState('');
 
-  // ── Assinaturas / select ───────────────────────────────
-  const [subs, setSubs] = useState([]);
+  // ── Assinaturas ────────────────────────────────────────
+  const [allSubs, setAllSubs] = useState([]);
   const [loadingSubs, setLoadingSubs] = useState(true);
   const [selectedGuildId, setSelectedGuildId] = useState('');
+  const [selectedSub, setSelectedSub] = useState(null);
+  const [botFilter, setBotFilter] = useState('all');
   const [notifMsg, setNotifMsg] = useState('');
 
   // ── Enviar mensagem para canal (só cliente) ────────────
@@ -83,37 +181,66 @@ export default function NotificationsPage({ isAdmin }) {
   const [embedError, setEmbedError] = useState('');
   const [sendingMsg, setSendingMsg] = useState(false);
 
-  // Carrega assinaturas
-  useEffect(() => {
-    // Aguarda o AuthContext resolver (isAdmin undefined = ainda carregando)
+  // ── Carrega assinaturas ────────────────────────────────
+  const loadSubs = useCallback(async () => {
     if (isAdmin === undefined) return;
-
-    if (!isAdmin) {
-      // Cliente: aguarda AuthContext terminar de buscar a subscription
-      if (user === undefined || subscriptionLoading) return;
-      if (linkedSub && linkedSub.paymentStatus === 'paid') {
-        setSubs([linkedSub]);
-        setSelectedGuildId(linkedSub.guildId);
+    setLoadingSubs(true);
+    try {
+      if (isAdmin) {
+        // Admin: carrega todas pagas
+        const data = await api('/api/subscriptions');
+        const actives = data.filter(s => s.paymentStatus === 'paid');
+        setAllSubs(actives);
+        if (actives.length > 0 && !selectedGuildId) {
+          setSelectedGuildId(actives[0].guildId);
+          setSelectedSub(actives[0]);
+        }
       } else {
-        setSubs([]);
+        // Cliente: aguarda AuthContext
+        if (user === undefined || subscriptionLoading) { setLoadingSubs(false); return; }
+        if (user?.email) {
+          const data = await api(`/api/subscriptions/by-email/${user.email}`);
+          const arr = Array.isArray(data) ? data : data ? [data] : [];
+          setAllSubs(arr);
+          if (arr.length > 0 && !selectedGuildId) {
+            const first = arr.find(s => s.paymentStatus === 'paid') || arr[0];
+            setSelectedGuildId(first.guildId);
+            setSelectedSub(first);
+          }
+        } else if (linkedSub) {
+          setAllSubs([linkedSub]);
+          if (!selectedGuildId) { setSelectedGuildId(linkedSub.guildId); setSelectedSub(linkedSub); }
+        } else {
+          setAllSubs([]);
+        }
       }
+    } catch {
+      // fallback para linkedSub
+      if (!isAdmin && linkedSub) {
+        setAllSubs([linkedSub]);
+        if (!selectedGuildId) { setSelectedGuildId(linkedSub.guildId); setSelectedSub(linkedSub); }
+      } else {
+        toast('Erro ao carregar servidores', 'error');
+      }
+    } finally {
       setLoadingSubs(false);
-      return;
     }
-    // Admin: carrega todas as assinaturas pagas
-    api('/api/subscriptions')
-      .then((data) => {
-        const actives = data.filter((s) => s.paymentStatus === 'paid');
-        setSubs(actives);
-        if (actives.length > 0) setSelectedGuildId(actives[0].guildId);
-      })
-      .catch(() => toast('Erro ao carregar servidores', 'error'))
-      .finally(() => setLoadingSubs(false));
-  }, [isAdmin, linkedSub, user, subscriptionLoading]);
+  }, [isAdmin, user, subscriptionLoading, linkedSub]);
 
-  const selectedSub = subs.find((s) => s.guildId === selectedGuildId) || null;
+  useEffect(() => { loadSubs(); }, [loadSubs]);
 
-  // Carrega canais do Discord quando troca de servidor (só cliente)
+  // ── Troca de bot selecionado ───────────────────────────
+  function handleSelectBot(sub) {
+    if (sub.guildId === selectedGuildId) return;
+    setSelectedGuildId(sub.guildId);
+    setSelectedSub(sub);
+    setDiscordData(null);
+    setSelectedChannelId('');
+    setChannelMsg('');
+    setEmbedJson('');
+  }
+
+  // ── Carrega canais do Discord quando troca de servidor (só cliente) ─────────
   useEffect(() => {
     if (isAdmin || !selectedGuildId) return;
     setLoadingDiscord(true);
@@ -135,7 +262,7 @@ export default function NotificationsPage({ isAdmin }) {
     if (!broadcastMsg.trim()) return toast('Digite uma mensagem', 'error');
     try {
       const r = await api('/api/notifications/broadcast', 'POST', {
-        subscriptions: subs,
+        subscriptions: allSubs,
         message: broadcastMsg,
       });
       toast(`Enviado para ${r.sent} servidores`, 'success');
@@ -194,14 +321,37 @@ export default function NotificationsPage({ isAdmin }) {
     }
   }
 
-  // ── Listas filtradas ───────────────────────────────────
-
   // ── Render ─────────────────────────────────────────────
   return (
     <div>
       <div className="section-title" style={{ marginBottom: 16 }}>
         Broadcast de notificações
       </div>
+
+      {/* ── SELETOR DE BOTS (só cliente) ── */}
+      {!isAdmin && (
+        <>
+          {loadingSubs ? (
+            <div className="loading" style={{ padding: '12px 0' }}>
+              <div className="spin" /> Carregando bots vinculados...
+            </div>
+          ) : allSubs.length === 0 ? (
+            <p style={{ fontSize: 13, color: 'var(--text3)', marginBottom: 16 }}>
+              Nenhuma assinatura ativa encontrada.
+            </p>
+          ) : (
+            <div className="broadcast-box" style={{ marginBottom: 16 }}>
+              <BotSelector
+                subs={allSubs}
+                selectedGuildId={selectedGuildId}
+                onSelect={handleSelectBot}
+                botFilter={botFilter}
+                setBotFilter={setBotFilter}
+              />
+            </div>
+          )}
+        </>
+      )}
 
       {/* BROADCAST GERAL — só admin */}
       {isAdmin && (
@@ -232,7 +382,7 @@ export default function NotificationsPage({ isAdmin }) {
               <div className="loading" style={{ padding: '12px 0' }}>
                 <div className="spin" /> Carregando servidores...
               </div>
-            ) : subs.length === 0 ? (
+            ) : allSubs.length === 0 ? (
               <p style={{ fontSize: 13, color: 'var(--text3)', marginBottom: 10 }}>
                 Nenhuma assinatura ativa encontrada.
               </p>
@@ -242,9 +392,13 @@ export default function NotificationsPage({ isAdmin }) {
                   <select
                     className="notif-select"
                     value={selectedGuildId}
-                    onChange={(e) => setSelectedGuildId(e.target.value)}
+                    onChange={(e) => {
+                      const s = allSubs.find(x => x.guildId === e.target.value);
+                      setSelectedGuildId(e.target.value);
+                      setSelectedSub(s || null);
+                    }}
                   >
-                    {subs.map((s) => (
+                    {allSubs.map((s) => (
                       <option key={s.guildId} value={s.guildId}>
                         {s.guildName || s.guildId}
                       </option>
@@ -277,16 +431,30 @@ export default function NotificationsPage({ isAdmin }) {
               Enviar notificação
             </button>
           </div>
-        )
-        }</div>
+        )}
+      </div>
 
       {/* ── ENVIAR MENSAGEM PARA CANAL — só cliente ── */}
       {!isAdmin && selectedSub && (
-        <div style={{ marginTop: 20 }}>
+        <div style={{ marginTop: 8 }}>
           <div className="broadcast-box">
             <h3 style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
               <IconChat size={15} /> Enviar mensagem para canal do Discord
             </h3>
+
+            {/* Aviso se bot não está ativo */}
+            {selectedSub.paymentStatus !== 'paid' && (
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: 7,
+                padding: '9px 12px', borderRadius: 8, marginBottom: 12,
+                background: 'color-mix(in srgb, var(--yellow, #f0a500) 10%, transparent)',
+                border: '1px solid var(--yellow, #f0a500)',
+                fontSize: 12, color: 'var(--yellow, #f0a500)',
+              }}>
+                <IconWarning size={13} />
+                Assinatura {selectedSub.paymentStatus === 'pending' ? 'pendente' : 'expirada'} — o envio pode falhar.
+              </div>
+            )}
 
             {loadingDiscord ? (
               <div className="loading" style={{ padding: '12px 0' }}>
