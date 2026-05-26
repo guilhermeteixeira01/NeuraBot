@@ -254,6 +254,10 @@
   border: 1px solid rgba(255, 255, 255, 0.04);
   border-radius: 10px;
   transition: border-color 0.12s;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .dc-item:hover {
@@ -263,6 +267,7 @@
 .dc-item-icon {
   font-size: 13px;
   width: 18px;
+  min-width: 18px;
   text-align: center;
   flex-shrink: 0;
   color: #8888aa;
@@ -275,8 +280,8 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  flex: 1;
   min-width: 0;
+  flex: 1;
 }
 
 .dc-item-meta {
@@ -296,14 +301,17 @@
   gap: 1px;
   flex: 1;
   min-width: 0;
+  overflow: hidden;
 }
 
 .dc-item-info .dc-item-name {
   flex: none;
+  width: 100%;
 }
 
 .dc-item-info .dc-item-meta {
   max-width: 100%;
+  width: 100%;
 }
 
 /* Avatar de membro */
@@ -402,14 +410,26 @@
   }
 
   .dc-list {
-    height: 340px;
-    max-height: 340px;
+    max-height: 360px;
+    height: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
 
   .dc-list::-webkit-scrollbar {
     display: none;
+  }
+
+  .dc-item {
+    min-height: 40px;
+  }
+
+  .dc-item-meta {
+    max-width: 90px;
+  }
+
+  .dc-roles-wrap {
+    max-width: 70px;
   }
 
 }
